@@ -2,8 +2,5 @@
 
 To-do:
 - add abbreviated stat block
-- Stats/prof bonus/damage/attack interaction/con-hp
-- saving, loading, .png, markdown, print
-- update dropdowns on load
-- -auto-populate saves, damage, attacks
+- Interaction between ability scores and values from the monster stats by tier table
 - encounter builder

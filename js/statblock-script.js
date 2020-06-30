@@ -78,9 +78,10 @@ var TryLoadFile = () => {
 // Print function
 function TryPrint() {
     let printWindow = window.open();
-    printWindow.document.write('<html><head><meta charset="utf-8"/><title>' + mon.name + '</title><link rel="shortcut icon" type="image/x-icon" href="./dndimages/favicon.ico" /><link rel="stylesheet" type="text/css" href="css/statblock-style.css"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"></head><body><div id="print-block" class="content">');
+    printWindow.document.write('<html><head><meta charset="utf-8"/><title>' + mon.name + '</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"></head><body><div id="print-block" class="content">');
     printWindow.document.write($("#stat-block-wrapper").html());
     printWindow.document.write('</div></body></html>');
+    printWindow.document.close();
 }
 
 // View as image function
@@ -352,10 +353,10 @@ function ReplaceTraitTags(desc) {
 // Homebrewery/GM Binder markdown
 function TryMarkdown() {
     let markdownWindow = window.open();
-    let markdown = ['<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><title>', mon.name, '</title><link rel="shortcut icon" type="image/x-icon" href="./dndimages/favicon.ico" /></head><body><h2>Homebrewery/GM Binder Markdown</h2><code>', mon.doubleColumns ? "___<br>___<br>" : "___<br>", '> ## ', mon.name, '<br>>*', StringFunctions.StringCapitalize(mon.size), ' ', mon.type];
+    let markdown = ['<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><title>', mon.name, '</title></head><body><h2>Homebrewery/GM Binder Markdown</h2><code>', mon.doubleColumns ? "___<br>___<br>" : "___<br>", '> ## ', mon.name, '<br>> #### *', (StringFunctions.StringCapitalize(mon.tier) + " tier, " + mon.org + " organization"), '* <br>>*', StringFunctions.StringCapitalize(mon.size), ' ', mon.type];
     if (mon.tag != "")
         markdown.push(' (', mon.tag, ')');
-    markdown.push(', ', mon.alignment, '*<br>>___<br>> - **Armor Class** ', StringFunctions.FormatString(StringFunctions.GetArmorData()), '<br>> - **Hit Points** ', StringFunctions.GetHP(), '<br>> - **Speed** ', StringFunctions.GetSpeed(), "<br>>___<br>>|STR|DEX|CON|INT|WIS|CHA|<br>>|:---:|:---:|:---:|:---:|:---:|:---:|<br>>|",
+    markdown.push(', ', mon.alignment, '*<br>>___<br>> - **Armor Class** ', StringFunctions.FormatString(StringFunctions.GetArmorData()), '<br>> - **Hit Points** ', StringFunctions.GetHP(), StringFunctions.GetMdMorale(), '<br>> - **Speed** ', StringFunctions.GetSpeed(), "<br>>___<br>>|STR|DEX|CON|INT|WIS|CHA|<br>>|:---:|:---:|:---:|:---:|:---:|:---:|<br>>|",
         mon.strPoints, " (", StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon.strPoints)), ")|",
         mon.dexPoints, " (", StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon.dexPoints)), ")|",
         mon.conPoints, " (", StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon.conPoints)), ")|",
@@ -370,7 +371,7 @@ function TryMarkdown() {
             (Array.isArray(propertiesDisplayArr[index].arr) ? propertiesDisplayArr[index].arr.join(", ") : propertiesDisplayArr[index].arr),
             "<br>");
     }
-  //  markdown.push("> - **Challenge** ", mon.cr, " (", data.crs[mon.cr].xp, " XP)<br>>___");
+    markdown.push("> - **Threat** ", StringFunctions.GetThreat());
 
     if (mon.abilities.length > 0) markdown.push("<br>", GetTraitMarkdown(mon.abilities, false));
     if (mon.actions.length > 0) markdown.push("<br>> ### Actions<br>", GetTraitMarkdown(mon.actions, false));
@@ -383,6 +384,7 @@ function TryMarkdown() {
     markdown.push("</code></body></html>")
 
     markdownWindow.document.write(markdown.join(""));
+    markdownWindow.document.close();
 }
 
 function GetTraitMarkdown(traitArr, legendary) {
@@ -1400,6 +1402,11 @@ var StringFunctions = {
       if (mon.mtrig === "wounded") morale_hp = 1 - mon.mthresh;
       if (mon.mtrig === "about to die") morale_hp = mon.mthresh;
       return "DC " + mon.mdc + " or " + mon.mtype + " when " + mon.mtrig + " (" + Math.floor(morale_hp * mon.avgHP) + ")";
+    },
+
+    GetMdMorale: function() {
+      if ($("#morale-input").prop('checked')) return '<br>> - **Morale** ' + StringFunctions.GetMorale();
+      return "";
     },
 
     GetThreat: function() {
