@@ -1,0 +1,262 @@
+html {
+	height: 100%;
+}
+
+body {
+    background-attachment: fixed;
+    background-size: cover;
+	background-position: center;
+    margin: 0;
+	height: 100%;
+}
+
+.container {
+    font-family: Georgia, Arial, sans-serif;
+    text-align: left;
+    max-width: 1000px;
+    margin: 0 auto;
+    line-height: 125%;
+    border-style: none;
+	min-height: 100%;
+}
+
+.content {
+    padding: 25px 50px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: bold;
+}
+
+h1 {
+    font-family: Tahoma, Georgia, Arial, sans-serif;
+    font-size: 2rem;
+}
+
+h2 {
+    font-family: Tahoma, Georgia, Arial, sans-serif;
+    font-size: 1.5rem;
+}
+
+h3 {
+    font-size: 1.2rem;
+}
+
+hr {
+    border-style: solid;
+    border-color: black;
+}
+
+a {
+    color: darkred;
+    text-decoration: none;
+}
+
+ul {
+    text-align: left;
+    padding-left: 1.5rem;
+}
+
+button {
+    color: #ffffff;
+    font-size: 1rem;
+    font-family: Tahoma, Georgia, Arial, sans-serif;
+    background: #2C313F;
+    padding: 2px 6px;
+    width: auto;
+}
+
+button:hover {
+    background: #0C692F;
+    text-decoration: none;
+}
+
+select {
+    height: 1.5rem;
+    font-family: Tahoma, Georgia, Arial, sans-serif;
+    font-size: .8rem;
+}
+
+input {
+    font-family: Tahoma, Georgia, Arial, sans-serif;
+    font-size: .8rem;
+}
+
+input[type=text] {
+    width: 95%;
+    height: 1.5rem;
+}
+
+input[type=number] {
+    width: 4rem;
+    padding: 1px;
+}
+
+input[type=checkbox] {
+    vertical-align: middle;
+    margin: 0 .25rem .25rem .25rem;
+}
+
+textarea {
+    font-family: monospace;
+    font-size: .8rem;
+    letter-spacing: normal;
+    line-height: normal;
+    width: 80%;
+}
+
+table {
+    table-layout: fixed;
+    text-align: left;
+    width: 100%;
+}
+
+td {
+    text-align: left;
+    vertical-align: top;
+}
+
+canvas {
+    max-width: 100%;
+}
+
+label {
+    margin-bottom: 0;
+}
+
+.booklist div {
+    margin-bottom: .5rem;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    color: darkred;
+    text-decoration: none;
+    cursor: help;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 400px;
+    background-size: cover;
+    background-position: center;
+    color: #000000;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -200px;
+    border-style: solid;
+    border-radius: 5px;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.buttoncontainer {
+    text-align: center;
+}
+
+.box-note {
+    font-size: .8rem;
+    line-height: 1.5rem;
+}
+
+.collapsiblebutton {
+    cursor: pointer;
+    font-size: 15px;
+    color: darkred;
+
+    /* Make Unselectable */
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.expand-retract-text {
+    cursor: pointer;
+    font-family: Tahoma, Georgia, Arial, sans-serif;
+    font-size: 1.2rem;
+	font-weight: bold;
+    color: darkred;
+    display: inline;
+    margin-left: 3rem;
+
+    /* Make Unselectable */
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.expand-retract-h2 {
+	display: inline-block;
+	width: 10rem;
+}
+
+.centeredcontainer {
+    display: block;
+    text-align: center;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.radio-row {
+    line-height: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.radio-row b {
+    line-height: 2rem;
+}
+
+.lock-button {
+    width: 2rem;
+    background: #888888;
+}
+
+.lock-button:hover {
+    background: #cccccc;
+}
+
+#imagecanvas {
+    border-color: white;
+    border-style: solid;
+}
+
+#character-columns ul {
+    padding-left: 5px;
+    margin-left: 5px;
+}
+
+#character-columns td {
+    padding: 0 5px;
+}
+
+#character-columns button {
+    margin-top: 2px;
+}
+
+@media screen and (min-width: 1000px) {
+    .container {
+        border-style: none solid;
+    }
+}
