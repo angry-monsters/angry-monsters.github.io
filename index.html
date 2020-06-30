@@ -63,7 +63,7 @@
                                 <h4>Hit Points</h4>
                                 <p id="hit-points"></p>
                             </div> <!-- property line -->
-                            <div class="property-line">
+                            <div id="m-block" class="property-line">
                                 <h4>Morale</h4>
                                 <p id="morale"></p>
                             </div> <!-- property line -->
@@ -211,7 +211,7 @@
                                   <select id="org-input">
                                       <option value="solo">Solo (1)</option>
                                       <option value="pair">Pair (2)</option>
-                                      <option value="group">Group (3-6)</option>
+                                      <option value="group" selected>Group (3-6)</option>
                                       <option value="gang">Gang (7-10)</option>
                                       <option value="mob">Mob (11-20)</option>
                                   </select>
@@ -242,15 +242,40 @@
                 <hr>
                 <table id="armor-hitdice-form">
                     <tr>
-                        <td>
+                      <td>
+                          <label for="attack-input">Attack Bonus: <br>
+                              <select id="attack-input">
+                                  <option value="poor">Poor</option>
+                                  <option value="average" selected>Average</option>
+                                  <option value="good">Good</option>
+                              </select></label>
+                      </td>
+                      <td>
+                            <label for="savedc-input">Save DC: <br>
+                                <select id="savedc-input">
+                                    <option value="poor">Poor</option>
+                                    <option value="average" selected>Average</option>
+                                    <option value="good">Good</option>
+                                </select></label>
                         </td>
                         <td>
-                            <div id="hitdice-input-prompt"><label for="hitdice-input">Hit Dice: <br><input type="number" id="hitdice-input" min="1" max="99" value="5"></label></div>
-                            <div id="hp-text-input-prompt"><label for="hp-text-input">Hit Points:<br><input id="hp-text-input" value="4 (1d8)"></label></div>
-                            <div id="custom-hp-box-prompt" class="box-note"><label for="custom-hp-input">(Custom HP: <input id="custom-hp-input" type="checkbox" onchange="FormFunctions.ShowHideCustomHP()">)</label></div>
+                              <label for="dpr-input">Damage Output: <br>
+                                  <select id="dpr-input">
+                                      <option value="poor">Poor</option>
+                                      <option value="average" selected>Average</option>
+                                      <option value="good">Good</option>
+                                  </select></label>
+                          </td>
+                        <td>
+                            <label for="hp-input">HP Level: <br>
+                                <select id="hp-input">
+                                    <option value="poor">Poor</option>
+                                    <option value="average" selected>Average</option>
+                                    <option value="good">Good</option>
+                                </select></label>
                         </td>
                         <td>
-                            <label for="armor-input">Armor Type: <br>
+                            <label for="armor-input">Armor Quality: <br>
                                 <select id="armor-input">
                                     <option value="poor">Poor</option>
                                     <option value="average" selected>Average</option>
@@ -262,6 +287,54 @@
                                 <label for="otherarmor-input">Description: <input id="otherarmor-input" type="text" value="(armor, shield)"></label><br>
                                 <div id="otherarmor-box-note" class="box-note"><i>Use _ to italicize</i></div>
                             </div>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <table id="morale-form">
+                    <tr>
+                        <td>
+                          <div id="custom-morale-box-prompt" class="box-note"><label for="morale-input">Use Morale? <input id="morale-input" type="checkbox" onchange="FormFunctions.ShowHideMorale()"></label></div>
+                        </td>
+                        <td>
+                          <div id="mdc-form">
+                              <label for="mdc-input">Morale DC: <br>
+                                  <select id="mdc-input">
+                                      <option value="7">Cowardly (7)</option>
+                                      <option value="12" selected>Green (12)</option>
+                                      <option value="17">Hardened (17)</option>
+                                      <option value="22">Unshakeable (22)</option>
+                                  </select>
+                              </label>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="mreact-form">
+                              <label for="mreact-input">Failure Type: <br>
+                                  <select id="mreact-input">
+                                      <option value="betray">Betray</option>
+                                      <option value="panic">Panic</option>
+                                      <option value="rage">Rage</option>
+                                      <option value="retreat" selected>Retreat</option>
+                                      <option value="rout">Rout</option>
+                                      <option value="surrender">Surrender</option>
+                                  </select>
+                              </label>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="mtrig-form">
+                              <label for="mtrig-input">Trigger: <br>
+                                  <select id="mtrig-input">
+                                      <option value="wounded">Wounded</option>
+                                      <option value="bloodied" selected>Bloodied</option>
+                                      <option value="death">About to Die</option>
+                                  </select>
+                              </label>
+                          </div>
+                        </td>
+                        <td>
+                          <div id="mthresh-input-prompt"><label for="mthresh-input">% HP Threshold: <br><input type="number" min=".01" max=".99" value=".5" id="mthresh-input"></label></div>
                         </td>
                     </tr>
                 </table>

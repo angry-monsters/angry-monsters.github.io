@@ -6,8 +6,11 @@ var mon = {
     type: "humanoid",
     tag: "",
     alignment: "any alignment",
-    hitDice: 5,
     armorName: "average",
+    hpName: "average",
+    dprName: "average",
+    atkName: "average",
+    stName: "average",
     otherArmorDesc: "no armor",
     speed: 30,
     burrowSpeed: 0,
@@ -15,9 +18,7 @@ var mon = {
     flySpeed: 0,
     hover: false,
     swimSpeed: 0,
-    customHP: false,
     customSpeed: false,
-    hpText: "4 (1d8)",
     speedDesc: "30 ft.",
     strPoints: 10,
     dexPoints: 10,
@@ -46,7 +47,13 @@ var mon = {
     conditions: [],
     languages: [],
     doubleColumns: false,
-    separationPoint: 1
+    separationPoint: 1,
+    mtrig: "bloodied",
+    mthresh: .5,
+    mtype: "retreat",
+    mdc: 12,
+    avgHP: 0,
+    org: "group"
 };
 
 // Save function
@@ -148,6 +155,9 @@ function UpdateStatblock(moveSeparationPoint) {
 
     // Hit Points
     $("#hit-points").html(StringFunctions.GetHP());
+
+    // Morale
+    $("#morale").html(StringFunctions.GetMorale());
 
     // Speed
     $("#speed").html(StringFunctions.GetSpeed());
@@ -408,10 +418,10 @@ var FormFunctions = {
         $("#otherarmor-input").val(mon.otherArmorDesc);
 
         // Hit Dice
-        $("#hitdice-input").val(mon.hitDice);
-        $("#hp-text-input").val(StringFunctions.GetHP());
-        $("#custom-hp-input").prop("checked", mon.customHP);
-        this.ShowHideCustomHP();
+
+        //morale
+        $("#morale-input").prop("checked");
+        this.ShowHideMorale();
 
         // Speeds
         $("#speed-input").val(mon.speed);
@@ -478,6 +488,11 @@ var FormFunctions = {
         this.ShowHideHtmlElement("#other-type-input", $("#type-input").val() == "*");
     },
 
+    ShowHideMorale: function() {
+        $("#mdc-form, #mreact-form, #mtrig-form, #mthresh-input-prompt, #m-block").hide();
+        if ($("#morale-input").prop('checked'))
+            $("#mdc-form, #mreact-form, #mtrig-form, #mthresh-input-prompt, #m-block").show();
+    },
     ShowHideCustomHP: function() {
         $("#hitdice-input-prompt, #hp-text-input-prompt").hide();
         if ($("#custom-hp-input").prop('checked'))
@@ -616,19 +631,6 @@ var FormFunctions = {
         arr[index] = temp;
         this.MakeDisplayList(arrName, false, true);
     },
-
-    // Initialize Forms
-  //  InitForms: function() {
-      //  let dropdownBuffer = [
-        //    "<option value=0>0 (", data.crs["0"].xp, " XP)</option>",
-        //    "<option value=1/8>1/8 (", data.crs["1/8"].xp, " XP)</option>",
-        //    "<option value=1/4>1/4 (", data.crs["1/4"].xp, " XP)</option>",
-        //    "<option value=1/2>1/2 (", data.crs["1/2"].xp, " XP)</option>"
-      //  ];
-      //  for (let cr = 1; cr < 8; cr++)
-        //    dropdownBuffer.push("<option value=", cr, ">", cr, " (", data.crs[cr].xp, " XP)</option>");
-    //    $("#cr-input").html(dropdownBuffer.join(""));
-  //  }
 }
 
 // Input functions to be called only through HTML
@@ -754,10 +756,14 @@ var GetVariablesFunctions = {
         mon.armorName = $("#armor-input").val();
         mon.otherArmorDesc = $("#otherarmor-input").val();
 
+        // Save DC
+        mon.stName = $("#savedc-input").val();
+
+        // Attack Bonus
+        mon.atkName = $("#attack-input").val();
+
         // Hit Points
-        mon.hitDice = $("#hitdice-input").val();
-        mon.hpText = $("#hp-text-input").val();
-        mon.customHP = $("#custom-hp-input").prop("checked");
+        mon.hpName = $("#hp-input").val();
 
         // Speeds
         mon.speed = $("#speed-input").val();
@@ -792,6 +798,12 @@ var GetVariablesFunctions = {
 
         // Organization
         mon.org = $("#org-input").val();
+
+        // Morale
+        mon.mdc = $("#mdc-input").val();
+        mon.mtype = $("#mreact-input").val();
+        mon.mtrig = $("#mtrig-input").val();
+        mon.mthresh = $("#mthresh-input").val();
 
         // Legendaries
         mon.isLegendary = $("#is-legendary-input").prop("checked");
@@ -829,10 +841,14 @@ var GetVariablesFunctions = {
         mon.armorName = "average";
         mon.otherArmorDesc = preset.armor_desc;
 
+        // Save DC
+        mon.stName = "average";
+
+        // Attack Bonus
+        mon.atkName = "average";
+
         // Hit Dice
-        mon.hitDice = parseInt(preset.hit_dice.split("d")[0]);
-        mon.hpText = mon.hitDice.toString();
-        mon.customHP = false;
+        mon.hpName = "average";
 
         // Speeds
         let GetSpeed = (speedList, speedType) => speedList.hasOwnProperty(speedType) ? parseInt(speedList[speedType]) : 0;
@@ -1164,18 +1180,47 @@ var StringFunctions = {
             return data.armorclass[(data.tiers[mon.tier].trow+armor_mod)] + armor_note;
     },
 
+    // Get the string displayed for the monster's Save DC
+    GetSaveDC: function() {
+      let st_mod = 0;
+      if (mon.stName === "poor") st_mod = -1;
+      if (mon.stName === "good") st_mod = 1;
+
+      return data.savedc[(data.tiers[mon.tier].trow+st_mod)];
+    },
+
+    // Get the string displayed for the monster's Attack Bonus
+    GetAttackBonus: function() {
+      let atk_mod = 0;
+      if (mon.atkName === "poor") atk_mod = -1;
+      if (mon.atkName === "good") atk_mod = 1;
+
+      return data.atkbonus[(data.tiers[mon.tier].trow+atk_mod)];
+    },
+
     // Get the string displayed for the monster's HP
     GetHP: function() {
-        if (mon.customHP)
-            return mon.hpText;
+        let hp_mod = 0;
+        if (mon.hpName === "poor") hp_mod = -1;
+        if (mon.hpName === "good") hp_mod = 1;
+
         let conBonus = MathFunctions.PointsToBonus(mon.conPoints);
-        hitDieSize = data.sizes[mon.size].hitDie,
-            avgHP = Math.floor(mon.hitDice * ((hitDieSize + 1) / 2)) + (mon.hitDice * conBonus);
-        if (conBonus > 0)
-            return avgHP + " (" + mon.hitDice + "d" + hitDieSize + " + " + (mon.hitDice * conBonus) + ")";
+        let hitDieSize = data.sizes[mon.size].hitDie;
+
+        mon.avgHP = data.hitpoints[(data.tiers[mon.tier].trow+hp_mod)][data.organizations[mon.org].ocol];
+
+        mon.hitDice = Math.round(mon.avgHP / (((hitDieSize + 1) / 2) + conBonus));
+        let avgMod = mon.avgHP - Math.floor(mon.hitDice * ((hitDieSize + 1) / 2));
+
+        if (avgMod > 0)
+            return mon.avgHP + " (" + mon.hitDice + "d" + hitDieSize + " + " + avgMod + ")";
         if (conBonus == 0)
-            return avgHP + " (" + mon.hitDice + "d" + hitDieSize + ")";
-        return Math.max(avgHP, 1) + " (" + mon.hitDice + "d" + hitDieSize + " - " + -(mon.hitDice * conBonus) + ")";
+            return mon.avgHP + " (" + mon.hitDice + "d" + hitDieSize + ")";
+        return mon.avgHP + " (" + mon.hitDice + "d" + hitDieSize + " - " + -(avgMod) + ")";
+    },
+
+    GetMorale: function() {
+      return "DC " + mon.mdc + " or " + mon.mtype + " when " + mon.mtrig + " (" + mon.mthresh + ")";
     },
 
     GetSpeed: function() {

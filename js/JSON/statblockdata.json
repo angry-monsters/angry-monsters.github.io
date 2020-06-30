@@ -165,19 +165,19 @@
 			"ocol" : 0
 		},
 		"pair": {
-			"nums": "2"
+			"nums": "2",
 			"ocol" : 1
 		},
 		"group": {
-			"nums": "3-6"
+			"nums": "3-6",
 			"ocol" : 2
 		},
 		"gang": {
-			"nums": "7-10"
+			"nums": "7-10",
 			"ocol" : 3
 		},
 		"mob": {
-			"nums": "11-20"
+			"nums": "11-20",
 			"ocol" : 4
 		}
 	},
