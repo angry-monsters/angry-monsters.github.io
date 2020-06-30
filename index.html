@@ -187,8 +187,6 @@
                 <table id="angry-form">
                     <tr>
                         <td>
-                        </td>
-                        <td>
                           <div id="cr-form">
                               <label for="tier-input">Tier: <br>
                                   <select id="tier-input" onchange="InputFunctions.InputTier()">
@@ -202,37 +200,41 @@
                                   </select>
                               </label>
                               <br>
-                              <div id="prof-bonus"></div>
+                              <div class="box-note" id="prof-bonus"></div>
                           </div>
                         </td>
                         <td>
                           <div id="org-form">
-                              <label for="org-input">Organization: <br>
+                              <label for="org-input" onchange="InputFunctions.InputOrg()">Organization: <br>
                                   <select id="org-input">
-                                      <option value="solo">Solo (1)</option>
-                                      <option value="pair">Pair (2)</option>
-                                      <option value="group" selected>Group (3-6)</option>
-                                      <option value="gang">Gang (7-10)</option>
-                                      <option value="mob">Mob (11-20)</option>
+                                      <option value="solo">Solo (4 positions)</option>
+                                      <option value="pair">Pair (2 positions)</option>
+                                      <option value="group" selected>Group (1 position)</option>
+                                      <option value="gang">Gang (&frac12; position)</option>
+                                      <option value="mob">Mob (&frac14; - &frac13; position)</option>
                                   </select>
                               </label>
                           </div>
                         </td>
+                        <td>
+                          <div id="threat-mod-prompt"><label for="threat-mod">Threat Adjustment: <br>
+                            <input type="number" value="0" id="threat-mod"></label></div>
+                        </td>
                         <td colspan="2">
                           <div id="arch-form">
                               <label for="arch-input">Archetype: <br>
-                                  <select id="arch-input">
+                                  <select id="arch-input" onchange="InputFunctions.InputArchetype(this.value)">
                                       <option value="baseline" selected>Baseline</option>
-                                      <option value="brute">Brute</option>
-                                      <option value="bulwark">Bulwark</option>
-                                      <option value="enforcer">Enforcer</option>
-                                      <option value="fodder">Fodder</option>
-                                      <option value="meat">Meat</option>
-                                      <option value="paragon">Paragon</option>
-                                      <option value="sniper">Sniper</option>
-                                      <option value="striker">Striker</option>
-                                      <option value="tank">Tank</option>
-                                      <option value="ward">Ward</option>
+                                      <option value="brute">Brute (good DPR & HP, poor AC & ATK)</option>
+                                      <option value="bulwark">Bulwark (good AC & ATK, poor DPR & HP)</option>
+                                      <option value="enforcer">Enforcer (good ATK & DPR)</option>
+                                      <option value="fodder">Fodder (poor AC, ATK, DPR & HP)</option>
+                                      <option value="meat">Meat (good HP, poor AC)</option>
+                                      <option value="paragon">Paragon (good AC, ATK, DPR & HP)</option>
+                                      <option value="sniper">Sniper (good ATK & DPR, poor AC & HP)</option>
+                                      <option value="striker">Striker (good AC, poor DPR)</option>
+                                      <option value="tank">Tank (good AC & HP, poor ATK & DPR)</option>
+                                      <option value="ward">Ward (good AC, poor HP)</option>
                                   </select>
                               </label>
                           </div>
@@ -244,27 +246,36 @@
                     <tr>
                       <td>
                           <label for="attack-input">Attack Bonus: <br>
-                              <select id="attack-input">
+                              <select id="attack-input" onchange="InputFunctions.InputAtk()">
                                   <option value="poor">Poor</option>
                                   <option value="average" selected>Average</option>
                                   <option value="good">Good</option>
-                              </select></label>
+                              </select>
+                            </label>
+                            <br>
+                            <div class="box-note" id="atk-bonus"></div>
                       </td>
                       <td>
                             <label for="savedc-input">Save DC: <br>
-                                <select id="savedc-input">
+                                <select id="savedc-input" onchange="InputFunctions.InputSDC()">
                                     <option value="poor">Poor</option>
                                     <option value="average" selected>Average</option>
                                     <option value="good">Good</option>
-                                </select></label>
+                                </select>
+                              </label>
+                              <br>
+                              <div class="box-note" id="save-dc"></div>
                         </td>
                         <td>
                               <label for="dpr-input">Damage Output: <br>
-                                  <select id="dpr-input">
+                                  <select id="dpr-input" onchange="InputFunctions.InputDPR()">
                                       <option value="poor">Poor</option>
                                       <option value="average" selected>Average</option>
                                       <option value="good">Good</option>
-                                  </select></label>
+                                  </select>
+                                </label>
+                                <br>
+                                <div class="box-note" id="avg-dpr"></div>
                           </td>
                         <td>
                             <label for="hp-input">HP Level: <br>
@@ -272,7 +283,8 @@
                                     <option value="poor">Poor</option>
                                     <option value="average" selected>Average</option>
                                     <option value="good">Good</option>
-                                </select></label>
+                                </select>
+                              </label>
                         </td>
                         <td>
                             <label for="armor-input">Armor Quality: <br>
@@ -280,7 +292,8 @@
                                     <option value="poor">Poor</option>
                                     <option value="average" selected>Average</option>
                                     <option value="good">Good</option>
-                                </select></label>
+                                </select>
+                              </label>
                         </td>
                         <td>
                             <div id="otherarmor-prompt">

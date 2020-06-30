@@ -53,7 +53,9 @@ var mon = {
     mtype: "retreat",
     mdc: 12,
     avgHP: 0,
-    org: "group"
+    org: "group",
+    threatadj: 0,
+    avgDMG: 0
 };
 
 // Save function
@@ -162,6 +164,9 @@ function UpdateStatblock(moveSeparationPoint) {
     // Speed
     $("#speed").html(StringFunctions.GetSpeed());
 
+    // Threat
+    $("#threat-level").html(StringFunctions.GetThreat());
+
     // Stats
     let setPts = (id, pts) =>
         $(id).html(pts + " (" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(pts)) + ")");
@@ -182,7 +187,7 @@ function UpdateStatblock(moveSeparationPoint) {
     $("#properties-list").html(propertiesDisplayList.join(""));
 
     // Tier and Organization
-    $("#tier-org").html(StringFunctions.StringCapitalize(mon.tier) + " tier (levels " + data.tiers[mon.tier].levs + "), " + mon.org + " organization (" + data.organizations[mon.org].nums + ")");
+    $("#tier-org").html(StringFunctions.StringCapitalize(mon.tier) + " tier, " + mon.org + " organization");
 
     // Abilities
     let traitsHTML = [];
@@ -416,8 +421,10 @@ var FormFunctions = {
 
         // Armor Class
         $("#otherarmor-input").val(mon.otherArmorDesc);
+        $("#armor-input").val(mon.armorName);
 
         // Hit Dice
+        $("#hp-input").val(mon.hpName);
 
         //morale
         $("#morale-input").prop("checked");
@@ -471,9 +478,21 @@ var FormFunctions = {
         $("#is-legendary-input").prop("checked", mon.isLegendary);
         this.ShowHideLegendaryCreature();
 
-        // Challenge Rating
+        // Tier
         $("#tier-input").val(mon.tier);
         this.ChangeTierForm();
+
+        // Attack Bonus
+        $("#attack-input").val(mon.atkName);
+        this.ChangeAtkBForm();
+
+        // Save DC
+        $("#savedc-input").val(mon.stName);
+        this.ChangeSDCForm();
+
+        // DPR
+        $("#dpr-input").val(mon.dprName);
+        this.ChangeDPRForm();
 
         // Column Radio Buttons
         this.ChangeColumnRadioButtons();
@@ -492,13 +511,6 @@ var FormFunctions = {
         $("#mdc-form, #mreact-form, #mtrig-form, #mthresh-input-prompt, #m-block").hide();
         if ($("#morale-input").prop('checked'))
             $("#mdc-form, #mreact-form, #mtrig-form, #mthresh-input-prompt, #m-block").show();
-    },
-    ShowHideCustomHP: function() {
-        $("#hitdice-input-prompt, #hp-text-input-prompt").hide();
-        if ($("#custom-hp-input").prop('checked'))
-            $("#hp-text-input-prompt").show();
-        else
-            $("#hitdice-input-prompt").show();
     },
     ShowHideCustomSpeed: function() {
         $(".normal-speed-col, .custom-speed-col").hide();
@@ -546,7 +558,22 @@ var FormFunctions = {
 
     // Set the proficiency bonus based on the monster's Tier
     ChangeTierForm: function() {
-        $("#prof-bonus").html("(Proficiency Bonus: +" + data.tiers[mon.tier].prof + ")");
+        $("#prof-bonus").html("Proficiency Bonus: +" + data.tiers[mon.tier].prof);
+    },
+
+    // Set the attack bonus based on the monster's Tier
+    ChangeAtkBForm: function() {
+        $("#atk-bonus").html("Attack Bonus: +" + StringFunctions.GetAttackBonus());
+    },
+
+    // Set the save dc based on the monster's Tier
+    ChangeSDCForm: function() {
+        $("#save-dc").html("Ability Save DC: " + StringFunctions.GetSaveDC());
+    },
+
+    // Set the averageDPR based on the monster's Tier and organization
+    ChangeDPRForm: function() {
+        $("#avg-dpr").html("Average DPR: " + StringFunctions.GetDPR());
     },
 
     // For setting the column radio buttons based on saved data
@@ -703,6 +730,109 @@ var InputFunctions = {
     InputTier: function() {
         mon.tier = $("#tier-input").val();
         FormFunctions.ChangeTierForm();
+        FormFunctions.ChangeAtkBForm();
+        FormFunctions.ChangeSDCForm();
+        FormFunctions.ChangeDPRForm();
+    },
+
+    // Change Org based on input dropdown
+    InputOrg: function() {
+        mon.org = $("#org-input").val();
+        FormFunctions.ChangeDPRForm();
+    },
+
+    InputAtk: function() {
+        mon.atkName = $("#attack-input").val();
+        FormFunctions.ChangeAtkBForm();
+    },
+
+    InputSDC: function() {
+        mon.stName = $("#savedc-input").val();
+        FormFunctions.ChangeSDCForm();
+    },
+
+    InputDPR: function() {
+        mon.dprName = $("#dpr-input").val();
+        FormFunctions.ChangeDPRForm();
+    },
+
+    InputArchetype: function(arch_sel) {
+      if (arch_sel === "paragon") {
+        mon.atkName = "good";
+        mon.dprName = "good";
+        mon.armorName = "good";
+        mon.hpName = "good";
+      }
+      if (arch_sel === "tank") {
+        mon.atkName = "poor";
+        mon.dprName = "poor";
+        mon.armorName = "good";
+        mon.hpName = "good";
+      }
+      if (arch_sel === "bulwark") {
+        mon.atkName = "good";
+        mon.dprName = "poor";
+        mon.armorName = "good";
+        mon.hpName = "poor";
+      }
+      if (arch_sel === "enforcer") {
+        mon.atkName = "good";
+        mon.dprName = "good";
+        mon.armorName = "average";
+        mon.hpName = "average";
+      }
+      if (arch_sel === "striker") {
+        mon.atkName = "good";
+        mon.dprName = "poor";
+        mon.armorName = "average";
+        mon.hpName = "average";
+      }
+      if (arch_sel === "baseline") {
+        mon.atkName = "average";
+        mon.dprName = "average";
+        mon.armorName = "average";
+        mon.hpName = "average";
+      }
+      if (arch_sel === "ward") {
+        mon.atkName = "average";
+        mon.dprName = "average";
+        mon.armorName = "good";
+        mon.hpName = "poor";
+      }
+      if (arch_sel === "meat") {
+        mon.atkName = "average";
+        mon.dprName = "average";
+        mon.armorName = "poor";
+        mon.hpName = "good";
+      }
+      if (arch_sel === "brute") {
+        mon.atkName = "poor";
+        mon.dprName = "good";
+        mon.armorName = "poor";
+        mon.hpName = "good";
+      }
+      if (arch_sel === "sniper") {
+        mon.atkName = "good";
+        mon.dprName = "good";
+        mon.armorName = "poor";
+        mon.hpName = "poor";
+      }
+      if (arch_sel === "fodder") {
+        mon.atkName = "poor";
+        mon.dprName = "poor";
+        mon.armorName = "poor";
+        mon.hpName = "poor";
+      }
+
+        mon.stName = mon.atkName;
+        FormFunctions.ChangeAtkBForm();
+        FormFunctions.ChangeSDCForm();
+        FormFunctions.ChangeDPRForm();
+        $("#armor-input").val(mon.armorName);
+        $("#hp-input").val(mon.hpName);
+        $("#attack-input").val(mon.atkName);
+        $("#savedc-input").val(mon.stName);
+        $("#dpr-input").val(mon.dprName);
     },
 
     AddAbilityInput: function(arrName) {
@@ -765,6 +895,9 @@ var GetVariablesFunctions = {
         // Hit Points
         mon.hpName = $("#hp-input").val();
 
+        // Damage
+        mon.dprName = $("#dpr-input").val();
+
         // Speeds
         mon.speed = $("#speed-input").val();
         mon.burrowSpeed = $("#burrow-speed-input").val();
@@ -803,7 +936,10 @@ var GetVariablesFunctions = {
         mon.mdc = $("#mdc-input").val();
         mon.mtype = $("#mreact-input").val();
         mon.mtrig = $("#mtrig-input").val();
-        mon.mthresh = $("#mthresh-input").val();
+        mon.mthresh = $("#mthresh-input").val() * 1;
+
+        // Threat
+        mon.threatadj = $("#threat-mod").val() * 1;
 
         // Legendaries
         mon.isLegendary = $("#is-legendary-input").prop("checked");
@@ -849,6 +985,9 @@ var GetVariablesFunctions = {
 
         // Hit Dice
         mon.hpName = "average";
+
+        // Damage
+        mon.dprName = "average";
 
         // Speeds
         let GetSpeed = (speedList, speedType) => speedList.hasOwnProperty(speedType) ? parseInt(speedList[speedType]) : 0;
@@ -1219,11 +1358,41 @@ var StringFunctions = {
         return mon.avgHP + " (" + mon.hitDice + "d" + hitDieSize + " - " + -(avgMod) + ")";
     },
 
+    // Get the average damage per round
+    GetDPR: function() {
+        let dpr_mod = 0;
+        if (mon.dprName === "poor") dpr_mod = -1;
+        if (mon.dprName === "good") dpr_mod = 1;
+
+        mon.avgDMG = data.dpr[(data.tiers[mon.tier].trow+dpr_mod)][data.organizations[mon.org].ocol];
+
+        return mon.avgDMG;
+    },
+
     GetMorale: function() {
       let morale_hp = .25 + (mon.mthresh / 2);
       if (mon.mtrig === "wounded") morale_hp = 1 - mon.mthresh;
       if (mon.mtrig === "about to die") morale_hp = mon.mthresh;
       return "DC " + mon.mdc + " or " + mon.mtype + " when " + mon.mtrig + " (" + Math.floor(morale_hp * mon.avgHP) + ")";
+    },
+
+    GetThreat: function() {
+      let threat = mon.threatadj;
+      if (mon.hpName === "poor") threat = threat - 1;
+      if (mon.hpName === "good") threat = threat + 1;
+      if (mon.armorName === "poor") threat = threat - 1;
+      if (mon.armorName === "good") threat = threat + 1;
+      if (mon.dprName === "poor") threat = threat - 1;
+      if (mon.dprName === "good") threat = threat + 1;
+
+      if (mon.atkName === "good" || mon.stName === "good") threat = threat + 1;
+      if (mon.atkName === "poor" && mon.stName === "poor") threat = threat - 1;
+
+      if (threat > 3) return "extreme (" + threat + ")";
+      if (threat > 1) return "high (" + threat + ")";
+      if (threat > -2) return "medium (" + threat + ")";
+      if (threat > -4) return "low (" + threat + ")";
+      return "negligible (" + threat + ")";
     },
 
     GetSpeed: function() {

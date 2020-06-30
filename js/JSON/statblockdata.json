@@ -161,23 +161,23 @@
 	},
 	"organizations": {
 		"solo": {
-			"nums": "1",
+			"nums": "4/all positions",
 			"ocol" : 0
 		},
 		"pair": {
-			"nums": "2",
+			"nums": "2 positions",
 			"ocol" : 1
 		},
 		"group": {
-			"nums": "3-6",
+			"nums": "1 position",
 			"ocol" : 2
 		},
 		"gang": {
-			"nums": "7-10",
+			"nums": "1/2 position",
 			"ocol" : 3
 		},
 		"mob": {
-			"nums": "11-20",
+			"nums": "1/4 - 1/3 position",
 			"ocol" : 4
 		}
 	},
@@ -305,8 +305,6 @@
 		"group": null,
 		"alignment": "any alignment",
 		"armor_desc": null,
-		"hit_points": 22,
-		"hit_dice": "5d8",
 		"speed": {
 			"walk": 30
 		},
