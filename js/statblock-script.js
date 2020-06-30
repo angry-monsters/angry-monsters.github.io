@@ -33,8 +33,8 @@ var mon = {
     tremorsense: 0,
     truesight: 0,
     telepathy: 0,
-  //  cr: 1,
-    tier: 1,
+    cr: 1,
+    tier: "apprentice",
     isLegendary: false,
     legendariesDescription: "",
     properties: [],
@@ -174,8 +174,8 @@ function UpdateStatblock(moveSeparationPoint) {
         propertiesDisplayList.push(StringFunctions.MakePropertyHTML(propertiesDisplayArr[index]));
     $("#properties-list").html(propertiesDisplayList.join(""));
 
-    // Challenge Rating
-  //  $("#challenge-rating").html(mon.cr + " (" + data.crs[mon.cr].xp + " XP)");
+    // Tier and Organization
+    $("#tier-org").html(StringFunctions.StringCapitalize(mon.tier));
 
     // Abilities
     let traitsHTML = [];
