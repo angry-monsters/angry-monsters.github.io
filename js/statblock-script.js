@@ -33,7 +33,7 @@ var mon = {
     tremorsense: 0,
     truesight: 0,
     telepathy: 0,
-    cr: 1,
+  //  cr: 1,
     tier: 1,
     isLegendary: false,
     legendariesDescription: "",
@@ -175,7 +175,7 @@ function UpdateStatblock(moveSeparationPoint) {
     $("#properties-list").html(propertiesDisplayList.join(""));
 
     // Challenge Rating
-    $("#challenge-rating").html(mon.cr + " (" + data.crs[mon.cr].xp + " XP)");
+  //  $("#challenge-rating").html(mon.cr + " (" + data.crs[mon.cr].xp + " XP)");
 
     // Abilities
     let traitsHTML = [];
@@ -356,7 +356,7 @@ function TryMarkdown() {
             (Array.isArray(propertiesDisplayArr[index].arr) ? propertiesDisplayArr[index].arr.join(", ") : propertiesDisplayArr[index].arr),
             "<br>");
     }
-    markdown.push("> - **Challenge** ", mon.cr, " (", data.crs[mon.cr].xp, " XP)<br>>___");
+  //  markdown.push("> - **Challenge** ", mon.cr, " (", data.crs[mon.cr].xp, " XP)<br>>___");
 
     if (mon.abilities.length > 0) markdown.push("<br>", GetTraitMarkdown(mon.abilities, false));
     if (mon.actions.length > 0) markdown.push("<br>> ### Actions<br>", GetTraitMarkdown(mon.actions, false));
@@ -469,8 +469,8 @@ var FormFunctions = {
         this.ShowHideLegendaryCreature();
 
         // Challenge Rating
-        $("#cr-input").val(mon.cr);
-        this.ChangeCRForm();
+        //$("#cr-input").val(mon.cr);
+        //this.ChangeCRForm();
 
         // Column Radio Buttons
         this.ChangeColumnRadioButtons();
@@ -544,9 +544,9 @@ var FormFunctions = {
     },
 
     // Set the proficiency bonus based on the monster's CR
-    ChangeCRForm: function() {
-        $("#prof-bonus").html("(Proficiency Bonus: +" + data.crs[mon.cr].prof + ")");
-    },
+    //ChangeCRForm: function() {
+      //  $("#prof-bonus").html("(Proficiency Bonus: +" + data.crs[mon.cr].prof + ")");
+    //},
 
     // For setting the column radio buttons based on saved data
     ChangeColumnRadioButtons: function() {
@@ -632,17 +632,17 @@ var FormFunctions = {
     },
 
     // Initialize Forms
-    InitForms: function() {
-        let dropdownBuffer = [
-            "<option value=0>0 (", data.crs["0"].xp, " XP)</option>",
-            "<option value=1/8>1/8 (", data.crs["1/8"].xp, " XP)</option>",
-            "<option value=1/4>1/4 (", data.crs["1/4"].xp, " XP)</option>",
-            "<option value=1/2>1/2 (", data.crs["1/2"].xp, " XP)</option>"
-        ];
-        for (let cr = 1; cr < 8; cr++)
-            dropdownBuffer.push("<option value=", cr, ">", cr, " (", data.crs[cr].xp, " XP)</option>");
-        $("#cr-input").html(dropdownBuffer.join(""));
-    }
+  //  InitForms: function() {
+      //  let dropdownBuffer = [
+        //    "<option value=0>0 (", data.crs["0"].xp, " XP)</option>",
+        //    "<option value=1/8>1/8 (", data.crs["1/8"].xp, " XP)</option>",
+        //    "<option value=1/4>1/4 (", data.crs["1/4"].xp, " XP)</option>",
+        //    "<option value=1/2>1/2 (", data.crs["1/2"].xp, " XP)</option>"
+      //  ];
+      //  for (let cr = 1; cr < 8; cr++)
+        //    dropdownBuffer.push("<option value=", cr, ">", cr, " (", data.crs[cr].xp, " XP)</option>");
+    //    $("#cr-input").html(dropdownBuffer.join(""));
+  //  }
 }
 
 // Input functions to be called only through HTML
@@ -712,10 +712,10 @@ var InputFunctions = {
     },
 
     // Change CR based on input dropdown
-    InputCR: function() {
-        mon.cr = $("#cr-input").val();
-        FormFunctions.ChangeCRForm();
-    },
+  //  InputCR: function() {
+    //    mon.cr = $("#cr-input").val();
+    //    FormFunctions.ChangeCRForm();
+  //  },
 
     AddAbilityInput: function(arrName) {
         let abilityName = $("#abilities-name-input").val().trim(),
@@ -804,7 +804,7 @@ var GetVariablesFunctions = {
         mon.telepathy = parseInt($("#telepathy-input").val());
 
         // Challenge Rating
-        mon.cr = $("#cr-input").val();
+      //  mon.cr = $("#cr-input").val();
 
         // Legendaries
         mon.isLegendary = $("#is-legendary-input").prop("checked");
@@ -833,7 +833,7 @@ var GetVariablesFunctions = {
         mon.chaPoints = preset.charisma;
 
         // CR
-        mon.cr = preset.challenge_rating;
+      //  mon.cr = preset.challenge_rating;
 
         // Armor Class
         let armorAcData = preset.armor_class,
@@ -1544,7 +1544,7 @@ function Populate() {
     FormFunctions.SetCommonAbilitiesDropdown();
 
     // Populate the stat block
-    FormFunctions.InitForms();
+    //FormFunctions.InitForms();
     FormFunctions.SetForms();
     UpdateStatblock();
 }
