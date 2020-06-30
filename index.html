@@ -188,8 +188,16 @@
                     <tr>
                         <td>
                           <div id="cr-form">
-                              <label for="cr-input">Challenge Rating:
-                                  <select id="cr-input" onchange="InputFunctions.InputCR()"></select>
+                              <label for="tier-input">Tier:
+                                  <select id="tier-input" onchange="InputFunctions.InputTier()">
+                                      <option value="apprentice">Apprentice</option>
+                                      <option value="journeyman">Journeyman</option>
+                                      <option value="adventurer">Adventurer</option>
+                                      <option value="veteran">Veteran</option>
+                                      <option value="champion">Champion</option>
+                                      <option value="epic">Epic</option>
+                                      <option value="legendary">Legendary</option>
+                                  </select>
                               </label>
                               <br>
                               <div id="prof-bonus"></div>

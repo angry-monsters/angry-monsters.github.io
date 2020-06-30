@@ -469,8 +469,8 @@ var FormFunctions = {
         this.ShowHideLegendaryCreature();
 
         // Challenge Rating
-        //$("#cr-input").val(mon.cr);
-        //this.ChangeCRForm();
+        $("#tier-input").val(mon.tier);
+        this.ChangeTierForm();
 
         // Column Radio Buttons
         this.ChangeColumnRadioButtons();
@@ -543,10 +543,10 @@ var FormFunctions = {
         $("#" + stat + "bonus").html(StringFunctions.BonusFormat(MathFunctions.PointsToBonus($("#" + stat + "-input").val())));
     },
 
-    // Set the proficiency bonus based on the monster's CR
-    //ChangeCRForm: function() {
-      //  $("#prof-bonus").html("(Proficiency Bonus: +" + data.crs[mon.cr].prof + ")");
-    //},
+    // Set the proficiency bonus based on the monster's Tier
+    ChangeTierForm: function() {
+        $("#prof-bonus").html("(Proficiency Bonus: +" + data.tiers[mon.tier].prof + ")");
+    },
 
     // For setting the column radio buttons based on saved data
     ChangeColumnRadioButtons: function() {
@@ -711,11 +711,11 @@ var InputFunctions = {
         FormFunctions.MakeDisplayList("languages", false);
     },
 
-    // Change CR based on input dropdown
-  //  InputCR: function() {
-    //    mon.cr = $("#cr-input").val();
-    //    FormFunctions.ChangeCRForm();
-  //  },
+    // Change Tier based on input dropdown
+    InputTier: function() {
+        mon.tier = $("#tier-input").val();
+        FormFunctions.ChangeTierForm();
+    },
 
     AddAbilityInput: function(arrName) {
         let abilityName = $("#abilities-name-input").val().trim(),
@@ -804,8 +804,7 @@ var GetVariablesFunctions = {
         mon.telepathy = parseInt($("#telepathy-input").val());
 
         // Tier
-        mon.tier = "apprentice";
-      //  mon.cr = $("#cr-input").val();
+        mon.tier = $("#tier-input").val();
 
         // Legendaries
         mon.isLegendary = $("#is-legendary-input").prop("checked");
