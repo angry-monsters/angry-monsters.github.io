@@ -183,9 +183,11 @@
                         </td>
                     </tr>
                 </table>
-                <hr>
-                <table id="armor-hitdice-form">
+                <br>
+                <table id="angry-form">
                     <tr>
+                        <td>
+                        </td>
                         <td>
                           <div id="cr-form">
                               <label for="tier-input">Tier: <br>
@@ -202,6 +204,45 @@
                               <br>
                               <div id="prof-bonus"></div>
                           </div>
+                        </td>
+                        <td>
+                          <div id="org-form">
+                              <label for="org-input">Organization: <br>
+                                  <select id="org-input">
+                                      <option value="solo">Solo (1)</option>
+                                      <option value="pair">Pair (2)</option>
+                                      <option value="group">Group (3-6)</option>
+                                      <option value="gang">Gang (7-10)</option>
+                                      <option value="mob">Mob (11-20)</option>
+                                  </select>
+                              </label>
+                          </div>
+                        </td>
+                        <td colspan="2">
+                          <div id="arch-form">
+                              <label for="arch-input">Archetype: <br>
+                                  <select id="arch-input">
+                                      <option value="baseline" selected>Baseline</option>
+                                      <option value="brute">Brute</option>
+                                      <option value="bulwark">Bulwark</option>
+                                      <option value="enforcer">Enforcer</option>
+                                      <option value="fodder">Fodder</option>
+                                      <option value="meat">Meat</option>
+                                      <option value="paragon">Paragon</option>
+                                      <option value="sniper">Sniper</option>
+                                      <option value="striker">Striker</option>
+                                      <option value="tank">Tank</option>
+                                      <option value="ward">Ward</option>
+                                  </select>
+                              </label>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+                <hr>
+                <table id="armor-hitdice-form">
+                    <tr>
+                        <td>
                         </td>
                         <td>
                             <div id="hitdice-input-prompt"><label for="hitdice-input">Hit Dice: <br><input type="number" id="hitdice-input" min="1" max="99" value="5"></label></div>

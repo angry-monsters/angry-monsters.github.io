@@ -172,7 +172,7 @@ function UpdateStatblock(moveSeparationPoint) {
     $("#properties-list").html(propertiesDisplayList.join(""));
 
     // Tier and Organization
-    $("#tier-org").html(StringFunctions.StringCapitalize(mon.tier) + " tier (levels " + data.tiers[mon.tier].levs + ")" + data.hitpoints[data.tiers[mon.tier].trow][2]);
+    $("#tier-org").html(StringFunctions.StringCapitalize(mon.tier) + " tier (levels " + data.tiers[mon.tier].levs + "), " + mon.org + " organization (" + data.organizations[mon.org].nums + ")");
 
     // Abilities
     let traitsHTML = [];
@@ -790,6 +790,9 @@ var GetVariablesFunctions = {
         // Tier
         mon.tier = $("#tier-input").val();
 
+        // Organization
+        mon.org = $("#org-input").val();
+
         // Legendaries
         mon.isLegendary = $("#is-legendary-input").prop("checked");
         if (mon.isLegendary)
@@ -818,6 +821,9 @@ var GetVariablesFunctions = {
 
         // Tier
         mon.tier = "apprentice";
+
+        // Organization
+        mon.org = "group";
 
         // Armor Class
         mon.armorName = "average";
