@@ -257,11 +257,11 @@ function ReplaceTraitTags(desc) {
                     type = "stat";
                     if (readString.length > 3) {
                         if (readString.substring(3, 7) == " atk") {
-                            bonus += data.crs[mon.cr].prof;
+                            bonus += data.tiers[mon.tier].prof;
                             readPosition = 7;
                             type = "atk";
                         } else if (readString.substring(3, 8) == " save") {
-                            bonus += data.crs[mon.cr].prof + 8;
+                            bonus += data.tiers[mon.tier].prof + 8;
                             readPosition = 8;
                             type = "save";
                         }
@@ -803,7 +803,8 @@ var GetVariablesFunctions = {
         // Telepathy
         mon.telepathy = parseInt($("#telepathy-input").val());
 
-        // Challenge Rating
+        // Tier
+        mon.tier = "apprentice";
       //  mon.cr = $("#cr-input").val();
 
         // Legendaries
@@ -832,8 +833,8 @@ var GetVariablesFunctions = {
         mon.wisPoints = preset.wisdom;
         mon.chaPoints = preset.charisma;
 
-        // CR
-      //  mon.cr = preset.challenge_rating;
+        // Tier
+        mon.tier = "apprentice";
 
         // Armor Class
         let armorAcData = preset.armor_class,
@@ -942,7 +943,7 @@ var GetVariablesFunctions = {
                 let currentSkill = data.allSkills[index],
                     skillCheck = StringFunctions.StringReplaceAll(currentSkill.name.toLowerCase(), " ", "_");
                 if (preset.skills[skillCheck]) {
-                    let expectedExpertise = MathFunctions.PointsToBonus(mon[currentSkill.stat + "Points"]) + Math.ceil(data.crs[mon.cr].prof * 1.5),
+                    let expectedExpertise = MathFunctions.PointsToBonus(mon[currentSkill.stat + "Points"]) + Math.ceil(data.tiers[mon.tier].prof * 1.5),
                         skillVal = preset.skills[skillCheck];
                     this.AddSkill(data.allSkills[index].name, (skillVal >= expectedExpertise ? " (ex)" : null));
                 }
@@ -1277,7 +1278,7 @@ var StringFunctions = {
         let ppData = ArrayFunctions.FindInList(mon.skills, "Perception"),
             pp = 10 + MathFunctions.PointsToBonus(mon.wisPoints);
         if (ppData != null)
-            pp += data.crs[mon.cr].prof * (ppData.hasOwnProperty("note") ? 2 : 1);
+            pp += data.tiers[mon.tier].prof * (ppData.hasOwnProperty("note") ? 2 : 1);
         sensesDisplayArr.push("passive Perception " + pp);
         return sensesDisplayArr.join(", ");
     },
@@ -1297,13 +1298,13 @@ var StringFunctions = {
         // Saving Throws
         for (let index = 0; index < mon.sthrows.length; index++)
             sthrowsDisplayArr.push(StringFunctions.StringCapitalize(mon.sthrows[index].name) + " " +
-                StringFunctions.BonusFormat((MathFunctions.PointsToBonus(mon[mon.sthrows[index].name + "Points"]) + data.crs[mon.cr].prof)));
+                StringFunctions.BonusFormat((MathFunctions.PointsToBonus(mon[mon.sthrows[index].name + "Points"]) + data.tiers[mon.tier].prof)));
 
         // Skills
         for (let index = 0; index < mon.skills.length; index++) {
             let skillData = mon.skills[index];
             skillsDisplayArr.push(StringFunctions.StringCapitalize(skillData.name) + " " +
-                StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon[skillData.stat + "Points"]) + data.crs[mon.cr].prof * (skillData.hasOwnProperty("note") ? 2 : 1)));
+                StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon[skillData.stat + "Points"]) + data.tiers[mon.tier].prof * (skillData.hasOwnProperty("note") ? 2 : 1)));
         }
 
         // Damage Types (It's not pretty but it does its job)

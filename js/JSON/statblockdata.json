@@ -159,6 +159,29 @@
 			"hitDie": 20
 		}
 	},
+	"tiers": {
+		"apprentice": {
+			"prof": 2
+		},
+		"journeyman": {
+			"prof": 2
+		},
+		"adventurer": {
+			"prof": 3
+		},
+		"veteran": {
+			"prof": 4
+		},
+		"champion": {
+			"prof": 5
+		},
+		"epic": {
+			"prof": 5
+		},
+		"legendary": {
+			"prof": 6
+		}
+	},
 	"types": [
 		"aberration",
 		"beast",
@@ -271,7 +294,6 @@
 		"condition_immunities": "",
 		"senses": "passive Perception 10",
 		"languages": "",
-		"challenge_rating": "1",
 		"actions": "",
 		"reactions": "",
 		"legendary_actions": "",
