@@ -1,8 +1,9 @@
 # angry-monsters.github.io
 
 To-do:
-- limit data pulled from API
-- add archetypes
 - add abbreviated stat block
-- morale check box to hide it
-- change CR to threat
+- Stats/prof bonus/damage/attack interaction/con-hp
+- saving, loading, .png, markdown, print
+- update dropdowns on load
+- -auto-populate saves, damage, attacks
+- encounter builder
