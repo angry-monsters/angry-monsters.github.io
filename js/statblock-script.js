@@ -7,10 +7,8 @@ var mon = {
     tag: "",
     alignment: "any alignment",
     hitDice: 5,
-    armorName: "none",
-    shieldBonus: 0,
-    natArmorBonus: 3,
-    otherArmorDesc: "10 (armor)",
+    armorName: "average",
+    otherArmorDesc: "no armor",
     speed: 30,
     burrowSpeed: 0,
     climbSpeed: 0,
@@ -33,7 +31,6 @@ var mon = {
     tremorsense: 0,
     truesight: 0,
     telepathy: 0,
-    cr: 1,
     tier: "apprentice",
     isLegendary: false,
     legendariesDescription: "",
@@ -175,7 +172,7 @@ function UpdateStatblock(moveSeparationPoint) {
     $("#properties-list").html(propertiesDisplayList.join(""));
 
     // Tier and Organization
-    $("#tier-org").html(StringFunctions.StringCapitalize(mon.tier));
+    $("#tier-org").html(StringFunctions.StringCapitalize(mon.tier) + " tier (levels " + data.tiers[mon.tier].levs + ")" + data.hitpoints[data.tiers[mon.tier].trow][2]);
 
     // Abilities
     let traitsHTML = [];
@@ -408,11 +405,7 @@ var FormFunctions = {
         $("#alignment-input").val(mon.alignment);
 
         // Armor Class
-        $("#armor-input").val(mon.armorName);
-        $("#shield-input").prop("checked", (mon.shieldBonus > 0 ? true : false));
-        $("#natarmor-input").val(mon.natArmorBonus);
         $("#otherarmor-input").val(mon.otherArmorDesc);
-        this.ShowHideOtherArmor();
 
         // Hit Dice
         $("#hitdice-input").val(mon.hitDice);
@@ -491,13 +484,6 @@ var FormFunctions = {
             $("#hp-text-input-prompt").show();
         else
             $("#hitdice-input-prompt").show();
-    },
-    ShowHideOtherArmor: function() {
-        $("#natarmor-prompt, #otherarmor-prompt").hide();
-        if ($("#armor-input").val() == "natural armor")
-            $("#natarmor-prompt").show();
-        else if ($("#armor-input").val() == "other")
-            $("#otherarmor-prompt").show();
     },
     ShowHideCustomSpeed: function() {
         $(".normal-speed-col, .custom-speed-col").hide();
@@ -766,8 +752,6 @@ var GetVariablesFunctions = {
 
         // Armor Class
         mon.armorName = $("#armor-input").val();
-        mon.shieldBonus = $("#shield-input").prop("checked") ? 2 : 0;
-        mon.natArmorBonus = parseInt($("#natarmor-input").val());
         mon.otherArmorDesc = $("#otherarmor-input").val();
 
         // Hit Points
@@ -836,66 +820,8 @@ var GetVariablesFunctions = {
         mon.tier = "apprentice";
 
         // Armor Class
-        let armorAcData = preset.armor_class,
-            armorDescData = preset.armor_desc ? preset.armor_desc.split(",") : null;
-
-        // What type of armor do we have? If it doesn't match anything, use "other"
-        mon.shieldBonus = 0;
-        if (armorDescData) {
-            mon.armorName = armorDescData[0];
-            // If we have a shield and nothing else
-            if (armorDescData.length == 1 && armorDescData[0].trim() == "shield") {
-                mon.shieldBonus = 2;
-                mon.armorName = "none";
-            } else {
-                // If we have a shield in addition to something else
-                if (armorDescData.length > 1) {
-                    if (armorDescData[1].trim() == "shield") {
-                        mon.shieldBonus = 2;
-                        mon.armorName = armorDescData[0];
-                    }
-                    // Or if it's just weird
-                    else
-                        armorDescData = [armorDescData.join(",")];
-                }
-
-                // Is it natural armor?
-                if (mon.armorName == "natural armor") {
-                    let natArmorBonusCheck = armorAcData - MathFunctions.GetAC("none");
-                    if (natArmorBonusCheck > 0)
-                        mon.natArmorBonus = natArmorBonusCheck;
-
-                    // Weird edge case where the monster has a natural armor bonus of <= 0
-                    else
-                        mon.armorName = "other";
-                }
-
-                // Is it another type of armor we know?
-                else if (data.armors.hasOwnProperty(armorDescData[0].trim()))
-                    mon.armorName = armorDescData[0].trim();
-
-                // We have no idea what this armor is
-                else
-                    mon.armorName = "other";
-            }
-        } else
-            mon.armorName = (armorAcData == MathFunctions.GetAC("none") ? "none" : "other");
-
-        // In case it's an unknown armor type
-        if (mon.armorName == "other") {
-            if (armorDescData)
-                mon.otherArmorDesc = armorDescData[0].includes("(") ? armorDescData :
-                armorAcData + " (" + armorDescData + ")";
-            else
-                mon.otherArmorDesc = armorAcData + " (unknown armor type)";
-
-            // Set the nat armor bonus for convenience- often the AC is for natural armor, but doesn't have it in the armor description
-            let natArmorBonusCheck = armorAcData - MathFunctions.GetAC("none");
-
-            if (natArmorBonusCheck > 0)
-                mon.natArmorBonus = natArmorBonusCheck;
-        } else
-            mon.otherArmorDesc = armorAcData + (preset.armor_desc ? " (" + preset.armor_desc + ")" : "");
+        mon.armorName = "average";
+        mon.otherArmorDesc = preset.armor_desc;
 
         // Hit Dice
         mon.hitDice = parseInt(preset.hit_dice.split("d")[0]);
@@ -1223,22 +1149,13 @@ var StringFunctions = {
 
     // Get the string displayed for the monster's AC
     GetArmorData: function() {
-        if (mon.armorName == "other")
-            return mon.otherArmorDesc;
-        if (mon.armorName == "mage armor") {
-            let mageAC = MathFunctions.GetAC(mon.armorName);
-            return mageAC + " (" + (mon.shieldBonus > 0 ? "shield, " : "") + (mageAC + 3) + " with _mage armor_)";
-        }
-        if (mon.armorName == "none")
-            return MathFunctions.GetAC(mon.armorName) + (mon.shieldBonus > 0 ? " (shield)" : "");
-        return this.GetArmorString(mon.armorName, MathFunctions.GetAC(mon.armorName));
-    },
+      let armor_mod = 0;
+      if (mon.armorName === "poor") armor_mod = -1;
+      if (mon.armorName === "good") armor_mod = 1;
 
-    // Add a shield to the string if the monster has one
-    GetArmorString: function(name, ac) {
-        if (mon.shieldBonus > 0)
-            return ac + " (" + name + ", shield)";
-        return ac + " (" + name + ")"
+      let armor_note = "";
+      if (mon.otherArmorDesc) armor_note = " (" + mon.otherArmorDesc + ")";
+            return data.armorclass[(data.tiers[mon.tier].trow+armor_mod)] + armor_note;
     },
 
     // Get the string displayed for the monster's HP
@@ -1442,20 +1359,6 @@ var MathFunctions = {
 
     // Compute ability bonuses based on ability scores
     PointsToBonus: (points) => Math.floor(points / 2) - 5,
-
-    // Compute armor class
-    GetAC: function(armorNameCheck) {
-        let armor = data.armors[armorNameCheck],
-            dexBonus = MathFunctions.PointsToBonus(mon.dexPoints);
-        if (armor) {
-            if (armor.type == "light") return armor.ac + dexBonus + mon.shieldBonus;
-            if (armor.type == "medium") return armor.ac + Math.min(dexBonus, 2) + mon.shieldBonus;
-            if (armor.type == "heavy") return armor.ac + mon.shieldBonus;
-            if (armorNameCheck == "natural armor") return 10 + dexBonus + mon.natArmorBonus + mon.shieldBonus;
-            if (armorNameCheck == "other") return "other";
-        }
-        return 10 + dexBonus + mon.shieldBonus;
-    },
 }
 
 // Array functions

@@ -188,15 +188,15 @@
                     <tr>
                         <td>
                           <div id="cr-form">
-                              <label for="tier-input">Tier:
+                              <label for="tier-input">Tier: <br>
                                   <select id="tier-input" onchange="InputFunctions.InputTier()">
-                                      <option value="apprentice">Apprentice</option>
-                                      <option value="journeyman">Journeyman</option>
-                                      <option value="adventurer">Adventurer</option>
-                                      <option value="veteran">Veteran</option>
-                                      <option value="champion">Champion</option>
-                                      <option value="epic">Epic</option>
-                                      <option value="legendary">Legendary</option>
+                                      <option value="apprentice">Apprentice (1-2)</option>
+                                      <option value="journeyman">Journeyman (3-5)</option>
+                                      <option value="adventurer">Adventurer (6-9)</option>
+                                      <option value="veteran">Veteran (7-11)</option>
+                                      <option value="champion">Champion (12-14)</option>
+                                      <option value="epic">Epic (15-17)</option>
+                                      <option value="legendary">Legendary (18-20)</option>
                                   </select>
                               </label>
                               <br>
@@ -210,30 +210,15 @@
                         </td>
                         <td>
                             <label for="armor-input">Armor Type: <br>
-                                <select id="armor-input" onchange="FormFunctions.ShowHideOtherArmor()">
-                                    <option value="none" selected>None</option>
-                                    <option value="natural armor">Natural Armor</option>
-                                    <option value="mage armor">Mage Armor</option>
-                                    <option value="padded armor">Padded</option>
-                                    <option value="leather armor">Leather</option>
-                                    <option value="studded leather">Studded Leather</option>
-                                    <option value="hide armor">Hide</option>
-                                    <option value="chain shirt">Chain Shirt</option>
-                                    <option value="scale mail">Scale Mail</option>
-                                    <option value="breastplate">Breastplate</option>
-                                    <option value="half plate">Half Plate</option>
-                                    <option value="ring mail">Ring Mail</option>
-                                    <option value="chain mail">Chain Mail</option>
-                                    <option value="splint">Splint</option>
-                                    <option value="plate">Plate</option>
-                                    <option value="other">Other</option>
+                                <select id="armor-input">
+                                    <option value="poor">Poor</option>
+                                    <option value="average" selected>Average</option>
+                                    <option value="good">Good</option>
                                 </select></label>
-                            <div id="shield-box-note" class="box-note"><label for="shield-input">(Shield: <input id="shield-input" type="checkbox">)</label></div>
                         </td>
-                        <td colspan="2">
-                            <div id="natarmor-prompt"><label for="natarmor-input">Natural Armor Bonus:<br><input type="number" id="natarmor-input" min="1" max="99" value="3"></label></div>
+                        <td>
                             <div id="otherarmor-prompt">
-                                <label for="otherarmor-input">Description: <input id="otherarmor-input" type="text" value="10 (armor)"></label><br>
+                                <label for="otherarmor-input">Description: <input id="otherarmor-input" type="text" value="(armor, shield)"></label><br>
                                 <div id="otherarmor-box-note" class="box-note"><i>Use _ to italicize</i></div>
                             </div>
                         </td>
