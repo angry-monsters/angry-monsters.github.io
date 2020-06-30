@@ -1220,7 +1220,10 @@ var StringFunctions = {
     },
 
     GetMorale: function() {
-      return "DC " + mon.mdc + " or " + mon.mtype + " when " + mon.mtrig + " (" + mon.mthresh + ")";
+      let morale_hp = .25 + (mon.mthresh / 2);
+      if (mon.mtrig === "wounded") morale_hp = 1 - mon.mthresh;
+      if (mon.mtrig === "about to die") morale_hp = mon.mthresh;
+      return "DC " + mon.mdc + " or " + mon.mtype + " when " + mon.mtrig + " (" + Math.floor(morale_hp * mon.avgHP) + ")";
     },
 
     GetSpeed: function() {
