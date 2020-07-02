@@ -13,4 +13,3 @@ To contribute to the bestiary, go to the issues page, create a new compendium ad
 - add automatic interaction between ability scores and values from the monster stats by tier table
 - line overflow on encounter block
 - CR calculator / backwards compatibility
-- add compendium link to main page
