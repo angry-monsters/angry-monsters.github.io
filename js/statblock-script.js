@@ -876,7 +876,7 @@ var FormFunctions = {
         for (let index = 0; index < mon2.length; index++) {
             let element = mon2[index],
                 elementName = StringFunctions.StringCapitalize(element.name),
-            content = "<b>" + StringFunctions.FormatString(elementName, false) + "</b> - " + element.tier + " tier, " + element.org + " organization (" + element.type + ") <i>" + element.tag + "</i></b>";
+            content = "<b>" + StringFunctions.FormatString(elementName, false) + "</b> - " + element.tier + " tier, " + element.org + " organization (" + element.size + " " + element.type + ") <i>" + element.tag + "</i></b>";
             content2 = StringFunctions.FormatString(elementName, false) + " (" + element.org + " organization)";
             let functionArgs = index,
                 imageHTML = "<img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove' onclick='FormFunctions.RemoveMonsterListItem(" + functionArgs + ")'>";
