@@ -243,6 +243,7 @@
 #print-block h1,
 #print-block h3,
 #print-block h4,
+#print-block ul,
 #print-block p {
     color: black;
 }
