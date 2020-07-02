@@ -16,10 +16,16 @@ function openTab(evt, tabName) {
   }
 }
 
+function encSort(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
 var data;
 
 var mon2 = [];
 var mon3 = [];
+var mon4 = [];
+var monico = [];
 
 var mon = {
     name: "Monster",
@@ -900,34 +906,46 @@ var FormFunctions = {
 
     MakeEncounterList: function() {
         let displayArr = [],
-            display_icon = [],
+            display_icons = [],
             threatsum = 0,
             positsum = 0,
             content = "",
-            numPCs = $("#party-size").val(),
-            arrElement = "#mon3-input-list";
+            numPCs = $("#party-size").val();
         for (let index = 0; index < mon3.length; index++) {
             let element = mon3[index],
                 elementName = StringFunctions.StringCapitalize(element.name),
-            content = "<b>" + StringFunctions.FormatString(elementName, false) + "</b> (" + StringFunctions.StringCapitalize(element.tier) + " Tier, " + StringFunctions.StringCapitalize(element.org) + ") <i>Threat: " + StringFunctions.StringCapitalize(StringFunctions.GetThreat(element.threatval,false)) + "</i>";
+            content = StringFunctions.FormatString(elementName, false) + "</b> (" + StringFunctions.StringCapitalize(element.tier) + " Tier, " + StringFunctions.StringCapitalize(element.org) + ") <i>Threat: " + StringFunctions.StringCapitalize(StringFunctions.GetThreat(element.threatval,false)) + "</i>";
             threatsum += element.threatval*data.organizations[element.org].nums;
             positsum += data.organizations[element.org].nums;
-            let functionArgs = index,
-                imageHTML = "<img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove' onclick='FormFunctions.RemoveEncounterListItem(" + functionArgs + ")'>" +
+            displayArr.push(content + "</li>");
+        }
+        
+        let mon_tmp = displayArr.filter( encSort );
+        monico = [];
+        mon4 = [];
+        let mon_ct = 0;
+        for (let index = 0; index < mon_tmp.length; index++) {
+          monico.push(displayArr.indexOf(mon_tmp[index]));
+          mon_ct = 0;
+          for (let newdx = 0; newdx < displayArr.length; newdx++) {
+            if (mon_tmp[index] === displayArr[newdx]) mon_ct += 1;
+          }
+          let imageHTML = "<img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove' onclick='FormFunctions.RemoveEncounterListItem(" + monico[index] + ")'>" +
                 " <img class='statblock-image' src='dndimages/up-icon.png' alt='Up' title='Up' onclick='FormFunctions.SwapEncounterListItem(" + index + ", -1)'>" +
                 " <img class='statblock-image' src='dndimages/down-icon.png' alt='Down' title='Down' onclick='FormFunctions.SwapEncounterListItem(" + index + ", 1)'>";
-                displayArr.push("<li> " + content + "</li>");
-                display_icon.push("<li> " + imageHTML + "</li>");
+          mon4.push("<li> <b>" + mon_ct + "x " + mon_tmp[index]);
+          display_icons.push("<li> " + imageHTML + "</li>");
         }
-        $(arrElement).html(displayArr.join(""));
-        $(arrElement+"-icons").html(display_icon.join(""));
+
+        $("#mon3-input-list").html(mon4.join(""));
+        $("#mon3-input-list-icons").html(display_icons.join(""));
 
         $("#mon3-enc-threat").html("Overall Encounter Threat: " + StringFunctions.StringCapitalize(StringFunctions.GetThreat((threatsum / numPCs),false)));
 
         $("#force-size").html(Math.ceil(positsum) + " Positions");
 
-        $(arrElement).parent()[mon3.length == 0 ? "hide" : "show"]();
-        $(arrElement+"-icons").parent()[mon3.length == 0 ? "hide" : "show"]();
+        $("#mon3-input-list").parent()[mon3.length == 0 ? "hide" : "show"]();
+        $("#mon3-input-list-icons").parent()[mon3.length == 0 ? "hide" : "show"]();
 
         this.UpdateEncName;
 
@@ -946,10 +964,12 @@ var FormFunctions = {
     },
 
     SwapEncounterListItem: function(index, swap) {
-        if (index + swap < 0 || index + swap >= mon3.length) return;
-        let temp = mon3[index + swap];
-        mon3[index + swap] = mon3[index];
-        mon3[index] = temp;
+        if (index + swap < 0 || index + swap >= monico.length) return;
+        let indx = monico[index];
+        let indx2 = monico[index+swap];
+        let temp = mon3[indx2];
+        mon3[indx2] = mon3[indx];
+        mon3[indx] = temp;
         this.MakeEncounterList();
         localStorage.setItem("Mon3", JSON.stringify(mon3));
     },
