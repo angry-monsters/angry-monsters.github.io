@@ -77,9 +77,9 @@
                   <div id="enc-type-form">
                       <label for="enc-type">Encounter Type: <br>
                           <select onchange="getEncounterInfo()" id="enc-type">
-                            <option value=".2">Complication / Restock (2-3 Positions)</option>
-                            <option value=".3" selected>Minor / Major (3-5 Positions)</option>
-                            <option value=".4">Climactic (4-6 Positions)</option>
+                            <option value="20">Complication / Restock (2-3 Positions)</option>
+                            <option value="30" selected>Minor / Major (3-5 Positions)</option>
+                            <option value="40">Climactic (4-6 Positions)</option>
                           </select>
                       </label>
                   </div>
@@ -120,7 +120,7 @@
               <button onclick="TryPrint(false)">Printable Block</button>
               <button onclick="TryImage(false)">Save Image</button>
             </td>
-            <td style="text-align: center;">
+            <td>
               <p>Slots Filled:</p>
             </td>
           </tr>
@@ -173,8 +173,9 @@
               </div>
             </td>
             <td style="position: relative">
-              <div id="slot-bar" style="position: absolute; display: inline-block; background-color: #922610; height: 0em; margin-top: 7.875em; margin-left: 37.5%; width: 25%;"></div>
-              <div id="slot-target" style="position: absolute; display: inline-block; border-width: 2.5%; border-style: solid; border-color: #000000; height: 0em; margin-bottom: 40%; margin-top: 40%; margin-left: 35%; width: 30%;"></div>
+              <div id="slot-target" style="position: absolute; display: inline-block; background-color: #ccc; height: 3em; margin-right: 40%; margin-left: 40%; width: 20%;"></div>
+	      <div id="slot-bar" style="position: absolute; display: inline-block; background-color: #922610; margin-top: .5em; height: 2em; width: 0%;"></div>
+              <div id="slot-fill" style="position: absolute; display: inline-block; border-width: .075em; border-style: solid; border-color: #922610; margin-top: .5em; height: 2em; width: 100%;"></div>
             </td>
           </tr>
         </table>

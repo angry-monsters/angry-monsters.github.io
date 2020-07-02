@@ -931,15 +931,12 @@ var FormFunctions = {
 
         this.UpdateEncName;
 
-        let p_height = $("#enc-block-wrapper").height();
-        let zone_height = .2 * p_height;
-        let zone_target = $("#enc-type").val() * p_height;
-        let positrange = Math.min(positsum/10,1) * p_height;
-        document.getElementById("slot-bar").style.height = positrange + "px";
-        document.getElementById("slot-bar").style.marginTop = (p_height - positrange) + "px";
-        document.getElementById("slot-target").style.height = zone_height + "px";
-        document.getElementById("slot-target").style.marginTop = (p_height - zone_height - zone_target) + "px";
-        document.getElementById("slot-target").style.marginBottom = zone_target + "px";
+        let zone_target = $("#enc-type").val();
+        let positrange = Math.min(positsum/10,1) * 100;
+        document.getElementById("slot-bar").style.width = positrange + "%";
+        document.getElementById("slot-bar").style.marginRight = (100 - positrange) + "%";
+        document.getElementById("slot-target").style.marginRight = (80 - zone_target) + "%";
+        document.getElementById("slot-target").style.marginLeft = zone_target + "%";
     },
 
     RemoveEncounterListItem: function(index) {
