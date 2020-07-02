@@ -7,4 +7,4 @@ assignees: ''
 
 ---
 
-Briefly describe the monsters you have included. To upload your .monster file, first change the extension to .txt and then drag-and-drop into the window,
+Briefly describe the monsters you have included. To upload your .monster file, first change the extension to .txt and then drag-and-drop into the window.
