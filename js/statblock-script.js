@@ -106,6 +106,7 @@ var TrySaveFile3 = () => {
 }
 
 var TryManual = () => {
+    UpdateBlockFromVariables(0);
     LoadBestiary.retrieveFromWindow();
     getMonsterInfo();
 }
@@ -129,6 +130,7 @@ function ClearEncounter() {
 }
 
 var TryEncounter = () => {
+    UpdateBlockFromVariables(0);
     LoadEncounter.retrieveFromWindow();
     getEncounterInfo();
 }
