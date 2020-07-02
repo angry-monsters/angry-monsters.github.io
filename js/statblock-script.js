@@ -930,7 +930,7 @@ var FormFunctions = {
           for (let newdx = 0; newdx < displayArr.length; newdx++) {
             if (mon_tmp[index] === displayArr[newdx]) mon_ct += 1;
           }
-          let imageHTML = "<img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove' onclick='FormFunctions.RemoveEncounterListItem(" + monico[index] + ")'>" +
+          let imageHTML = "<img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove' onclick='FormFunctions.RemoveEncounterListItem(" + displayArr.lastIndexOf(mon_tmp[index]) + ")'>" +
                 " <img class='statblock-image' src='dndimages/up-icon.png' alt='Up' title='Up' onclick='FormFunctions.SwapEncounterListItem(" + index + ", -1)'>" +
                 " <img class='statblock-image' src='dndimages/down-icon.png' alt='Down' title='Down' onclick='FormFunctions.SwapEncounterListItem(" + index + ", 1)'>";
           mon4.push("<li> <b>" + mon_ct + "x " + mon_tmp[index]);
