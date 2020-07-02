@@ -47,14 +47,14 @@
         <h1>Monster Manual</h1>
 	<p>Download the <a target="_blank" href="https://raw.githubusercontent.com/angry-monsters/angry-monsters.github.io/master/compendium/bestiary.monster">Community Compendium</a> and contribute <a target="_blank" href="https://github.com/angry-monsters/angry-monsters.github.io/issues/new?assignees=&labels=bestiary&template=compendium-addition.md&title=General+Title+of+Monsters%2FTheme%2FAdditions">your own creations!</a></p>
         <br>
-	<label for="comp-sort-select" onChange="sortBestiary()">Sort By:
-	   <select id="comp-sort-select">
+	<label for="comp-sort-select">Sort By:
+	   <select id="comp-sort-select" onChange="sortBestiary(this.value)">
   	     <option value="name" selected="">Name</option>
 	     <option value="tier">Tier</option>
-	     <option value="organization">Organization</option>
+	     <option value="org">Organization</option>
 	     <option value="size">Size</option>
 	     <option value="type">Type</option>
-	     <option value="tags">Tags</option>
+	     <option value="tag">Tags</option>
 	  </select>
 	</label>
         <button onclick="TrySaveFile2()">Save Compendium</button>
