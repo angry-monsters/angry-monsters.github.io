@@ -1,4 +1,25 @@
+function openTab(evt, tabName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(tabName).style.display = "flex";
+  if (evt) {
+    evt.currentTarget.className += " active";
+  } else {
+    document.getElementById('defaultOpen').className += " active";
+  }
+}
+
 var data;
+
+var mon2 = [];
+var mon3 = [];
 
 var mon = {
     name: "Monster",
@@ -57,12 +78,83 @@ var mon = {
     avgHP: 0,
     org: "group",
     threatadj: 0,
+    threatval: 0,
     avgDMG: 0
 };
+
+// Update bestiary
+function getMonsterInfo() {
+  FormFunctions.MakeMonsterList();
+}
+
+// Update encounters
+function getEncounterInfo() {
+  FormFunctions.MakeEncounterList();
+}
 
 // Save function
 var TrySaveFile = () => {
     SavedData.SaveToFile();
+}
+
+var TrySaveFile2 = () => {
+    ListData.SaveToFile();
+}
+
+var TrySaveFile3 = () => {
+    EncounterData.SaveToFile();
+}
+
+var TryManual = () => {
+    LoadBestiary.retrieveFromWindow();
+    getMonsterInfo();
+}
+
+var LoadBestiary = {
+  retrieveFromWindow: function() {
+    let mon_inc = JSON.parse(JSON.stringify(mon));
+    mon2.push(mon_inc);
+    localStorage.setItem("Mon2", JSON.stringify(mon2));
+  },
+}
+
+function clearStorage() {
+  localStorage.clear();
+}
+
+function ClearEncounter() {
+  mon3 = [];
+  getEncounterInfo();
+  localStorage.setItem("Mon3", JSON.stringify(mon3));
+}
+
+var TryEncounter = () => {
+    LoadEncounter.retrieveFromWindow();
+    getEncounterInfo();
+}
+
+var LoadEncounter = {
+  retrieveFromWindow: function() {
+    let mon_inc = JSON.parse(JSON.stringify(mon));
+    mon3.push(mon_inc);
+    localStorage.setItem("Mon3", JSON.stringify(mon3));
+  },
+}
+
+var TryEncounterAdd = () => {
+    let mon_idx = $("#monster-options").val();
+    let num_add = $("#creature-size").val();
+    var incr;
+    for (incr = 0; incr < num_add; incr++) LoadEncounterAdd.retrieveFromWindow(mon_idx);
+    getEncounterInfo();
+}
+
+var LoadEncounterAdd = {
+  retrieveFromWindow: function(idx) {
+    let mon_inc = JSON.parse(JSON.stringify(mon2[idx]));
+    mon3.push(mon_inc);
+    localStorage.setItem("Mon3", JSON.stringify(mon3));
+  },
 }
 
 // Upload file function
@@ -70,26 +162,67 @@ var LoadFilePrompt = () => {
     $("#file-upload").click();
 }
 
-// Load function
+var LoadFilePrompt2 = () => {
+    $("#file-upload2").click();
+}
+
+var LoadFilePrompt3 = () => {
+    $("#file-upload3").click();
+}
+
+// Load functions
 var TryLoadFile = () => {
     SavedData.RetrieveFromFile();
 }
 
+var TryLoadFile2 = () => {
+    ListData.RetrieveFromFile();
+}
+
+var TryLoadFile3 = () => {
+    EncounterData.RetrieveFromFile();
+}
+
 // Print function
-function TryPrint() {
+function TryPrint(monster_page) {
     let printWindow = window.open();
     printWindow.document.write('<html><head><meta charset="utf-8"/><title>' + mon.name + '</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"></head><body><div id="print-block" class="content">');
-    printWindow.document.write($("#stat-block-wrapper").html());
+    if (monster_page) {
+      printWindow.document.write($("#stat-block-wrapper").html());
+    } else {
+      printWindow.document.write($("#enc-block-wrapper").html());
+    }
     printWindow.document.write('</div></body></html>');
     printWindow.document.close();
 }
 
 // View as image function
-function TryImage() {
+function TryImage(monster_page) {
+  if (monster_page) {
     domtoimage.toBlob(document.getElementById("stat-block"))
         .then(function(blob) {
             window.saveAs(blob, mon.name.toLowerCase() + ".png");
         });
+  } else {
+    domtoimage.toBlob(document.getElementById("enc-block"))
+        .then(function(blob) {
+            window.saveAs(blob, $("#enc-name-input").val().toLowerCase() + ".png");
+        });
+  }
+}
+
+function calcThreat() {
+  let threat = mon.threatadj;
+  if (mon.hpName === "poor") threat = threat - 1;
+  if (mon.hpName === "good") threat = threat + 1;
+  if (mon.armorName === "poor") threat = threat - 1;
+  if (mon.armorName === "good") threat = threat + 1;
+  if (mon.dprName === "poor") threat = threat - 1;
+  if (mon.dprName === "good") threat = threat + 1;
+
+  if (mon.atkName === "good" || mon.stName === "good") threat = threat + 1;
+  if (mon.atkName === "poor" && mon.stName === "poor") threat = threat - 1;
+  return threat;
 }
 
 // Update the main stat block from form variables
@@ -123,6 +256,66 @@ var SavedData = {
         reader.onload = function(e) {
             mon = JSON.parse(reader.result);
             Populate();
+        };
+
+        reader.readAsText(file);
+    },
+}
+
+var ListData = {
+    // Saving
+    SaveToFile: () => saveAs(new Blob([JSON.stringify(mon2)], {
+        type: "text/plain;charset=utf-8"
+    }), "Compendium.monster"),
+
+    RetrieveFromLocalStorage: function() {
+        let listData = localStorage.getItem("Mon2");
+        if (listData != undefined) {
+          mon2 = JSON.parse(listData);
+          getMonsterInfo();
+        }
+    },
+
+    RetrieveFromFile: function() {
+        let file = $("#file-upload2").prop("files")[0],
+            reader = new FileReader();
+
+        reader.onload = function(e) {
+            let mon_add = JSON.parse(reader.result);
+            if (mon_add.length > 0) mon2 = mon2.concat(mon_add);
+            else mon2.push(mon_add);
+            getMonsterInfo();
+            localStorage.setItem("Mon2", JSON.stringify(mon2));
+        };
+
+        reader.readAsText(file);
+    },
+}
+
+var EncounterData = {
+    // Saving
+    SaveToFile: () => saveAs(new Blob([JSON.stringify(mon3)], {
+        type: "text/plain;charset=utf-8"
+    }), "Encounter.monster"),
+
+    RetrieveFromLocalStorage: function() {
+        let encData = localStorage.getItem("Mon3");
+        if (encData != undefined) {
+          mon3 = JSON.parse(encData);
+          getEncounterInfo();
+        }
+    },
+
+    RetrieveFromFile: function() {
+        let file = $("#file-upload3").prop("files")[0],
+            reader = new FileReader();
+
+        reader.onload = function(e) {
+            let enc_add = JSON.parse(reader.result);
+            if (enc_add.length > 0) mon3 = mon3.concat(enc_add);
+            else mon3.push(enc_add);
+            getEncounterInfo();
+            localStorage.setItem("Mon3", JSON.stringify(mon3));
         };
 
         reader.readAsText(file);
@@ -168,7 +361,8 @@ function UpdateStatblock(moveSeparationPoint) {
     $("#speed").html(StringFunctions.GetSpeed());
 
     // Threat
-    $("#threat-level").html(StringFunctions.GetThreat());
+    mon.threatval = calcThreat();
+    $("#threat-level").html(StringFunctions.GetThreat(mon.threatval,true));
 
     // Stats
     let setPts = (id, pts) =>
@@ -371,7 +565,7 @@ function TryMarkdown() {
             (Array.isArray(propertiesDisplayArr[index].arr) ? propertiesDisplayArr[index].arr.join(", ") : propertiesDisplayArr[index].arr),
             "<br>");
     }
-    markdown.push("> - **Threat** ", StringFunctions.GetThreat());
+    markdown.push("> - **Threat** ", StringFunctions.GetThreat(mon.threatval,true));
 
     if (mon.abilities.length > 0) markdown.push("<br>", GetTraitMarkdown(mon.abilities, false));
     if (mon.actions.length > 0) markdown.push("<br>> ### Actions<br>", GetTraitMarkdown(mon.actions, false));
@@ -664,6 +858,106 @@ var FormFunctions = {
         arr[index] = temp;
         this.MakeDisplayList(arrName, false, true);
     },
+
+    MakeMonsterList: function() {
+        let displayArr = [],
+            dropdownBuffer = [],
+            content = "",
+            content2 = "",
+            arrElement = "#mon2-input-list";
+        for (let index = 0; index < mon2.length; index++) {
+            let element = mon2[index],
+                elementName = StringFunctions.StringCapitalize(element.name),
+            content = "<b>" + StringFunctions.FormatString(elementName, false) + "</b> - " + element.tier + " tier, " + element.org + " organization (" + element.type + ") <i>" + element.tag + "</i></b>";
+            content2 = StringFunctions.FormatString(elementName, false) + " (" + element.org + " organization)";
+            let functionArgs = index,
+                imageHTML = "<img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove' onclick='FormFunctions.RemoveMonsterListItem(" + functionArgs + ")'>";
+                imageHTML += " <img class='statblock-image' src='dndimages/edit-icon.png' alt='Edit' title='Edit' onclick='FormFunctions.EditMonsterListItem(" + functionArgs + ")'>";
+                displayArr.push("<li> " + imageHTML + " " + content + "</li>");
+                if (element.tier === $("#tier-level").val())  dropdownBuffer.push("<option value=", index, ">", content2, "</option>");
+        }
+        $(arrElement).html(displayArr.join(""));
+
+        $("#monster-options").html(dropdownBuffer.join(""));
+
+        $(arrElement).parent()[mon2.length == 0 ? "hide" : "show"]();
+    },
+
+    RemoveMonsterListItem: function(index) {
+        mon2.splice(index, 1);
+        this.MakeMonsterList();
+        localStorage.setItem("Mon2", JSON.stringify(mon2));
+    },
+
+    EditMonsterListItem: function(index) {
+      let mon_rep = JSON.parse(JSON.stringify(mon2[index]));
+      mon = mon_rep;
+      Populate();
+      openTab(null, 'monster');
+    },
+
+    MakeEncounterList: function() {
+        let displayArr = [],
+            display_icon = [],
+            threatsum = 0,
+            positsum = 0,
+            content = "",
+            numPCs = $("#party-size").val(),
+            arrElement = "#mon3-input-list";
+        for (let index = 0; index < mon3.length; index++) {
+            let element = mon3[index],
+                elementName = StringFunctions.StringCapitalize(element.name),
+            content = "<b>" + StringFunctions.FormatString(elementName, false) + "</b> (" + StringFunctions.StringCapitalize(element.tier) + " Tier, " + StringFunctions.StringCapitalize(element.org) + ") <i>Threat: " + StringFunctions.StringCapitalize(StringFunctions.GetThreat(element.threatval,false)) + "</i>";
+            threatsum += element.threatval*data.organizations[element.org].nums;
+            positsum += data.organizations[element.org].nums;
+            let functionArgs = index,
+                imageHTML = "<img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove' onclick='FormFunctions.RemoveEncounterListItem(" + functionArgs + ")'>" +
+                " <img class='statblock-image' src='dndimages/up-icon.png' alt='Up' title='Up' onclick='FormFunctions.SwapEncounterListItem(" + index + ", -1)'>" +
+                " <img class='statblock-image' src='dndimages/down-icon.png' alt='Down' title='Down' onclick='FormFunctions.SwapEncounterListItem(" + index + ", 1)'>";
+                displayArr.push("<li> " + content + "</li>");
+                display_icon.push("<li> " + imageHTML + "</li>");
+        }
+        $(arrElement).html(displayArr.join(""));
+        $(arrElement+"-icons").html(display_icon.join(""));
+
+        $("#mon3-enc-threat").html("Overall Encounter Threat: " + StringFunctions.StringCapitalize(StringFunctions.GetThreat((threatsum / numPCs),false)));
+
+        $("#force-size").html(Math.ceil(positsum) + " Positions");
+
+        $(arrElement).parent()[mon3.length == 0 ? "hide" : "show"]();
+        $(arrElement+"-icons").parent()[mon3.length == 0 ? "hide" : "show"]();
+
+        this.UpdateEncName;
+
+        let p_height = $("#enc-block-wrapper").height();
+        let zone_height = .2 * p_height;
+        let zone_target = $("#enc-type").val() * p_height;
+        let positrange = Math.min(Math.ceil(positsum)/10,1) * p_height;
+        document.getElementById("slot-bar").style.height = positrange + "px";
+        document.getElementById("slot-bar").style.marginTop = (p_height - positrange) + "px";
+        document.getElementById("slot-target").style.height = zone_height + "px";
+        document.getElementById("slot-target").style.marginTop = (p_height - zone_height - zone_target) + "px";
+        document.getElementById("slot-target").style.marginBottom = zone_target + "px";
+    },
+
+    RemoveEncounterListItem: function(index) {
+        mon3.splice(index, 1);
+        this.MakeEncounterList();
+        localStorage.setItem("Mon3", JSON.stringify(mon3));
+    },
+
+    SwapEncounterListItem: function(index, swap) {
+        if (index + swap < 0 || index + swap >= mon3.length) return;
+        let temp = mon3[index + swap];
+        mon3[index + swap] = mon3[index];
+        mon3[index] = temp;
+        this.MakeEncounterList();
+        localStorage.setItem("Mon3", JSON.stringify(mon3));
+    },
+
+    UpdateEncName: function() {
+      $("#enc-name").html($("#enc-name-input").val());
+    },
 }
 
 // Input functions to be called only through HTML
@@ -948,6 +1242,7 @@ var GetVariablesFunctions = {
 
         // Threat
         mon.threatadj = $("#threat-mod").val() * 1;
+        mon.threatval = calcThreat();
 
         // Legendaries
         mon.isLegendary = $("#is-legendary-input").prop("checked");
@@ -1409,23 +1704,14 @@ var StringFunctions = {
       return "";
     },
 
-    GetThreat: function() {
-      let threat = mon.threatadj;
-      if (mon.hpName === "poor") threat = threat - 1;
-      if (mon.hpName === "good") threat = threat + 1;
-      if (mon.armorName === "poor") threat = threat - 1;
-      if (mon.armorName === "good") threat = threat + 1;
-      if (mon.dprName === "poor") threat = threat - 1;
-      if (mon.dprName === "good") threat = threat + 1;
-
-      if (mon.atkName === "good" || mon.stName === "good") threat = threat + 1;
-      if (mon.atkName === "poor" && mon.stName === "poor") threat = threat - 1;
-
-      if (threat > 3) return "extreme (" + threat + ")";
-      if (threat > 1) return "high (" + threat + ")";
-      if (threat > -2) return "medium (" + threat + ")";
-      if (threat > -4) return "low (" + threat + ")";
-      return "negligible (" + threat + ")";
+    GetThreat: function(threat_check,show_num) {
+      let threat_num = "";
+      if (show_num) threat_num =  " (" + threat_check + ")";
+      if (threat_check > 3) return "extreme" + threat_num;
+      if (threat_check > 1) return "high" + threat_num;
+      if (threat_check > -2) return "medium" + threat_num;
+      if (threat_check > -4) return "low" + threat_num;
+      return "negligible" + threat_num;
     },
 
     GetSpeed: function() {
@@ -1691,6 +1977,8 @@ $(function() {
 
         // Load saved data
         SavedData.RetrieveFromLocalStorage();
+        ListData.RetrieveFromLocalStorage();
+        EncounterData.RetrieveFromLocalStorage();
 
         Populate();
     });
@@ -1703,7 +1991,6 @@ function Populate() {
     FormFunctions.SetCommonAbilitiesDropdown();
 
     // Populate the stat block
-    //FormFunctions.InitForms();
     FormFunctions.SetForms();
     UpdateStatblock();
 }

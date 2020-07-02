@@ -161,23 +161,23 @@
 	},
 	"organizations": {
 		"solo": {
-			"nums": "4/all positions",
+			"nums": 4,
 			"ocol" : 0
 		},
 		"pair": {
-			"nums": "2 positions",
+			"nums": 2,
 			"ocol" : 1
 		},
 		"group": {
-			"nums": "1 position",
+			"nums": 1,
 			"ocol" : 2
 		},
 		"gang": {
-			"nums": "1/2 position",
+			"nums": 0.5,
 			"ocol" : 3
 		},
 		"mob": {
-			"nums": "1/4 - 1/3 position",
+			"nums": 0.25,
 			"ocol" : 4
 		}
 	},
@@ -234,68 +234,6 @@
 		"plant",
 		"undead"
 	],
-	"armors": {
-		"none": {
-			"type": "special"
-		},
-		"natural armor": {
-			"type": "special"
-		},
-		"mage armor": {
-			"type": "special"
-		},
-		"padded armor": {
-			"type": "light",
-			"ac": 11
-		},
-		"leather armor": {
-			"type": "light",
-			"ac": 11
-		},
-		"studded leather": {
-			"type": "light",
-			"ac": 12
-		},
-		"hide armor": {
-			"type": "medium",
-			"ac": 12
-		},
-		"chain shirt": {
-			"type": "medium",
-			"ac": 13
-		},
-		"scale mail": {
-			"type": "medium",
-			"ac": 14
-		},
-		"breastplate": {
-			"type": "medium",
-			"ac": 14
-		},
-		"half plate": {
-			"type": "medium",
-			"ac": 15
-		},
-		"ring mail": {
-			"type": "heavy",
-			"ac": 14
-		},
-		"chain mail": {
-			"type": "heavy",
-			"ac": 16
-		},
-		"splint": {
-			"type": "heavy",
-			"ac": 17
-		},
-		"plate": {
-			"type": "heavy",
-			"ac": 18
-		},
-		"other": {
-			"type": "special"
-		}
-	},
 	"defaultPreset": {
 		"slug": "",
 		"name": "Monster",

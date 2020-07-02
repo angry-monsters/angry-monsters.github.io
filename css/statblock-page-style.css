@@ -25,6 +25,13 @@
     padding-left: 16px;
 }
 
+.encblock-list ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  color: #922610;
+}
+
 #stat-block-wrapper {
     margin: 20px;
     box-shadow: 0 0 1.5rem #867453;

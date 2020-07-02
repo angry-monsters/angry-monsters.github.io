@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>5e Angry Monster Generator</title>
+    <title>5e Angry Monster Manager</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/statblock-style.css">
     <link rel="stylesheet" type="text/css" href="css/statblock-page-style.css">
@@ -18,21 +18,187 @@
 
 </head>
 
-<body id="stat-block-body" style="min-width: 1000px;">
-    <div class="container" style="text-align: center;">
+<body class="gridcontainer" id="stat-block-body" style="min-width: 1000px;">
+    <div class="tabs">
+      <button class="tablinks" onclick="openTab(event, 'monster')" id="defaultOpen">Monster<br>Generator</button>
+      <button class="tablinks" onclick="openTab(event, 'bestiary')">Bestiary</button>
+      <button class="tablinks" onclick="openTab(event, 'encounter')">Encounter<br>Builder</button>
+      <div class="buttonfill">
+        <a target="_blank" href="https://github.com/angry-monsters/angry-monsters.github.io">GitHub Repo</a>
+        <br>
+        <a target="_self" href="." onclick="clearStorage()">Clear Data</a>
+      </div>
+    </div>
+
+    <div id="bestiary" class="container tabcontent" style="text-align: center;">
+      <div class="content">
+        <br>
+        <h1>Monster Manual</h1>
+        <br>
+        <button onclick="TrySaveFile2()">Save Compendium</button>
+        <button onclick="LoadFilePrompt2()">Add Monster(s)</button>
+        <input id="file-upload2" type="file" onChange="TryLoadFile2();" hidden />
+      </div>
+      <div class="statblock-list" style="text-align: left;">
+        <ul id="mon2-input-list"></ul>
+      </div>
+    </div>
+
+    <div id="encounter" class="container tabcontent" style="text-align: center;">
+      <div class="content">
+        <br>
+        <h1>Angry Encounter Builder</h1>
+        <p>Read the example from <a target="_blank" href="https://theangrygm.com/how-to-f-cr-practical-example-2/">The Angry GM</a></p>
+        <br>
+        <button onclick="TrySaveFile3()">Save Encounter</button>
+        <button onclick="ClearEncounter()">New Encounter</button>
+        <button onclick="LoadFilePrompt3()">Load Monster(s)</button>
+        <input id="file-upload3" type="file" onChange="TryLoadFile3();" hidden />
+        <br>
+        <br>
+        <table id="enc-form" class="cen_td">
+            <tr>
+                <td>
+                  <div id="enc-opts-form">
+                      <label for="tier-level">Encounter Tier: <br>
+                          <select id="tier-level" onchange="getMonsterInfo()">
+                              <option value="apprentice" selected>Apprentice (levels 1-2)</option>
+                              <option value="journeyman">Journeyman (levels 3-5)</option>
+                              <option value="adventurer">Adventurer (levels 6-9)</option>
+                              <option value="veteran">Veteran (levels 7-11)</option>
+                              <option value="champion">Champion (levels 12-14)</option>
+                              <option value="epic">Epic (levels 15-17)</option>
+                              <option value="legendary">Legendary (levels 18-20)</option>
+                          </select>
+                      </label>
+                  </div>
+                </td>
+                <td>
+                  <div id="enc-type-form">
+                      <label for="enc-type">Encounter Type: <br>
+                          <select onchange="getEncounterInfo" id="enc-type">
+                            <option value=".2">Complication / Restock (2-3 Positions)</option>
+                            <option value=".3" selected>Minor / Major (3-5 Positions)</option>
+                            <option value=".4">Climactic (4-6 Positions)</option>
+                          </select>
+                      </label>
+                  </div>
+                </td>
+                <td>
+                  <div id="enc-party-size"><label for="party-size">Number of PCs: <br>
+                    <input type="number" min="1" value="1" id="party-size" onchange="getEncounterInfo()"></label></div>
+                </td>
+              </tr>
+            </table>
+        <hr>
+        <table>
+          <tr>
+            <td colspan="2">
+              <label for="monster-options">Add Creatures: <br>
+                <select id="monster-options">
+                </select>
+              </label>
+            </td>
+            <td style="text-align: center;">
+              <div id="enc-creature-size"><label for="creature-size">Quantity: <br>
+                <input type="number" min="1" value="1" id="creature-size"></label></div>
+            </td>
+            <td style="vertical-align: bottom;">
+              <button onclick="TryEncounterAdd()">Add to Encounter</button>
+            </td>
+            <td colspan="2">
+              <label for="enc-name-input">Name: <br><input onchange="FormFunctions.UpdateEncName()" id="enc-name-input" type="text" value="Encounter"></label>
+            </td>
+          </tr>
+        </table>
+        <hr>
+        <table>
+          <tr>
+            <td>
+            </td>
+            <td colspan="3">
+              <button onclick="TryPrint(false)">Printable Block</button>
+              <button onclick="TryImage(false)">Save Image</button>
+            </td>
+            <td style="text-align: center;">
+              <p>Slots Filled:</p>
+            </td>
+          </tr>
+        </table>
+        <br>
+        <table>
+          <tr>
+            <td>
+              <div>
+                <div style="width: 100%; background-color: inherit; background-image: none;" class="stat-block">
+                  <hr style="visibility: hidden;" class="orange-border" />
+                  <div>
+                      <div style="visibility: hidden;" class="creature-heading">
+                          <h1>&nbsp;</h1>
+                          <h3>&nbsp;</h3>
+                          <h2>&nbsp;</h2>
+                      </div>
+                      <svg style="visibility: hidden;" height="5" width="100%" class="tapered-rule">
+                          <polyline points="0,0 400,2.5 0,5"></polyline>
+                      </svg>
+                      <div class="encblock-list">
+                          <br>
+                          <ul style="text-align: right;" id="mon3-input-list-icons"></ul>
+                      </div>
+                  </div>
+                  <hr style="visibility: hidden;" class="orange-border bottom" />
+                </div>
+              </div>
+            </td>
+            <td colspan="3">
+              <div id="enc-block-wrapper">
+                <div id="enc-block" class="stat-block">
+                  <hr class="orange-border" />
+                  <div>
+                      <div class="creature-heading">
+                          <h1 id="enc-name">Encounter Name</h1>
+                          <h3 id="mon3-enc-threat">Overall Threat</h3>
+                          <h2 id="force-size">Force Size</h2>
+                      </div>
+                      <svg height="5" width="100%" class="tapered-rule">
+                          <polyline points="0,0 400,2.5 0,5"></polyline>
+                      </svg>
+                      <div class="encblock-list">
+                          <br>
+                          <ul id="mon3-input-list"></ul>
+                      </div>
+                  </div>
+                  <hr class="orange-border bottom" />
+                </div>
+              </div>
+            </td>
+            <td style="position: relative">
+              <div id="slot-bar" style="position: absolute; display: inline-block; background-color: #922610; height: 0em; margin-top: 7.875em; margin-left: 37.5%; width: 25%;"></div>
+              <div id="slot-target" style="position: absolute; display: inline-block; border-width: 2.5%; border-style: solid; border-color: #000000; height: 0em; margin-bottom: 40%; margin-top: 40%; margin-left: 35%; width: 30%;"></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div id="monster" class="container tabcontent" style="text-align: center;">
 
         <div class="content">
             <br>
-            <h1>An Angry Monster Builder</h1>
-            <p>Modified from <a href="http://tetra-cube.com/dnd/dnd-statblock.html">D&amp;D 5e Statblock Generator</a></p>
-            <p>Read the original article from <a href="https://theangrygm.com/f-cr-theres-a-better-way-part-1/">The Angry GM</a></p>
-            <p>Uses the creature archetypes from <a href="https://docs.google.com/spreadsheets/d/1NUE_st_Bm3ZdhVZ8N-uUT0WHOOsuak6m-DkyOCMkCV0/edit">AndruC</a></p>
+            <h1>Angry Monster Design</h1>
+            <p>Modified from <a target="_blank" href="http://tetra-cube.com/dnd/dnd-statblock.html">D&amp;D 5e Statblock Generator</a></p>
+            <p>Read the original article from <a target="_blank" href="https://theangrygm.com/f-cr-theres-a-better-way-part-1/">The Angry GM</a></p>
+            <p>Uses the creature archetypes from <a target="_blank" href="https://docs.google.com/spreadsheets/d/1NUE_st_Bm3ZdhVZ8N-uUT0WHOOsuak6m-DkyOCMkCV0/edit">AndruC</a></p>
             <br>
             <button onclick="TrySaveFile()">Save Statblock</button>
             <button onclick="LoadFilePrompt()">Load Statblock</button>
-            <button onclick="TryPrint()">Printable Block</button>
-            <button onclick="TryImage()">View Image</button>
+            <button onclick="TryPrint(true)">Printable Block</button>
+            <button onclick="TryImage(true)">Save Image</button>
             <button onclick="TryMarkdown()">View Markdown</button>
+            <br>
+            <br>
+            <button onclick="TryManual()">Add to Bestiary</button>
+            <button onclick="TryEncounter()">Add to Encounter</button>
             <input id="file-upload" type="file" onChange="TryLoadFile();" hidden />
             <br><br>
             <div id="monster-select-form">Monster Presets: <select id="monster-select">
@@ -211,7 +377,7 @@
                                       <option value="pair">Pair (2 positions)</option>
                                       <option value="group" selected>Group (1 position)</option>
                                       <option value="gang">Gang (&frac12; position)</option>
-                                      <option value="mob">Mob (&frac14; - &frac13; position)</option>
+                                      <option value="mob">Mob (&frac14; position)</option>
                                   </select>
                               </label>
                           </div>
@@ -597,9 +763,10 @@
                 </div>
                 <br>
             </div>
-            <div class="footer"><a href="https://github.com/angry-monsters/angry-monsters.github.io">GitHub Repo</a></div>
         </div>
     </div>
 </body>
-
+<script>
+  document.getElementById("defaultOpen").click();
+</script>
 </html>
