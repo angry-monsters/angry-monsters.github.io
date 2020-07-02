@@ -93,6 +93,18 @@ function getMonsterInfo() {
   FormFunctions.MakeMonsterList();
 }
 
+function sortBestiary(sort_cat) {
+  mon2 = mon2.sort(function(a, b){
+  var x = a.sort_cat.toLowerCase();
+  var y = b.sort_cat.toLowerCase();
+  if (x < y) {return -1;}
+  if (x > y) {return 1;}
+  return 0;
+  });
+
+  getMonsterInfo();
+}
+
 // Update encounters
 function getEncounterInfo() {
   FormFunctions.MakeEncounterList();
