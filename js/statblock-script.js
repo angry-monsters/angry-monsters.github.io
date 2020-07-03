@@ -970,14 +970,14 @@ var FormFunctions = {
 	let overall_threat = (threatsum / numPCs) - 5;
         $("#mon3-enc-threat").html("Overall Encounter Threat: " + StringFunctions.StringCapitalize(StringFunctions.GetThreat(overall_threat,false)));
 
-        $("#force-size").html(Math.ceil(positsum) + " Positions");
+        $("#force-size").html(Math.ceil(positsum) + " Positions, " + numPCs + " PCs");
 
         $("#mon3-input-list").parent()[mon3.length == 0 ? "hide" : "show"]();
         $("#mon3-input-list-icons").parent()[mon3.length == 0 ? "hide" : "show"]();
 
         this.UpdateEncName;
 
-        let zone_target = $("#enc-type").val();
+        let zone_target = $("#enc-type").val() * Math.min(2,(numPCs/4));
         let positrange = Math.min(positsum/10,1) * 100;
         document.getElementById("slot-bar").style.width = positrange + "%";
         document.getElementById("slot-bar").style.marginRight = (100 - positrange) + "%";
