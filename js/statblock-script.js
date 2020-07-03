@@ -650,13 +650,16 @@ var FormFunctions = {
 	$("#hp-updown").val(mon.hpadj);
         $("#half-hp").prop("checked", (mon.hpCut < 1 ? true : false));
 
-        //morale
+        // Morale
 	$("#mdc-input").val(mon.mdc);
         $("#mreact-input").val(mon.mtype);
         $("#mtrig-input").val(mon.mtrig);
         $("#mthresh-input").val(mon.mthresh);
         $("#morale-input").prop("checked",true);
         this.ShowHideMorale();
+	    
+	// Threat
+	$("#threat-mod").val(mon.threatadj);
 
         // Speeds
         $("#speed-input").val(mon.speed);
@@ -1320,9 +1323,16 @@ var GetVariablesFunctions = {
 
         // Organization
         mon.org = "group";
+	    
+	// Morale
+	mtrig: "bloodied";
+        mthresh: .5;
+        mtype: "retreat";
+        mdc: 12;
 
         // Armor Class
         mon.armorName = "average";
+	mon.acadj = 0;
         mon.shieldBonus = 0;
         let armorDescData = preset.armor_desc ? preset.armor_desc.split(",") : null;
         if (armorDescData) {
@@ -1347,9 +1357,14 @@ var GetVariablesFunctions = {
 
         // Attack Bonus
         mon.atkName = "average";
+	    
+	// Threat
+	mon.threatadj = 0;
 
         // Hit Dice
         mon.hpName = "average";
+	mon.hpadj = 0;
+	mon.hpCut = 1;
 
         // Damage
         mon.dprName = "average";
