@@ -651,7 +651,11 @@ var FormFunctions = {
         $("#half-hp").prop("checked", (mon.hpCut < 1 ? true : false));
 
         //morale
-        $("#morale-input").prop("checked");
+	$("#mdc-input").val(mon.mdc);
+        $("#mreact-input").val(mon.mtype);
+        $("#mtrig-input").val(mon.mtrig);
+        $("#mthresh-input").val(mon.mthresh);
+        $("#morale-input").prop("checked",true);
         this.ShowHideMorale();
 
         // Speeds
