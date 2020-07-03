@@ -34,8 +34,10 @@ var mon = {
     tag: "",
     alignment: "any alignment",
     armorName: "average",
+    acadj: 0,
     hpName: "average",
     hpCut: 1,
+    hpadj: 0,
     shieldBonus: 0,
     dprName: "average",
     atkName: "average",
@@ -366,7 +368,7 @@ function UpdateStatblock(moveSeparationPoint) {
     // Name and type
     $("#monster-name").html(mon.name);
     $("#monster-type").html(StringFunctions.StringCapitalize(mon.size) + " " + mon.type +
-        (mon.tag == "" ? "" : " (" + mon.tag + ") ") + (mon.alignment == "" ? "" : ", " + mon.alignment));
+        (mon.tag == "" ? "" : " (" + mon.tag + ")") + (mon.alignment == "" ? "" : ", " + mon.alignment));
 
     // Armor Class
     $("#armor-class").html(StringFunctions.FormatString(StringFunctions.GetArmorData()));
@@ -640,10 +642,12 @@ var FormFunctions = {
         // Armor Class
         $("#otherarmor-input").val(mon.otherArmorDesc);
         $("#armor-input").val(mon.armorName);
+	$("#ac-updown").val(mon.acadj);
         $("#shield-input").prop("checked", (mon.shieldBonus > 0 ? true : false));
 
         // Hit Dice
         $("#hp-input").val(mon.hpName);
+	$("#hp-updown").val(mon.hpadj);
         $("#half-hp").prop("checked", (mon.hpCut < 1 ? true : false));
 
         //morale
@@ -1219,6 +1223,7 @@ var GetVariablesFunctions = {
 
         // Armor Class
         mon.armorName = $("#armor-input").val();
+	mon.acadj = $("#ac-updown").val();
         mon.otherArmorDesc = $("#otherarmor-input").val();
         mon.shieldBonus = $("#shield-input").prop("checked") ? 2 : 0;
 
@@ -1230,6 +1235,7 @@ var GetVariablesFunctions = {
 
         // Hit Points
         mon.hpName = $("#hp-input").val();
+	mon.hpadj = $("#hp-updown").val();
         mon.hpCut = $("#half-hp").prop("checked") ? .5 : 1;
 
         // Damage
@@ -1674,7 +1680,7 @@ var StringFunctions = {
       if (mon.otherArmorDesc) armor_note = " (" + mon.otherArmorDesc + ")";
       if (mon.otherArmorDesc && (mon.shieldBonus > 0)) armor_note = " (" + mon.otherArmorDesc + ", shield)";
 
-      return data.armorclass[(data.tiers[mon.tier].trow+armor_mod)] + armor_note;
+      return (mon.acadj + data.armorclass[(data.tiers[mon.tier].trow+armor_mod)]) + armor_note;
     },
 
     // Get the string displayed for the monster's Save DC
@@ -1704,7 +1710,7 @@ var StringFunctions = {
         let conBonus = MathFunctions.PointsToBonus(mon.conPoints);
         let hitDieSize = data.sizes[mon.size].hitDie;
 
-        mon.avgHP = Math.floor(mon.hpCut * data.hitpoints[(data.tiers[mon.tier].trow+hp_mod)][data.organizations[mon.org].ocol]);
+        mon.avgHP = mon.hpadj + Math.floor(mon.hpCut * data.hitpoints[(data.tiers[mon.tier].trow+hp_mod)][data.organizations[mon.org].ocol]);
 
         mon.hitDice = Math.round(mon.avgHP / (((hitDieSize + 1) / 2) + conBonus));
         let avgMod = mon.avgHP - Math.floor(mon.hitDice * ((hitDieSize + 1) / 2));
