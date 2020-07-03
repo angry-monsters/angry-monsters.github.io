@@ -431,7 +431,7 @@
                       </tr>
                     </table>
                 <hr>
-                <table id="armor-hitdice-form"  class="cen_td2">
+                <table id="dpr-hitdice-form"  class="cen_td2">
                     <tr>
                       <td>
                           <label for="attack-input">Attack Bonus: <br>
@@ -444,17 +444,6 @@
                             <br>
                             <div class="box-note" id="atk-bonus"></div>
                       </td>
-                      <td>
-                            <label for="savedc-input">Save DC: <br>
-                                <select id="savedc-input" onchange="InputFunctions.InputSDC()">
-                                    <option value="poor">Poor</option>
-                                    <option value="average" selected>Average</option>
-                                    <option value="good">Good</option>
-                                </select>
-                              </label>
-                              <br>
-                              <div class="box-note" id="save-dc"></div>
-                        </td>
                         <td>
                               <label for="dpr-input">Damage Output: <br>
                                   <select id="dpr-input" onchange="InputFunctions.InputDPR()">
@@ -480,6 +469,22 @@
                             <div id="hp-mod-prompt"><label for="hp-updown">Tweak HP: <br>
                             <input type="number" id="hp-updown" value="0" step="1"></label></div>
 			</td>
+		     </tr>
+                </table>
+                <br>
+                <table id="save-armorclass-form"  class="cen_td2">
+                    <tr>
+                      <td>
+                            <label for="savedc-input">Save DC: <br>
+                                <select id="savedc-input" onchange="InputFunctions.InputSDC()">
+                                    <option value="poor">Poor</option>
+                                    <option value="average" selected>Average</option>
+                                    <option value="good">Good</option>
+                                </select>
+                              </label>
+                              <br>
+                              <div class="box-note" id="save-dc"></div>
+                        </td>
                         <td>
                             <label for="armor-input">Armor Quality: <br>
                                 <select id="armor-input">
