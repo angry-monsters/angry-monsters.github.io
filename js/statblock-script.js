@@ -701,6 +701,10 @@ var FormFunctions = {
         // Tier
         $("#tier-input").val(mon.tier);
         this.ChangeTierForm();
+	    
+	// Org
+        $("#org-input").val(mon.org);
+        this.ChangeDPRForm();
 
         // Attack Bonus
         $("#attack-input").val(mon.atkName);
