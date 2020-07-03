@@ -4,7 +4,6 @@
 To contribute to the bestiary, go to the issues page, create a new compendium addition, and attach your file. To use, download the file and load into the monster manager.
 
 ## Goals:
-- implement better calculation method for encounter threat (list # of PCs? Handle higher tier monsters?)
 - add abbreviated stat blocks for encounters (+ markdown?)
 - add automatic interaction between ability scores and values from the monster stats by tier table
 
