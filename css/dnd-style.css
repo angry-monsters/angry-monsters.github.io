@@ -215,6 +215,11 @@ td {
     vertical-align: middle;
 }
 
+.cen_td2 td {
+    text-align: center;
+    vertical-align: top;
+}
+
 canvas {
     max-width: 100%;
 }
