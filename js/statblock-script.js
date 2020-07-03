@@ -1325,10 +1325,10 @@ var GetVariablesFunctions = {
         mon.org = "group";
 	    
 	// Morale
-	mtrig: "bloodied";
-        mthresh: .5;
-        mtype: "retreat";
-        mdc: 12;
+	mon.mtrig: "bloodied";
+        mon.mthresh: .5;
+        mon.mtype: "retreat";
+        mon.mdc: 12;
 
         // Armor Class
         mon.armorName = "average";
