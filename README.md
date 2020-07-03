@@ -7,7 +7,6 @@ To contribute to the bestiary, go to the issues page, create a new compendium ad
 - implement better calculation method for encounter threat (list # of PCs? Handle higher tier monsters?)
 - add abbreviated stat blocks for encounters (+ markdown?)
 - add automatic interaction between ability scores and values from the monster stats by tier table
-- AC / HP modifiers
 
 ## Maybe:
 - fix file uploads so that they run when clicked not on a change
