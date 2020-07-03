@@ -323,7 +323,7 @@
                 <button type="button" onclick="UpdateBlockFromVariables(0)">Update Statblock</button>
                 <button id="right-separator-button" type="button" onclick="UpdateBlockFromVariables(-1)">>></button>
                 <hr>
-                <table id="type-form">
+                <table id="type-form"  class="cen_td2">
                     <tr>
                         <td>
                             <label for="name-input">Name: <br><input id="name-input" type="text" value="Monster"></label>
@@ -373,7 +373,7 @@
                     </tr>
                 </table>
                 <br>
-                <table id="angry-form">
+                <table id="angry-form"  class="cen_td2">
                     <tr>
                         <td>
                           <div id="cr-form">
@@ -431,7 +431,7 @@
                       </tr>
                     </table>
                 <hr>
-                <table id="armor-hitdice-form" class="cen_td" style="vertical-align: top;">
+                <table id="armor-hitdice-form"  class="cen_td2">
                     <tr>
                       <td>
                           <label for="attack-input">Attack Bonus: <br>
@@ -503,7 +503,7 @@
                     </tr>
                 </table>
                 <br>
-                <table id="morale-form">
+                <table id="morale-form"  class="cen_td2">
                     <tr>
                         <td>
                           <div id="custom-morale-box-prompt" class="box-note"><label for="morale-input">Use Morale? <input id="morale-input" type="checkbox" onchange="FormFunctions.ShowHideMorale()"></label></div>
@@ -551,7 +551,7 @@
                     </tr>
                 </table>
                 <hr>
-                <table id="monster-speed-form">
+                <table id="monster-speed-form"  class="cen_td2">
                     <tr>
                         <td class="normal-speed-col"><label for="speed-input">Speed:<br><input type="number" id="speed-input" min="0" max="995" step="5" value="30"> ft.</label></td>
                         <td class="normal-speed-col"><label for="burrow-speed-input">Burrow Speed:<br><input type="number" id="burrow-speed-input" min="0" max="995" step="5" value="0"> ft.</label></td>
@@ -573,7 +573,7 @@
                     </tr>
                 </table>
                 <hr>
-                <table id="monster-stats-form">
+                <table id="monster-stats-form"  class="cen_td2">
                     <tr>
                         <td><label for="str-input">STR: <br><input type="number" id="str-input" min="1" max="99" value="10" onchange="FormFunctions.ChangeBonus('str')"> (<span id="strbonus"></span>)</label></td>
                         <td><label for="dex-input">DEX: <br><input type="number" id="dex-input" min="1" max="99" value="10" onchange="FormFunctions.ChangeBonus('dex')"> (<span id="dexbonus"></span>)</label></td>
@@ -584,7 +584,7 @@
                     </tr>
                 </table>
                 <hr>
-                <table id="properties-lists-form">
+                <table id="properties-lists-form"  class="cen_td2">
                     <tr>
                         <td id="sthrows-form">
                             <label for="sthrows-input">Saving Throws:</label><br>
@@ -656,7 +656,7 @@
                     </tr>
                 </table>
                 <br>
-                <table>
+                <table  class="cen_td2">
                     <tr>
                         <td id="damagetypes-form" colspan="2">
                             <label for="damagetypes-input">Damage Types:<br>
@@ -727,7 +727,7 @@
                     </tr>
                 </table>
                 <br>
-                <table id="senses-form">
+                <table id="senses-form"  class="cen_td2">
                     <tr>
                         <td>
                             <label for="blindsight-input">Blindsight: <input type="number" id="blindsight-input" min="0" max="995" step="5" value="0" onchange="FormFunctions.ShowHideBlindBox()"> ft.</label><br>
