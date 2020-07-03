@@ -1223,7 +1223,7 @@ var GetVariablesFunctions = {
 
         // Armor Class
         mon.armorName = $("#armor-input").val();
-	mon.acadj = $("#ac-updown").val();
+	mon.acadj = $("#ac-updown").val() * 1;
         mon.otherArmorDesc = $("#otherarmor-input").val();
         mon.shieldBonus = $("#shield-input").prop("checked") ? 2 : 0;
 
@@ -1235,7 +1235,7 @@ var GetVariablesFunctions = {
 
         // Hit Points
         mon.hpName = $("#hp-input").val();
-	mon.hpadj = $("#hp-updown").val();
+	mon.hpadj = $("#hp-updown").val() * 1;
         mon.hpCut = $("#half-hp").prop("checked") ? .5 : 1;
 
         // Damage
