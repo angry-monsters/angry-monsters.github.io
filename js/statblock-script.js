@@ -16,7 +16,7 @@ function openTab(evt, tabName) {
   }
 }
 
-function encSort(value, index, self) { 
+function encSort(value, index, self) {
     return self.indexOf(value) === index;
 }
 
@@ -371,7 +371,7 @@ function UpdateStatblock(moveSeparationPoint) {
         (mon.tag == "" ? "" : " (" + mon.tag + ")") + (mon.alignment == "" ? "" : ", " + mon.alignment));
 
     // Armor Class
-    $("#armor-class").html(StringFunctions.FormatString(StringFunctions.GetArmorData()));
+    $("#armor-class").html(StringFunctions.FormatString(StringFunctions.GetArmorData(mon,true)));
 
     // Hit Points
     $("#hit-points").html(StringFunctions.GetHP());
@@ -572,7 +572,7 @@ function TryMarkdown() {
     let markdown = ['<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><title>', mon.name, '</title></head><body><h2>Homebrewery/GM Binder Markdown</h2><code>', mon.doubleColumns ? "___<br>___<br>" : "___<br>", '> ## ', mon.name, '<br>> #### *', (StringFunctions.StringCapitalize(mon.tier) + " tier, " + mon.org + " organization"), '* <br>> *', StringFunctions.StringCapitalize(mon.size), ' ', mon.type];
     if (mon.tag != "")
         markdown.push(' (', mon.tag, ')');
-    markdown.push((mon.alignment == "" ? "" : ", " + mon.alignment), '*<br> > ## &lt;!-- --&gt; &lt;div style="margin-top:-25px"&gt;&amp;nbsp;&lt;/div&gt; <br> >___<br>> - **Armor Class** ', StringFunctions.FormatString(StringFunctions.GetArmorData()), '<br>> - **Hit Points** ', StringFunctions.GetHP(), StringFunctions.GetMdMorale(), '<br>> - **Speed** ', StringFunctions.GetSpeed(), "<br>>___<br>>|STR|DEX|CON|INT|WIS|CHA|<br>>|:---:|:---:|:---:|:---:|:---:|:---:|<br>>|",
+    markdown.push((mon.alignment == "" ? "" : ", " + mon.alignment), '*<br> > ## &lt;!-- --&gt; &lt;div style="margin-top:-25px"&gt;&amp;nbsp;&lt;/div&gt; <br> >___<br>> - **Armor Class** ', StringFunctions.FormatString(StringFunctions.GetArmorData(mon,true)), '<br>> - **Hit Points** ', StringFunctions.GetHP(), StringFunctions.GetMdMorale(), '<br>> - **Speed** ', StringFunctions.GetSpeed(), "<br>>___<br>>|STR|DEX|CON|INT|WIS|CHA|<br>>|:---:|:---:|:---:|:---:|:---:|:---:|<br>>|",
         mon.strPoints, " (", StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon.strPoints)), ")|",
         mon.dexPoints, " (", StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon.dexPoints)), ")|",
         mon.conPoints, " (", StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon.conPoints)), ")|",
@@ -642,22 +642,22 @@ var FormFunctions = {
         // Armor Class
         $("#otherarmor-input").val(mon.otherArmorDesc);
         $("#armor-input").val(mon.armorName);
-	$("#ac-updown").val(mon.acadj);
+	      $("#ac-updown").val(mon.acadj);
         $("#shield-input").prop("checked", (mon.shieldBonus > 0 ? true : false));
 
         // Hit Dice
         $("#hp-input").val(mon.hpName);
-	$("#hp-updown").val(mon.hpadj);
+	      $("#hp-updown").val(mon.hpadj);
         $("#half-hp").prop("checked", (mon.hpCut < 1 ? true : false));
 
         // Morale
-	$("#mdc-input").val(mon.mdc);
+	      $("#mdc-input").val(mon.mdc);
         $("#mreact-input").val(mon.mtype);
         $("#mtrig-input").val(mon.mtrig);
         $("#mthresh-input").val(mon.mthresh);
         $("#morale-input").prop("checked",true);
         this.ShowHideMorale();
-	    
+
 	// Threat
 	$("#threat-mod").val(mon.threatadj);
 
@@ -712,7 +712,7 @@ var FormFunctions = {
         // Tier
         $("#tier-input").val(mon.tier);
         this.ChangeTierForm();
-	    
+
 	// Org
         $("#org-input").val(mon.org);
         this.ChangeDPRForm();
@@ -946,7 +946,7 @@ var FormFunctions = {
             positsum += data.organizations[element.org].nums;
             displayArr.push(content + "</li>");
         }
-        
+
         let mon_tmp = displayArr.filter( encSort );
         monico = [];
         mon4 = [];
@@ -967,7 +967,7 @@ var FormFunctions = {
         $("#mon3-input-list").html(mon4.join(""));
         $("#mon3-input-list-icons").html(display_icons.join(""));
 
-	let overall_threat = (threatsum / numPCs) - 5;
+	      let overall_threat = (threatsum / numPCs) - 5;
         $("#mon3-enc-threat").html("Overall Encounter Threat: " + StringFunctions.StringCapitalize(StringFunctions.GetThreat(overall_threat,false)));
 
         $("#force-size").html(Math.ceil(positsum) + " Positions, " + numPCs + " PCs");
@@ -977,12 +977,27 @@ var FormFunctions = {
 
         this.UpdateEncName;
 
-        let zone_target = $("#enc-type").val() * Math.min(2,(numPCs/4));
+        let zone_target = Math.min(80,$("#enc-type").val() * (numPCs/4));
         let positrange = Math.min(positsum/10,1) * 100;
         document.getElementById("slot-bar").style.width = positrange + "%";
         document.getElementById("slot-bar").style.marginRight = (100 - positrange) + "%";
         document.getElementById("slot-target").style.marginRight = (80 - zone_target) + "%";
         document.getElementById("slot-target").style.marginLeft = zone_target + "%";
+
+        let abb_nameline = "",
+          abb_hitline = "",
+          abb_statline = "",
+          abb_arr = [];
+        for (let index = 0; index < monico.length; index++) {
+          let element = mon3[monico[index]];
+          abb_nameline = "<b>" + StringFunctions.StringCapitalize(element.name) + "</b> (" + element.size + " " + element.type + ")";
+          abb_hitline = "<b>AC </b>" + StringFunctions.GetArmorData(element,false) + " <b>HP </b>" + element.avgHP + " <b>SPD </b>" + element.speedDesc;
+          abb_statline = "<b>STR </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.strPoints)) + " <b>DEX </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.dexPoints)) +  " <b>CON </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.conPoints)) +  " <b>INT </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.intPoints)) +  " <b>WIS </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.wisPoints)) +  " <b>CHA </b>" +  StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.chaPoints));
+          abb_arr.push("<br><li> " + abb_nameline + "<br>" +  abb_hitline + "<br>" +  abb_statline + "<br>" + "</li>");
+        }
+
+        $("#abbrev-input-list").html(abb_arr.join(""));
+
     },
 
     RemoveEncounterListItem: function(index) {
@@ -1231,7 +1246,7 @@ var GetVariablesFunctions = {
 
         // Armor Class
         mon.armorName = $("#armor-input").val();
-	mon.acadj = $("#ac-updown").val() * 1;
+	      mon.acadj = $("#ac-updown").val() * 1;
         mon.otherArmorDesc = $("#otherarmor-input").val();
         mon.shieldBonus = $("#shield-input").prop("checked") ? 2 : 0;
 
@@ -1324,7 +1339,7 @@ var GetVariablesFunctions = {
 
         // Organization
         mon.org = "group";
-	    
+
 	// Morale
 	mon.mtrig = "bloodied";
         mon.mthresh = 0.5;
@@ -1333,7 +1348,7 @@ var GetVariablesFunctions = {
 
         // Armor Class
         mon.armorName = "average";
-	mon.acadj = 0;
+	      mon.acadj = 0;
         mon.shieldBonus = 0;
         let armorDescData = preset.armor_desc ? preset.armor_desc.split(",") : null;
         if (armorDescData) {
@@ -1358,7 +1373,7 @@ var GetVariablesFunctions = {
 
         // Attack Bonus
         mon.atkName = "average";
-	    
+
 	// Threat
 	mon.threatadj = 0;
 
@@ -1690,17 +1705,19 @@ var StringFunctions = {
     BonusFormat: (stat) => stat >= 0 ? "+" + stat : stat,
 
     // Get the string displayed for the monster's AC
-    GetArmorData: function() {
+    GetArmorData: function(mon_name,shownote) {
       let armor_mod = 0;
-      if (mon.armorName === "poor") armor_mod = -1;
-      if (mon.armorName === "good") armor_mod = 1;
+      if (mon_name.armorName === "poor") armor_mod = -1;
+      if (mon_name.armorName === "good") armor_mod = 1;
 
       let armor_note = "";
-      if (mon.shieldBonus > 0) armor_note = " (shield)";
-      if (mon.otherArmorDesc) armor_note = " (" + mon.otherArmorDesc + ")";
-      if (mon.otherArmorDesc && (mon.shieldBonus > 0)) armor_note = " (" + mon.otherArmorDesc + ", shield)";
+      if (shownote) {
+        if (mon_name.shieldBonus > 0) armor_note = " (shield)";
+        if (mon_name.otherArmorDesc) armor_note = " (" + mon_name.otherArmorDesc + ")";
+        if (mon_name.otherArmorDesc && (mon_name.shieldBonus > 0)) armor_note = " (" + mon_name.otherArmorDesc + ", shield)";
+      }
 
-      return (mon.acadj + data.armorclass[(data.tiers[mon.tier].trow+armor_mod)]) + armor_note;
+      return (mon_name.acadj + data.armorclass[(data.tiers[mon_name.tier].trow+armor_mod)]) + armor_note;
     },
 
     // Get the string displayed for the monster's Save DC
