@@ -943,7 +943,7 @@ var FormFunctions = {
             let element = mon3[index],
                 elementName = StringFunctions.StringCapitalize(element.name),
             content = StringFunctions.FormatString(elementName, false) + "</b> (" + StringFunctions.StringCapitalize(element.tier) + " Tier, " + StringFunctions.StringCapitalize(element.org) + ") <i>Threat: " + StringFunctions.StringCapitalize(StringFunctions.GetThreat(element.threatval,false)) + "</i>";
-            threatsum += (5 + element.threatval) * data.organizations[element.org].nums * data.tiers[element.tier].trow / data.tiers[pcTier)].trow;
+            threatsum += (5 + element.threatval) * data.organizations[element.org].nums * data.tiers[element.tier].trow / data.tiers[pcTier].trow;
             positsum += data.organizations[element.org].nums;
             displayArr.push(content + "</li>");
         }
@@ -971,7 +971,7 @@ var FormFunctions = {
 	      let overall_threat = (threatsum / numPCs) - 5;
         $("#mon3-enc-threat").html("Overall Encounter Threat: " + StringFunctions.StringCapitalize(StringFunctions.GetThreat(overall_threat,false)));
 
-        $("#force-size").html(Math.ceil(positsum) + " Positions, " + numPCs + " " pcTier "-tier PCs");
+        $("#force-size").html(Math.ceil(positsum) + " Positions, " + numPCs + " " + pcTier + "-tier PCs");
 
         $("#mon3-input-list").parent()[mon3.length == 0 ? "hide" : "show"]();
         $("#mon3-input-list-icons").parent()[mon3.length == 0 ? "hide" : "show"]();
