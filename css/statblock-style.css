@@ -26,6 +26,16 @@
   color: #922610;
 }
 
+.encblock-list h3 {
+  display: inline;
+  margin: 0;
+  color: #7A200D;
+  font-size: 14px;
+  line-height: 1.2em;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
 .stat-block.wide .section-left,
 .stat-block.wide .section-right {
     display: inline-block;
