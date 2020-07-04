@@ -942,7 +942,7 @@ var FormFunctions = {
             let element = mon3[index],
                 elementName = StringFunctions.StringCapitalize(element.name),
             content = StringFunctions.FormatString(elementName, false) + "</b> (" + StringFunctions.StringCapitalize(element.tier) + " Tier, " + StringFunctions.StringCapitalize(element.org) + ") <i>Threat: " + StringFunctions.StringCapitalize(StringFunctions.GetThreat(element.threatval,false)) + "</i>";
-            threatsum += (5 + element.threatval) * data.organizations[element.org].nums;
+            threatsum += (5 + element.threatval) * data.organizations[element.org].nums * data.tiers[element.tier].trow / data.tiers[$("#tier-level").val()].trow;
             positsum += data.organizations[element.org].nums;
             displayArr.push(content + "</li>");
         }
