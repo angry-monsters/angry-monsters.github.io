@@ -454,10 +454,10 @@ function AddToTraitList(traitsHTML, traitsArr, addElements, isLegendary = false)
 
     // There's a small difference in formatting for legendary actions
     for (let index = 0; index < traitsArr.length; index++)
-        traitsHTML.push(StringFunctions[isLegendary ? "MakeTraitHTMLLegendary" : "MakeTraitHTML"](traitsArr[index].name, ReplaceTraitTags(traitsArr[index].desc)));
+        traitsHTML.push(StringFunctions[isLegendary ? "MakeTraitHTMLLegendary" : "MakeTraitHTML"](traitsArr[index].name, ReplaceTraitTags(traitsArr[index].desc,mon)));
 }
 
-function ReplaceTraitTags(desc) {
+function ReplaceTraitTags(desc,mon_id) {
     const bracketExp = /\[(.*?)\]/g,
         damageExp = /\d*d\d+/,
         bonusExp = /^[+-] ?(\d+)$/;
@@ -467,12 +467,12 @@ function ReplaceTraitTags(desc) {
         matches.push(match);
 
     matches.forEach(function(match) {
-        const GetPoints = (pts) => data.statNames.includes(pts) ? MathFunctions.PointsToBonus(mon[pts + "Points"]) : null;
+        const GetPoints = (pts) => data.statNames.includes(pts) ? MathFunctions.PointsToBonus(mon_id[pts + "Points"]) : null;
         let readString = match[1].toLowerCase().replace(/ +/g, ' ').trim();
 
         if (readString.length > 0) {
             if (readString == "mon")
-                desc = desc.replace(match[0], mon.name.toLowerCase());
+                desc = desc.replace(match[0], mon_id.name.toLowerCase());
             else {
                 let readPosition = 0,
                     type = null,
@@ -488,11 +488,11 @@ function ReplaceTraitTags(desc) {
                     type = "stat";
                     if (readString.length > 3) {
                         if (readString.substring(3, 7) == " atk") {
-                            bonus += data.tiers[mon.tier].prof;
+                            bonus += data.tiers[mon_id.tier].prof;
                             readPosition = 7;
                             type = "atk";
                         } else if (readString.substring(3, 8) == " save") {
-                            bonus += data.tiers[mon.tier].prof + 8;
+                            bonus += data.tiers[mon_id.tier].prof + 8;
                             readPosition = 8;
                             type = "save";
                         }
@@ -987,13 +987,15 @@ var FormFunctions = {
         let abb_nameline = "",
           abb_hitline = "",
           abb_statline = "",
+          abb_atks = "",
           abb_arr = [];
         for (let index = 0; index < monico.length; index++) {
           let element = mon3[monico[index]];
-          abb_nameline = "<b>" + StringFunctions.StringCapitalize(element.name) + "</b> (" + element.size + " " + element.type + ")";
+          abb_nameline = "<h3>" + StringFunctions.StringCapitalize(element.name) + "</h3> (" + element.size + " " + element.type + ")";
           abb_hitline = "<b>AC </b>" + StringFunctions.GetArmorData(element,false) + " <b>HP </b>" + element.avgHP + " <b>SPD </b>" + element.speedDesc;
           abb_statline = "<b>STR </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.strPoints)) + " <b>DEX </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.dexPoints)) +  " <b>CON </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.conPoints)) +  " <b>INT </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.intPoints)) +  " <b>WIS </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.wisPoints)) +  " <b>CHA </b>" +  StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.chaPoints));
-          abb_arr.push("<br><li> " + abb_nameline + "<br>" +  abb_hitline + "<br>" +  abb_statline + "<br>" + "</li>");
+          abb_atks = this.GetAtkExp(element);
+          abb_arr.push("<br><li> " + abb_nameline + "<br>" +  abb_hitline + "<br>" +  abb_statline + "<span style='color:black;'>" + abb_atks + "</span></li>");
         }
 
         $("#abbrev-input-list").html(abb_arr.join(""));
@@ -1020,6 +1022,33 @@ var FormFunctions = {
     UpdateEncName: function() {
       $("#enc-name").html($("#enc-name-input").val());
     },
+
+    GetAtkExp: function(monArr) {
+      let atkArr = [],
+        atkRes = "";
+      for (let index = 0; index < monArr.actions.length; index++) {
+        let act = monArr.actions[index];
+        let revName = act.desc;
+        revName = revName.replace(/_|damage| to hit| one (target|creature).|(reach|range) |\[MON\]| reach 5 ft.,/gi, "");
+        revName = revName.replace(/ Hit:|The /gi, "");
+        revName = revName.replace(/melee/gi, "M");
+        revName = revName.replace(/ranged/gi, "R");
+        revName = revName.replace(/weapon/gi, "W");
+        revName = revName.replace(/attack/gi, "ATK");
+        revName = revName.replace(/escape/gi, "esc");
+        revName = revName.replace(/grapple/gi, "grpl");
+        revName = revName.replace(/medium /gi, "med ");
+        revName = revName.replace(/large /gi, "lg ");
+        revName = revName.replace(/small /gi, "sm ");
+        revName = revName.replace(/\]/gi, "]</b>");
+        revName = revName.replace(/\[/gi, "<b>[");
+        revName = revName.replace(/ \./g, ".");
+        revName = revName.replace(/ \,/g, ",");
+        atkRes = "<b>" + act.name + ":</b> "; // + ReplaceTraitTags(revName,monArr);
+        atkArr.push("<br>" + atkRes);
+      }
+      return atkArr.join("");
+    }
 }
 
 // Input functions to be called only through HTML
