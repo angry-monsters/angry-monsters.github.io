@@ -21,7 +21,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/FileSaver.min.js"></script>
     <script src="js/dom-to-image.min.js"></script>
-    <script src="js/statblock-script.js?version=4.2.1"></script>
+    <script src="js/statblock-script.js?version=4.2.2"></script>
 
 </head>
 
@@ -141,6 +141,7 @@
             <td colspan="3">
               <button onclick="TryPrint(false)">Printable Block</button>
               <button onclick="TryImage(false)">Save Image</button>
+              <label for="beta-input">Beta Features? <input id="beta-input" type="checkbox" onchange="getEncounterInfo()" checked></label>
             </td>
             <td>
               <p>Slots Filled:</p>
@@ -504,7 +505,7 @@
                         </td>
                         <td>
                             <div id="otherarmor-prompt">
-                                <label for="otherarmor-input">Armor Type: <input id="otherarmor-input" type="text" value="(armor, shield)"></label><br>
+                                <label for="otherarmor-input">Armor Type: <input id="otherarmor-input" type="text" value="natural armor"></label><br>
                                 <div id="otherarmor-box-note" class="box-note"><i>Use _ to italicize</i></div>
                             </div>
                         </td>
