@@ -903,12 +903,17 @@ var FormFunctions = {
         for (let index = 0; index < mon2.length; index++) {
             let element = mon2[index],
                 elementName = StringFunctions.StringCapitalize(element.name),
-            content = "<b>" + StringFunctions.FormatString(elementName, false) + "</b> - " + element.tier + " tier, " + element.org + " organization (" + element.size + " " + element.type + ") <i>" + element.tag + "</i></b>";
-            content2 = StringFunctions.FormatString(elementName, false) + " (" + element.org + " organization)";
+                content_name = "<td colspan='3' nowrap><b>" + StringFunctions.FormatString(elementName, false) + "</b></td>",
+                content_tier = "<td style='text-align: center'>" + element.tier + "</td>",
+                content_org = "<td style='text-align: center'>" + element.org + "</td>",
+                content_size = "<td style='text-align: center'>" + element.size + "</td>",
+                content_type = "<td style='text-align: center'>" + element.type + "</td>",
+                content_tags = "<td colspan='4'><i>" + element.tag + "</i></td>",
+                content2 = StringFunctions.FormatString(elementName, false) + " (" + element.org + " organization)";
             let functionArgs = index,
-                imageHTML = "<img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove' onclick='FormFunctions.RemoveMonsterListItem(" + functionArgs + ")'>";
-                imageHTML += " <img class='statblock-image' src='dndimages/edit-icon.png' alt='Edit' title='Edit' onclick='FormFunctions.EditMonsterListItem(" + functionArgs + ")'>";
-                displayArr.push("<li> " + imageHTML + " " + content + "</li>");
+                imageHTML = "<td style='text-align: center' nowrap><img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove' onclick='FormFunctions.RemoveMonsterListItem(" + functionArgs + ")'>";
+                imageHTML += " <img class='statblock-image' src='dndimages/edit-icon.png' alt='Edit' title='Edit' onclick='FormFunctions.EditMonsterListItem(" + functionArgs + ")'></td>";
+                displayArr.push("<tr> " + imageHTML + content_name + content_tier + content_org + content_size + content_type + content_tags + "</tr>");
                 if (element.tier === $("#tier-level").val())  dropdownBuffer.push("<option value=", index, ">", content2, "</option>");
         }
         $(arrElement).html(displayArr.join(""));
@@ -971,7 +976,7 @@ var FormFunctions = {
 	      let overall_threat = (threatsum / numPCs) - 5;
         $("#mon3-enc-threat").html("Overall Encounter Threat: " + StringFunctions.StringCapitalize(StringFunctions.GetThreat(overall_threat,false)));
 
-        $("#force-size").html(Math.ceil(positsum) + " Positions, " + numPCs + " " + pcTier + "-tier PCs");
+        $("#force-size").html(Math.ceil(positsum) + " positions, " + numPCs + " " + pcTier + "-tier PCs");
 
         $("#mon3-input-list").parent()[mon3.length == 0 ? "hide" : "show"]();
         $("#mon3-input-list-icons").parent()[mon3.length == 0 ? "hide" : "show"]();

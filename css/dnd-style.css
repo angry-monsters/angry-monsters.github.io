@@ -7,6 +7,35 @@ body {
 		height: 100%;
 }
 
+.monster-manual td {
+	border: .05em solid #ddd;
+	/*box-shadow: 0 0 .2em #d4c09b inset;*/
+	vertical-align: middle;
+	padding: 1em;
+	line-height: 1.2;
+}
+.monster-manual tr:nth-child(odd) {
+	background: #FDF1DC;
+}
+
+.monster-manual table {
+    table-layout: auto;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.monster-manual thead {
+	text-align: center;
+	color: #7A200D;
+  font-size: 1.2rem;
+  line-height: 1.2em;
+  font-weight: bold;
+}
+
+.monster-manual table .absorbing-column {
+    width: 100%;
+}
+
 ::-webkit-scrollbar {
     width: .25em;
 		height: 0;
@@ -82,15 +111,15 @@ body {
 }
 
 .tabs button:hover {
-  background-color: #ddd;
-  border-left: .0625em solid #ddd;
-  border-top: .0625em solid #ddd;
-  border-bottom: .0625em solid #ddd;
+  background-color: #FDF1DC;
+  border-left: .0625em solid #FDF1DC;
+  border-top: .0625em solid #FDF1DC;
+  border-bottom: .0625em solid #FDF1DC;
 }
 
 /* Create an active/current "tab button" class */
 .tabs button.active {
-  background-color: #ccc;
+  background-color: #d4c09b;
   border-right: .0625em solid #000000;
   border-left: .0625em solid #000000;
   border-top: .0625em solid #000000;
