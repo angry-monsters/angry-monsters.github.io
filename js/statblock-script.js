@@ -195,14 +195,17 @@ var LoadFilePrompt3 = () => {
 // Load functions
 var TryLoadFile = () => {
     SavedData.RetrieveFromFile();
+    $("#file-upload").val("");
 }
 
 var TryLoadFile2 = () => {
     ListData.RetrieveFromFile();
+    $("#file-upload2").val("");
 }
 
 var TryLoadFile3 = () => {
     EncounterData.RetrieveFromFile();
+    $("#file-upload3").val("");
 }
 
 // Print function
