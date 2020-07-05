@@ -14,6 +14,12 @@ body {
 	padding: 1em;
 	line-height: 1.2;
 }
+
+.monster-manual thead {
+  white-space: nowrap;
+	cursor: pointer;
+}
+
 .monster-manual tr:nth-child(odd) {
 	background: #FDF1DC;
 }

@@ -6,6 +6,7 @@ To contribute to the bestiary, go to the issues page, create a new compendium ad
 ## Goals:
 - improve / add regex for abbreviated stat blocks for encounters (+ markdown? Legendary actions? morale?)
 - add automatic interaction between ability scores and values from the monster stats by tier table
+- Bestiary filters
 
 ## Maybe:
 - fix file uploads so that they run when clicked not on a change

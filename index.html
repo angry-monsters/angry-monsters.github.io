@@ -14,14 +14,14 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=2.1">
     <link rel="stylesheet" type="text/css" href="css/statblock-page-style.css?version=2">
-    <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=3">
+    <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=3.1">
     <link rel="stylesheet" type="text/css" href="css/libre-baskerville.css">
     <link rel="stylesheet" type="text/css" href="css/noto-sans.css">
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/FileSaver.min.js"></script>
     <script src="js/dom-to-image.min.js"></script>
-    <script src="js/statblock-script.js?version=4.3.4"></script>
+    <script src="js/statblock-script.js?version=4.4.4"></script>
 
 </head>
 
@@ -45,33 +45,24 @@
       <div class="content">
         <br>
         <h1>Monster Manual</h1>
-	<p>Download the <a target="_blank" href="./compendium/bestiary.monster">Community Compendium</a> and contribute <a target="_blank" href="https://github.com/angry-monsters/angry-monsters.github.io/issues/new?assignees=&labels=bestiary&template=compendium-addition.md&title=General+Title+of+Monsters%2FTheme%2FAdditions">your own creations!</a></p>
+	      <p>Download the <a target="_blank" href="./compendium/bestiary.monster">Community Compendium</a> and contribute <a target="_blank" href="https://github.com/angry-monsters/angry-monsters.github.io/issues/new?assignees=&labels=bestiary&template=compendium-addition.md&title=General+Title+of+Monsters%2FTheme%2FAdditions">your own creations!</a></p>
         <br>
-	<label for="comp-sort-select">Sort By:
-	   <select id="comp-sort-select" onChange="sortBestiary(this.value)">
-  	     <option value="name" selected="">Name</option>
-	     <option value="tier">Tier</option>
-	     <option value="org">Organization</option>
-	     <option value="size">Size</option>
-	     <option value="type">Type</option>
-	     <option value="tag">Tags</option>
-	  </select>
-	</label>
         <button onclick="TrySaveFile2()">Save Compendium</button>
-        <button onclick="LoadFilePrompt2()">Add Monster(s)</button>
+        <button onclick="LoadFilePrompt2()">Load Monster(s)</button>
         <input id="file-upload2" type="file" onChange="TryLoadFile2();" hidden />
+        <input id="mon-sort-order" type="text" hidden />
       </div>
       <div class="monster-manual">
         <table>
           <thead>
             <tr style="background-color: transparent;">
-              <th>Edit</th>
-              <th colspan='3'>Name</th>
-              <th>Tier</th>
-              <th>Organization</th>
-              <th>Size</th>
-              <th>Type</th>
-              <th colspan='3' class="absorbing-column">Tags</th>
+              <th>Actions</th>
+              <th colspan='3' onClick="sortBestiary('name')">Name <img class='statblock-image' src='dndimages/sort-icon.png' alt='Sort' title='Sort'></th>
+              <th onClick="sortBestiary('tier')">Tier <img class='statblock-image' src='dndimages/sort-icon.png' alt='Sort' title='Sort'></th>
+              <th onClick="sortBestiary('org')">Org <img class='statblock-image' src='dndimages/sort-icon.png' alt='Sort' title='Sort'></th>
+              <th onClick="sortBestiary('size')">Size <img class='statblock-image' src='dndimages/sort-icon.png' alt='Sort' title='Sort'></th>
+              <th onClick="sortBestiary('type')">Type <img class='statblock-image' src='dndimages/sort-icon.png' alt='Sort' title='Sort'></th>
+              <th colspan='3' onClick="sortBestiary('tag')" class="absorbing-column">Tags <img class='statblock-image' src='dndimages/sort-icon.png' alt='Sort' title='Sort'></th>
             </tr>
           </thead>
           <tbody id="mon2-input-list">

@@ -96,13 +96,27 @@ function getMonsterInfo() {
 }
 
 function sortBestiary(sort_cat) {
-  mon2 = mon2.sort(function(a, b){
-  var x = a[sort_cat].toLowerCase();
-  var y = b[sort_cat].toLowerCase();
-  if (x < y) {return -1;}
-  if (x > y) {return 1;}
-  return 0;
-  });
+  let order_check = $("#mon-sort-order").val();
+
+  if ($("#mon-sort-order").val() === sort_cat) {
+    mon2 = mon2.sort(function(a, b){
+    var x = a[sort_cat].toLowerCase();
+    var y = b[sort_cat].toLowerCase();
+    if (x < y) {return 1;}
+    if (x > y) {return -1;}
+    return 0;
+    });
+    $("#mon-sort-order").val("");
+  } else {
+    mon2 = mon2.sort(function(a, b){
+    var x = a[sort_cat].toLowerCase();
+    var y = b[sort_cat].toLowerCase();
+    if (x < y) {return -1;}
+    if (x > y) {return 1;}
+    return 0;
+    });
+    $("#mon-sort-order").val(sort_cat);
+  }
 
   getMonsterInfo();
 }
@@ -151,29 +165,21 @@ function ClearEncounter() {
 
 var TryEncounter = () => {
     UpdateBlockFromVariables(0);
-    LoadEncounter.retrieveFromWindow();
+    LoadEncounterAdd.retrieveFromWindow(mon);
     getEncounterInfo();
-}
-
-var LoadEncounter = {
-  retrieveFromWindow: function() {
-    let mon_inc = JSON.parse(JSON.stringify(mon));
-    mon3.push(mon_inc);
-    localStorage.setItem("Mon3", JSON.stringify(mon3));
-  },
 }
 
 var TryEncounterAdd = () => {
     let mon_idx = $("#monster-options").val();
     let num_add = $("#creature-size").val();
     var incr;
-    for (incr = 0; incr < num_add; incr++) LoadEncounterAdd.retrieveFromWindow(mon_idx);
+    for (incr = 0; incr < num_add; incr++) LoadEncounterAdd.retrieveFromWindow(mon2[mon_idx]);
     getEncounterInfo();
 }
 
 var LoadEncounterAdd = {
-  retrieveFromWindow: function(idx) {
-    let mon_inc = JSON.parse(JSON.stringify(mon2[idx]));
+  retrieveFromWindow: function(monArr) {
+    let mon_inc = JSON.parse(JSON.stringify(monArr));
     mon3.push(mon_inc);
     localStorage.setItem("Mon3", JSON.stringify(mon3));
   },
@@ -914,8 +920,9 @@ var FormFunctions = {
                 content_tags = "<td colspan='4'><i>" + element.tag + "</i></td>",
                 content2 = StringFunctions.FormatString(elementName, false) + " (" + element.org + " organization)";
             let functionArgs = index,
-                imageHTML = "<td style='text-align: center' nowrap><img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove' onclick='FormFunctions.RemoveMonsterListItem(" + functionArgs + ")'>";
-                imageHTML += " <img class='statblock-image' src='dndimages/edit-icon.png' alt='Edit' title='Edit' onclick='FormFunctions.EditMonsterListItem(" + functionArgs + ")'></td>";
+                imageHTML = "<td style='text-align: center' nowrap><img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove from Bestiary' onclick='FormFunctions.RemoveMonsterListItem(" + functionArgs + ")'>";
+                imageHTML += " <img class='statblock-image' src='dndimages/edit-icon.png' alt='Edit' title='Edit Monster' onclick='FormFunctions.EditMonsterListItem(" + functionArgs + ")'>";
+                imageHTML += " <img class='statblock-image' src='dndimages/plus-icon.png' alt='Add' title='Add to Encounter' onclick='LoadEncounterAdd.retrieveFromWindow(mon2[" + functionArgs + "]);getEncounterInfo();'></td>";
                 displayArr.push("<tr> " + imageHTML + content_name + content_tier + content_org + content_size + content_type + content_tags + "</tr>");
                 if (element.tier === $("#tier-level").val())  dropdownBuffer.push("<option value=", index, ">", content2, "</option>");
         }
@@ -966,9 +973,11 @@ var FormFunctions = {
           for (let newdx = 0; newdx < displayArr.length; newdx++) {
             if (mon_tmp[index] === displayArr[newdx]) mon_ct += 1;
           }
-          let imageHTML = "<img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove' onclick='FormFunctions.RemoveEncounterListItem(" + displayArr.lastIndexOf(mon_tmp[index]) + ")'>" +
+          let oldIndex = displayArr.lastIndexOf(mon_tmp[index]);
+          let imageHTML = "<img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove' onclick='FormFunctions.RemoveEncounterListItem(" + oldIndex + ")'>" +
                 " <img class='statblock-image' src='dndimages/up-icon.png' alt='Up' title='Up' onclick='FormFunctions.SwapEncounterListItem(" + index + ", -1)'>" +
-                " <img class='statblock-image' src='dndimages/down-icon.png' alt='Down' title='Down' onclick='FormFunctions.SwapEncounterListItem(" + index + ", 1)'>";
+                " <img class='statblock-image' src='dndimages/down-icon.png' alt='Down' title='Down' onclick='FormFunctions.SwapEncounterListItem(" + index + ", 1)'>" +
+                " <img class='statblock-image' src='dndimages/plus-icon.png' alt='Add' title='Add to Encounter' onclick='LoadEncounterAdd.retrieveFromWindow(mon3[" + oldIndex + "]);getEncounterInfo();'></td>";
           mon4.push("<li> <b>" + mon_ct + "x " + mon_tmp[index]);
           display_icons.push("<li> " + imageHTML + "</li>");
         }
