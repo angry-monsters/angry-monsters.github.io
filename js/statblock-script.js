@@ -30,7 +30,15 @@ function showHideEncNotes(show) {
   $("#hide-terrain").toggle();
 }
 
-var encDat = [];
+var encDat = {
+  battle: "Encounter",
+  numPCs: "1",
+  type: "30",
+  terrain: "",
+  tactics: "",
+  conflict: "",
+  pcTier: "apprentice"
+};
 
 var data;
 
@@ -148,6 +156,7 @@ var TrySaveFile2 = () => {
 }
 
 var TrySaveFile3 = () => {
+    mon3[mon3.length] = encDat;
     EncounterData.SaveToFile();
 }
 
@@ -173,6 +182,17 @@ function ClearEncounter() {
   mon3 = [];
   getEncounterInfo();
   localStorage.setItem("Mon3", JSON.stringify(mon3));
+  encDat = {
+    battle: "Encounter",
+    numPCs: "1",
+    type: "30",
+    terrain: "",
+    tactics: "",
+    conflict: "",
+    pcTier: "apprentice"
+  };
+  FormFunctions.SetEncVars();
+  localStorage.setItem("Enc3", JSON.stringify(encDat));
 }
 
 var TryEncounter = () => {
@@ -297,7 +317,9 @@ var SavedData = {
             reader = new FileReader();
 
         reader.onload = function(e) {
-            mon = JSON.parse(reader.result);
+            let mon_add = JSON.parse(reader.result);
+            if (mon_add.length > 0) mon = mon_add[0];
+            else mon = mon_add;
             Populate();
         };
 
@@ -327,6 +349,9 @@ var ListData = {
             let mon_add = JSON.parse(reader.result);
             if (mon_add.length > 0) mon2 = mon2.concat(mon_add);
             else mon2.push(mon_add);
+            if (mon2.slice(-1)[0].battle) {
+              mon2.pop();
+            }
             getMonsterInfo();
             localStorage.setItem("Mon2", JSON.stringify(mon2));
         };
@@ -342,11 +367,18 @@ var EncounterData = {
     }), $("#enc-name-input").val().toLowerCase() + ".encounter"),
 
     RetrieveFromLocalStorage: function() {
-        let encData = localStorage.getItem("Mon3");
+      let encDesc = localStorage.getItem("Enc3");
+      if (encDesc != undefined) {
+        encDat = JSON.parse(encDesc);
+        FormFunctions.SetEncVars();
+      }
+
+      let encData = localStorage.getItem("Mon3");
         if (encData != undefined) {
           mon3 = JSON.parse(encData);
           getEncounterInfo();
         }
+
     },
 
     RetrieveFromFile: function() {
@@ -355,6 +387,12 @@ var EncounterData = {
 
         reader.onload = function(e) {
             let enc_add = JSON.parse(reader.result);
+            if (enc_add.slice(-1)[0].battle) {
+              encDat = enc_add.pop();
+              localStorage.setItem("Enc3", JSON.stringify(encDat));
+              FormFunctions.SetEncVars();
+              mon3 = [];
+            }
             if (enc_add.length > 0) mon3 = mon3.concat(enc_add);
             else mon3.push(enc_add);
             getEncounterInfo();
@@ -943,6 +981,7 @@ var FormFunctions = {
         $("#monster-options").html(dropdownBuffer.join(""));
 
         $(arrElement).parent()[mon2.length == 0 ? "hide" : "show"]();
+        localStorage.setItem("Mon2", JSON.stringify(mon2));
     },
 
     RemoveMonsterListItem: function(index) {
@@ -959,13 +998,15 @@ var FormFunctions = {
     },
 
     MakeEncounterList: function() {
+        encDat.type = $("#enc-type").val();
+        encDat.numPCs = $("#party-size").val();
+        encDat.pcTier = $("#tier-level").val();
+
         let displayArr = [],
             display_icons = [],
             threatsum = 0,
             positsum = 0,
             content = "";
-            encDat.numPCs = $("#party-size").val();
-            encDat.pcTier = $("#tier-level").val();
         for (let index = 0; index < mon3.length; index++) {
             let element = mon3[index],
                 elementName = StringFunctions.StringCapitalize(element.name),
@@ -1005,9 +1046,7 @@ var FormFunctions = {
         $("#mon3-input-list").parent()[mon3.length == 0 ? "hide" : "show"]();
         $("#mon3-input-list-icons").parent()[mon3.length == 0 ? "hide" : "show"]();
 
-        this.UpdateEncName;
-
-        let zone_target = Math.min(80,$("#enc-type").val() * (encDat.numPCs/4));
+        let zone_target = Math.min(80,encDat.type * (encDat.numPCs/4));
         let positrange = Math.min(positsum/10,1) * 100;
         document.getElementById("slot-bar").style.width = positrange + "%";
         document.getElementById("slot-bar").style.marginRight = (100 - positrange) + "%";
@@ -1083,10 +1122,29 @@ var FormFunctions = {
     },
 
     UpdateEncName: function() {
-      $("#enc-name").html($("#enc-name-input").val());
-      $("#enc-conflict").html($("#enc-conflict-input").val());
-      $("#enc-terrain").html($("#enc-terrain-input").val());
-      $("#enc-tactics").html($("#enc-tactics-input").val());
+      this.GetEncVars();
+      this.SetEncVars();
+    },
+
+    GetEncVars: function() {
+      encDat.battle = $("#enc-name-input").val();
+      encDat.conflict = $("#enc-conflict-input").val();
+      encDat.terrain = $("#enc-terrain-input").val();
+      encDat.tactics = $("#enc-tactics-input").val();
+    },
+
+    SetEncVars: function() {
+      $("#enc-name").html(encDat.battle);
+      $("#enc-conflict").html(encDat.conflict);
+      $("#enc-terrain").html(encDat.terrain);
+      $("#enc-tactics").html(encDat.tactics);
+      $("#enc-name-input").val(encDat.battle);
+      $("#enc-conflict-input").val(encDat.conflict);
+      $("#enc-terrain-input").val(encDat.terrain);
+      $("#enc-tactics-input").val(encDat.tactics);
+      $("#enc-type").val(encDat.type);
+      $("#party-size").val(encDat.numPCs);
+      $("#tier-level").val(encDat.pcTier);
     },
 
     GetAtkExp: function(monArr) {
