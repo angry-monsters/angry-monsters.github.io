@@ -145,6 +145,7 @@ body {
     line-height: 125%;
     border-style: none;
 	min-height: 100%;
+	max-width: 100%;
 }
 
 .content {
