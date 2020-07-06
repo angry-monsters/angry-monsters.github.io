@@ -30,6 +30,7 @@
       <button class="tablinks" onclick="openTab(event, 'monster')" id="defaultOpen">Monster<br>Generator</button>
       <button class="tablinks" onclick="openTab(event, 'bestiary')">Bestiary</button>
       <button class="tablinks" onclick="openTab(event, 'encounter')">Encounter<br>Builder</button>
+      <button class="tablinks" onclick="openTab(event, 'faq')">FAQ</button>
       <div class="buttonfill">
         <a target="_blank" href="https://github.com/angry-monsters/angry-monsters.github.io">GitHub Repo</a>
         <br>
@@ -38,6 +39,23 @@
 	<br>
 	<br>
 	<a href='https://ko-fi.com/M4M81VQKK' target='_blank'><img width='85%' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+      </div>
+    </div>
+
+    <div id="faq" class="container tabcontent">
+      <div class="content">
+        <br>
+        <h1 style="text-align:center">Frequently Asked Questions</h1>
+        <br>
+        <h2>How Does Saving and Loading Files Work?</h2>
+        <p>Your data is automatically saved in your browser and is preserved unless you manually clear it (You can do so with the 'Clear Data' button on the sidebar).</p>
+        <p>Each page saves a different file: a .monster, a .compendium, or a .bestiary. These are all really just text files and the extensions are simply to help the end user know what they are.</p>
+        <p>You can load ANY of these three files into ANY of the sections. The monster page will load the first monster of a bestiary or encounter and the bestiary and encounter page will load and add all the monsters in the file. Additionally, if you load an encounter file in the encounter page, it will first clear the current encounter and also load the extra encounter-specific data.</p>
+        <h2>How Do I Make a Monster?</h2>
+        <p>First, READ THE ARTICLE on the process.</p>
+        <p>Use the menus to select what you want for stats. The attack bonus, the ability save DC, and the average DPR are NOT automatically added to abilities and actions - you have to manually type them in.</p>
+        <p>It is recommended to set ability scores based on the monster's attack bonus and DPR, then use the syntax (i.e. [STR 1d6]) for attacks. This will also bold the attack and damage in the abbreviated statblocks. The abbreviated statblocks are still in beta and will only show actions that have descriptions of less than 144 characters.</p>
+        <p>Additionally, you can start from presets. If you are editing a monster from your bestiary, you have to add the edited monster back to the bestiary like it is a new monster, and then if you want to, remove the old version.</p>
       </div>
     </div>
 
