@@ -12,9 +12,9 @@
     <meta charset="utf-8" />
     <title>5e Angry Monster Manager</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=2.1">
+    <link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=2.2">
     <link rel="stylesheet" type="text/css" href="css/statblock-page-style.css?version=2">
-    <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=3.1">
+    <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=3.2">
     <link rel="stylesheet" type="text/css" href="css/libre-baskerville.css">
     <link rel="stylesheet" type="text/css" href="css/noto-sans.css">
     <script src="js/jquery-3.4.1.min.js"></script>
@@ -138,19 +138,19 @@
           </tr>
         </table>
         <hr>
-        <table>
+        <table class="cen_td">
           <tr>
-            <td>
+            <td colspan="2">
+              <label for="beta-input"><input id="beta-input" type="checkbox" onchange="getEncounterInfo()" checked>Beta feature: abbreviate monster actions; works well for simple weapon attacks.</label>
             </td>
-            <td colspan="3">
+            <td colspan="2">
               <button onclick="TryPrint(false)">Printable Block</button>
               <button onclick="TryImage(false)">Save Image</button>
-              <label for="beta-input">Beta Features? <input id="beta-input" type="checkbox" onchange="getEncounterInfo()" checked></label>
+              <button id="show-terrain" onclick="showHideEncNotes(true)">Show Notes</button>
+              <button id="hide-terrain" onclick="showHideEncNotes(false)" style="display:none">Hide Notes</button>
             </td>
-            <td>
-              <p>Slots Filled:</p>
-            </td>
-              <td style="position: relative">
+            <td style="text-align:right">Slots Filled:&nbsp;&nbsp;</td>
+            <td style="position: relative;text-align:left;vertical-align:top;height:3em">
                 <div id="slot-target" style="position: absolute; display: inline-block; background-color: #ccc; height: 3em; margin-right: 40%; margin-left: 40%; width: 20%;"></div>
                 <div id="slot-bar" style="position: absolute; display: inline-block; background-color: #922610; margin-top: .5em; height: 2em; width: 0%;"></div>
                 <div id="slot-fill" style="position: absolute; display: inline-block; border-width: .075em; border-style: solid; border-color: #922610; margin-top: .5em; height: 2em; width: 100%;"></div>
@@ -182,18 +182,18 @@
                 </div>
               </div>
             </td>
-            <td colspan="3">
+            <td colspan="6">
               <div id="enc-block-wrapper">
-                <div id="enc-block" style="width: 550px;" class="stat-block">
+                <div id="enc-block" class="enctr-block">
                   <hr class="orange-border" />
-                  <div>
+                  <div class="section-left">
                       <div class="creature-heading">
                           <h1 id="enc-name">Encounter Name</h1>
                           <h3 id="mon3-enc-threat">Overall Threat</h3>
                           <h2 id="force-size">Force Size</h2>
                       </div>
                       <svg height="5" width="100%" class="tapered-rule">
-                          <polyline points="0,0 550,2.5 0,5"></polyline>
+                          <polyline points="0,0 500,2.5 0,5"></polyline>
                       </svg>
                       <div class="encblock-list">
                           <br>
@@ -201,11 +201,27 @@
                       </div>
                       <br>
                       <svg height="5" width="100%" class="tapered-rule">
-                          <polyline points="0,0 550,2.5 0,5"></polyline>
+                          <polyline points="0,0 500,2.5 0,5"></polyline>
                       </svg>
                       <div class="encblock-list">
                           <ul id="abbrev-input-list"></ul>
                       </div>
+                  </div>
+                  <div id="enc-descr-right" class="section-right">
+                    <div class="actions">
+                      <h3>Conflict</h3>
+                      <div class="property-block">
+                        <p id="enc-conflict"></p>
+                      </div>
+                      <h3>Terrain</h3>
+                      <div class="property-block">
+                        <p id="enc-terrain"></p>
+                      </div>
+                      <h3>Tactics</h3>
+                      <div class="property-block">
+                        <p id="enc-tactics"></p>
+                      </div>
+                    </div>
                   </div>
                   <hr class="orange-border bottom" />
                 </div>
@@ -215,6 +231,19 @@
             </td>
           </tr>
         </table>
+        <br>
+        <div class="enc-descr-form">
+          <table class="cen_td" style="text-align:center;width:90%;margin-left:5%">
+            <tr>
+              <td>Conflict</td>
+              <td>Terrain</td>
+              <td>Tactics</td>
+            </tr>
+          </table>
+          <textarea onchange="FormFunctions.UpdateEncName()" id="enc-conflict-input"></textarea>
+          <textarea onchange="FormFunctions.UpdateEncName()" id="enc-terrain-input"></textarea>
+          <textarea onchange="FormFunctions.UpdateEncName()" id="enc-tactics-input"></textarea>
+        </div>
       </div>
     </div>
 

@@ -20,6 +20,18 @@ function encSort(value, index, self) {
     return self.indexOf(value) === index;
 }
 
+function showHideEncNotes(show) {
+  if (show) {
+    $("#enc-block").addClass('wide');
+  } else {
+    $("#enc-block").removeClass('wide');
+  }
+  $("#show-terrain").toggle();
+  $("#hide-terrain").toggle();
+}
+
+var encDat = [];
+
 var data;
 
 var mon2 = [];
@@ -217,7 +229,7 @@ var TryLoadFile3 = () => {
 // Print function
 function TryPrint(monster_page) {
     let printWindow = window.open();
-    printWindow.document.write('<html><head><meta charset="utf-8"/><title>' + mon.name + '</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"></head><body><div id="print-block" class="content">');
+    printWindow.document.write('<html><head><meta charset="utf-8"/><title>' + mon.name + '</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=2.2"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"></head><body><div id="print-block" class="content">');
     if (monster_page) {
       printWindow.document.write($("#stat-block-wrapper").html());
     } else {
@@ -297,7 +309,7 @@ var ListData = {
     // Saving
     SaveToFile: () => saveAs(new Blob([JSON.stringify(mon2)], {
         type: "text/plain;charset=utf-8"
-    }), "Compendium.monster"),
+    }), "bestiary.compendium"),
 
     RetrieveFromLocalStorage: function() {
         let listData = localStorage.getItem("Mon2");
@@ -327,7 +339,7 @@ var EncounterData = {
     // Saving
     SaveToFile: () => saveAs(new Blob([JSON.stringify(mon3)], {
         type: "text/plain;charset=utf-8"
-    }), "Encounter.monster"),
+    }), $("#enc-name-input").val().toLowerCase() + ".encounter"),
 
     RetrieveFromLocalStorage: function() {
         let encData = localStorage.getItem("Mon3");
@@ -951,14 +963,14 @@ var FormFunctions = {
             display_icons = [],
             threatsum = 0,
             positsum = 0,
-            content = "",
-            numPCs = $("#party-size").val(),
-            pcTier = $("#tier-level").val();
+            content = "";
+            encDat.numPCs = $("#party-size").val();
+            encDat.pcTier = $("#tier-level").val();
         for (let index = 0; index < mon3.length; index++) {
             let element = mon3[index],
                 elementName = StringFunctions.StringCapitalize(element.name),
             content = StringFunctions.FormatString(elementName, false) + "</b> (" + StringFunctions.StringCapitalize(element.tier) + " Tier, " + StringFunctions.StringCapitalize(element.org) + ") <i>Threat: " + StringFunctions.StringCapitalize(StringFunctions.GetThreat(element.threatval,false)) + "</i>";
-            threatsum += (5 + element.threatval) * data.organizations[element.org].nums * data.tiers[element.tier].trow / data.tiers[pcTier].trow;
+            threatsum += (5 + element.threatval) * data.organizations[element.org].nums * data.tiers[element.tier].trow / data.tiers[encDat.pcTier].trow;
             positsum += data.organizations[element.org].nums;
             displayArr.push(content + "</li>");
         }
@@ -985,17 +997,17 @@ var FormFunctions = {
         $("#mon3-input-list").html(mon4.join(""));
         $("#mon3-input-list-icons").html(display_icons.join(""));
 
-	      let overall_threat = (threatsum / numPCs) - 5;
+	      let overall_threat = (threatsum / encDat.numPCs) - 5;
         $("#mon3-enc-threat").html("Overall Encounter Threat: " + StringFunctions.StringCapitalize(StringFunctions.GetThreat(overall_threat,false)));
 
-        $("#force-size").html(Math.ceil(positsum) + " positions, " + numPCs + " " + pcTier + "-tier PCs");
+        $("#force-size").html(Math.ceil(positsum) + " positions, " + encDat.numPCs + " " + encDat.pcTier + "-tier PCs");
 
         $("#mon3-input-list").parent()[mon3.length == 0 ? "hide" : "show"]();
         $("#mon3-input-list-icons").parent()[mon3.length == 0 ? "hide" : "show"]();
 
         this.UpdateEncName;
 
-        let zone_target = Math.min(80,$("#enc-type").val() * (numPCs/4));
+        let zone_target = Math.min(80,$("#enc-type").val() * (encDat.numPCs/4));
         let positrange = Math.min(positsum/10,1) * 100;
         document.getElementById("slot-bar").style.width = positrange + "%";
         document.getElementById("slot-bar").style.marginRight = (100 - positrange) + "%";
@@ -1072,11 +1084,20 @@ var FormFunctions = {
 
     UpdateEncName: function() {
       $("#enc-name").html($("#enc-name-input").val());
+      $("#enc-conflict").html($("#enc-conflict-input").val());
+      $("#enc-terrain").html($("#enc-terrain-input").val());
+      $("#enc-tactics").html($("#enc-tactics-input").val());
     },
 
     GetAtkExp: function(monArr) {
       let atkArr = [],
         atkRes = "";
+      /* for (let index = 0; index < monArr.abilities.length; index++) {
+        let act = monArr.abilities[index];
+        let revName = act.desc;
+        atkRes = "<b>" + act.name + ":</b> ";
+        atkArr.push("<br>" + atkRes);
+      } */
       for (let index = 0; index < monArr.actions.length; index++) {
         let act = monArr.actions[index];
         let revName = act.desc;
@@ -1095,8 +1116,14 @@ var FormFunctions = {
         revName = revName.replace(/ \./g, ".");
         revName = revName.replace(/ \,/g, ",");
         atkRes = "<b>" + act.name + ":</b> " + ReplaceTraitTags(revName,monArr);
-        atkArr.push("<br>" + atkRes);
+        if (revName.length < 144) atkArr.push("<br>" + atkRes);
       }
+      /* for (let index = 0; index < monArr.reactions.length; index++) {
+        let act = monArr.reactions[index];
+        let revName = act.desc;
+        atkRes = "<b>" + act.name + " (React):</b> ";
+        atkArr.push("<br>" + atkRes);
+      } */
       return atkArr.join("");
     }
 }
