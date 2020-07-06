@@ -7,6 +7,11 @@ body {
 		height: 100%;
 }
 
+.enc-descr-form textarea {
+	 height: 10em;
+	 width: 30%;
+}
+
 .monster-manual td {
 	border: .05em solid #ddd;
 	/*box-shadow: 0 0 .2em #d4c09b inset;*/

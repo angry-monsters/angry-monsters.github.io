@@ -14,9 +14,32 @@
     font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
 }
 
+.enctr-block {
+    text-align: left;
+    font-size: 12.5px;
+    line-height: 1.2em;
+    display: inline-block;
+    vertical-align: top;
+    width: 500px;
+    background: #FDF1DC;
+    background-size: cover;
+	background-position: center;
+    background-image: url('../dndimages/statblockparch.jpg');
+    padding: 10px 10px 20px;
+    box-sizing: border-box;
+    font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
+}
+
 .stat-block.wide {
     width: 800px;
-    text-align: center;
+}
+
+.enctr-block.wide {
+    width: 800px;
+}
+
+.enctr-block .section-right {
+  display: none;
 }
 
 .encblock-list ul {
@@ -52,22 +75,28 @@
     margin-left: 1.5%;
 }
 
-/* @media screen and (max-width: 675px) { */
-/* .stat-block.wide { */
-/* min-width: 280px; */
-/* } */
-/* .stat-block.wide .section-left, */
-/* .stat-block.wide .section-right { */
-/* display: block; */
-/* width: 100%; */
-/* } */
-/* .stat-block.wide .section-left { */
-/* margin: 0; */
-/* } */
-/* .stat-block.wide .section-right { */
-/* margin: 0; */
-/* } */
-/* } */
+.enctr-block.wide .section-left {
+    display: inline-block;
+    vertical-align: top;
+    width: 60%;
+    text-align: left;
+}
+
+.enctr-block.wide .section-right {
+    display: inline-block;
+    vertical-align: top;
+    width: 37%;
+    text-align: left;
+}
+
+.enctr-block.wide .section-left {
+    margin-right: .5%;
+}
+
+.enctr-block.wide .section-right {
+    margin-left: .5%;
+}
+
 .orange-border {
     display: block;
     background: #E69A28;
@@ -267,7 +296,8 @@
     fill: black;
 }
 
-#print-block .stat-block {
+#print-block .stat-block,
+#print-block .enctr-block {
     background: none;
 }
 
