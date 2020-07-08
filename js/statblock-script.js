@@ -1066,6 +1066,7 @@ var FormFunctions = {
           abb_immune = "",
           abb_immunea = "",
           abb_immuneb = "",
+          abb_absorb = "",
           abb_arr = [];
         for (let index = 0; index < monico.length; index++) {
           let element = mon3[monico[index]];
@@ -1092,10 +1093,12 @@ var FormFunctions = {
           abb_immuneb = getFindVal(elementProps,"name","Condition Immunities") ? getFindVal(elementProps,"name","Condition Immunities").arr.join(", ") : "";
           abb_immune = ((abb_immunea || abb_immuneb) ? "<br><b>Immune:</b> " : "") + abb_immunea + ((abb_immunea && abb_immuneb) ? ", " : "") + abb_immuneb;
 
+          abb_absorb = getFindVal(elementProps,"name","Damage Absorption") ? "<br><b>Absorb:</b> " + getFindVal(elementProps,"name","Damage Absorption").arr : "";
+
           let upperLine = "<br><li> " + abb_nameline + "<br>" +  abb_hitline + "<br>" +  abb_statline;
           let atkLine = $("#beta-input").prop("checked") ? "<span style='color:black;'>" + abb_atks + "</span>" : "";
 
-          let midline = abb_prof + abb_sense + abb_vul + abb_resist + abb_immune;
+          let midline = abb_prof + abb_sense + abb_vul + abb_resist + abb_immune + abb_absorb;
 
           abb_arr.push(upperLine,  midline, atkLine, "</li>");
         }
@@ -1734,7 +1737,7 @@ var GetVariablesFunctions = {
                     return;
             }
         }
-        note = type == 'v' ? " (Vulnerable)" : type == 'i' ? " (Immune)" : " (Resistant)";
+        note = type == 'v' ? " (Vulnerable)" : type == 'i' ? " (Immune)" : type == 'a' ? " (Absorb)" : " (Resistant)";
         ArrayFunctions.ArrayInsert(mon[special ? "specialdamage" : "damagetypes"], {
             "name": damageName,
             "note": note,
@@ -2017,21 +2020,24 @@ var StringFunctions = {
         let vulnerableDisplayArr = [],
             resistantDisplayArr = [],
             immuneDisplayArr = [],
+            absorbDisplayArr = [],
             vulnerableDisplayArrSpecial = [],
             resistantDisplayArrSpecial = [],
-            immuneDisplayArrSpecial = [];
+            immuneDisplayArrSpecial = [],
+            absorbDisplayArrSpecial = [];
         for (let index = 0; index < mon_id.damagetypes.length; index++) {
             let typeId = mon_id.damagetypes[index].type;
-            (typeId == "v" ? vulnerableDisplayArr : typeId == "i" ? immuneDisplayArr : resistantDisplayArr).push(mon_id.damagetypes[index].name)
+            (typeId == "v" ? vulnerableDisplayArr : typeId == "i" ? immuneDisplayArr : typeId == "a" ? absorbDisplayArr : resistantDisplayArr).push(mon_id.damagetypes[index].name)
         }
         for (let index = 0; index < mon_id.specialdamage.length; index++) {
             let typeId = mon_id.specialdamage[index].type,
-                arr = typeId == "v" ? vulnerableDisplayArrSpecial : typeId == "i" ? immuneDisplayArrSpecial : resistantDisplayArrSpecial;
+                arr = typeId == "v" ? vulnerableDisplayArrSpecial : typeId == "i" ? immuneDisplayArrSpecial : typeId == "a" ? absorbDisplayArrSpecial : resistantDisplayArrSpecial;
             arr.push(mon_id.specialdamage[index].name)
         }
         vulnerableDisplayString = StringFunctions.ConcatUnlessEmpty(vulnerableDisplayArr.join(", "), vulnerableDisplayArrSpecial.join("; "), "; ").toLowerCase();
         resistantDisplayString = StringFunctions.ConcatUnlessEmpty(resistantDisplayArr.join(", "), resistantDisplayArrSpecial.join("; "), "; ").toLowerCase();
         immuneDisplayString = StringFunctions.ConcatUnlessEmpty(immuneDisplayArr.join(", "), immuneDisplayArrSpecial.join("; "), "; ").toLowerCase();
+        absorbDisplayString = StringFunctions.ConcatUnlessEmpty(absorbDisplayArr.join(", "), absorbDisplayArrSpecial.join("; "), "; ").toLowerCase();
 
         // Condition Immunities
         for (let index = 0; index < mon_id.conditions.length; index++)
@@ -2060,6 +2066,7 @@ var StringFunctions = {
         pushArr("Damage Vulnerabilities", vulnerableDisplayString);
         pushArr("Damage Resistances", resistantDisplayString);
         pushArr("Damage Immunities", immuneDisplayString);
+        pushArr("Damage Absorption", absorbDisplayString);
         pushArr("Condition Immunities", conditionsDisplayArr);
         pushArr("Senses", sensesDisplayString);
         pushArr("Languages", languageDisplayArr);
