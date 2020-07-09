@@ -172,6 +172,10 @@
 			"nums": 1,
 			"ocol" : 2
 		},
+		"party": {
+			"nums": 1,
+			"ocol" : 2
+		},
 		"gang": {
 			"nums": 0.5,
 			"ocol" : 3
