@@ -99,7 +99,7 @@ var mon = {
     languages: [],
     doubleColumns: false,
     separationPoint: 1,
-    mtrig: "bloodied",
+    mtrig: "staggered",
     mthresh: .5,
     mtype: "retreat",
     mdc: 12,
@@ -1514,7 +1514,7 @@ var GetVariablesFunctions = {
         mon.org = "group";
 
 	// Morale
-	mon.mtrig = "bloodied";
+	      mon.mtrig = "staggered";
         mon.mthresh = 0.5;
         mon.mtype = "retreat";
         mon.mdc = 12;
@@ -1945,8 +1945,8 @@ var StringFunctions = {
 
     GetMorale: function() {
       let morale_hp = .25 + (mon.mthresh / 2);
-      if (mon.mtrig === "wounded") morale_hp = 1 - mon.mthresh;
-      if (mon.mtrig === "about to die") morale_hp = mon.mthresh;
+      if (mon.mtrig === "wounded") morale_hp = 1 - (mon.mthresh / 2);
+      if (mon.mtrig === "critical" || mon.mtrig === "about to die") morale_hp = (mon.mthresh / 2);
       return "DC " + mon.mdc + " or " + mon.mtype + " when " + mon.mtrig + " (" + Math.floor(morale_hp * mon.avgHP) + ")";
     },
 

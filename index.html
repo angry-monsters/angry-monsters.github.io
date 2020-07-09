@@ -21,7 +21,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/FileSaver.min.js"></script>
     <script src="js/dom-to-image.min.js"></script>
-    <script src="js/statblock-script.js?version=4.5.6"></script>
+    <script src="js/statblock-script.js?version=4.5.7"></script>
 
 </head>
 
@@ -56,6 +56,10 @@
         <p>Use the menus to select what you want for stats. The attack bonus, the ability save DC, and the average DPR are NOT automatically added to abilities and actions - you have to manually type them in.</p>
         <p>It is recommended to set ability scores based on the monster's attack bonus and DPR, then use the syntax (i.e. [STR 1d6]) for attacks. This will also bold the attack and damage in the abbreviated statblocks. The abbreviated statblocks are still in beta and will only show actions that have descriptions of less than 144 characters.</p>
         <p>Additionally, you can start from presets. If you are editing a monster from your bestiary, you have to add the edited monster back to the bestiary like it is a new monster, and then if you want to, remove the old version.</p>
+        <h2>How Often is the Community Compendium Updated?</h2>
+        <p>For now, it gets updated daily around 00:00 GMT if there are new submissions. In the future, there will likely be some sort of codified review process and updates will be made weekly.</p>
+        <h2>Latest Update</h2>
+        <p>9 July 2020 - Added new morale triggers - "staggered" and "critical." Mathematically the same as "bloodied" and "about to die," respectively.</p>
       </div>
     </div>
 
@@ -64,6 +68,7 @@
         <br>
         <h1>Monster Manual</h1>
 	      <p>Download the <a target="_blank" href="./compendium/bestiary.compendium">Community Compendium</a> and contribute <a target="_blank" href="https://github.com/angry-monsters/angry-monsters.github.io/issues/new?assignees=&labels=bestiary&template=compendium-addition.md&title=General+Title+of+Monsters%2FTheme%2FAdditions">your own creations!</a></p>
+        <p>Community Compendium last updated -.</p>
         <br>
         <button onclick="TrySaveFile2()">Save Compendium</button>
         <button onclick="LoadFilePrompt2()">Load Monster(s)</button>
@@ -606,7 +611,9 @@
                               <label for="mtrig-input">Trigger: <br>
                                   <select id="mtrig-input">
                                       <option value="wounded">Wounded</option>
-                                      <option value="bloodied" selected>Bloodied</option>
+                                      <option value="bloodied">Bloodied</option>
+                                      <option value="staggered" selected>Staggered</option>
+                                      <option value="critical">Critically Injured</option>
                                       <option value="about to die">About to Die</option>
                                   </select>
                               </label>
