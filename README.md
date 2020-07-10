@@ -8,8 +8,9 @@ To contribute to the bestiary, go to the issues page, create a new compendium ad
 - add automatic interaction between ability scores and values from the monster stats by tier table
 - Bestiary filters
 - Tool proficiencies
-- Bonus actions
+- Bonus actions + villain actions
 - Overwrite with same name on editing monster from bestiary
+- Paragon monster / dismemberment HP pools
 
 ## Maybe:
 - CR calculator / backwards compatibility
