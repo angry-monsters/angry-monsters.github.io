@@ -15,3 +15,4 @@ To contribute to the bestiary, go to the issues page, create a new compendium ad
 ## Maybe:
 - CR calculator / backwards compatibility
 - Analysis panel (compare HP dice code to avg / CON bonus, AC to armor types / DEX bonus, DPR, attack bonus and save DC to dice codes and AS's)
+- send to improved initiative (or add tracker)
