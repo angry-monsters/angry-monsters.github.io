@@ -12,6 +12,11 @@ body {
 	 width: 30%;
 }
 
+.tabs p {
+	font-size: .75em;
+	font-style: italic;
+}
+
 .monster-manual td {
 	border: .05em solid #ddd;
 	/*box-shadow: 0 0 .2em #d4c09b inset;*/
