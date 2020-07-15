@@ -1945,7 +1945,7 @@ var StringFunctions = {
 
     GetMorale: function() {
       let morale_hp = .25 + (mon.mthresh / 2);
-      if (mon.mtrig === "wounded") morale_hp = 1 - (mon.mthresh / 2);
+      if (mon.mtrig === "wounded") morale_hp = .5 + (mon.mthresh / 2);
       if (mon.mtrig === "critical" || mon.mtrig === "about to die") morale_hp = (mon.mthresh / 2);
       return "DC " + mon.mdc + " or " + mon.mtype + " when " + mon.mtrig + " (" + Math.floor(morale_hp * mon.avgHP) + ")";
     },
