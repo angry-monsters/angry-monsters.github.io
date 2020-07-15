@@ -11,6 +11,7 @@ To contribute to the bestiary, go to the issues page, create a new compendium ad
 - Bonus actions + villain actions
 - Overwrite with same name on editing monster from bestiary
 - Paragon monster / dismemberment HP pools
+- XP section for encounters
 
 ## Maybe:
 - CR calculator / backwards compatibility
