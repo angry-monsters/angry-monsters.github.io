@@ -5,7 +5,6 @@ To contribute to the bestiary, go to the issues page, create a new compendium ad
 
 ## New Feature Priorities from 7/15-7/29 survey (not in order):
 - UX/UI improvements (separate data entry and statblock formatting, work on one section at a time, separate monster I/O)
-- Monster editing from bestiary replaces old monster
 
 ## Update Priorities
 - Traits to CR calc / CR adjustor

@@ -173,7 +173,16 @@ var TryManual = () => {
 var LoadBestiary = {
   retrieveFromWindow: function() {
     let mon_inc = JSON.parse(JSON.stringify(mon));
-    mon2.push(mon_inc);
+    let endAdd = true;
+    for (let index = 0; index < mon2.length; index++) {
+      let lowercaseElement = mon_inc.name.toLowerCase();
+      let lowercaseIndex = mon2[index].name.toLowerCase();
+      if (lowercaseIndex == lowercaseElement) {
+        mon2.splice(index, 1, mon_inc)
+        endAdd = false;
+      }
+    }
+    if (endAdd) mon2.push(mon_inc);
     localStorage.setItem("Mon2", JSON.stringify(mon2));
   },
 }
@@ -1859,9 +1868,6 @@ var GetVariablesFunctions = {
             "name": languageName
         }, true);
     },
-
-
-    // Add abilities, actions, reactions, and legendary actions
 
     AddAbility: function(arrName, abilityName, abilityDesc) {
         let arr = mon[arrName];
