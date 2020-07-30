@@ -25,7 +25,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/FileSaver.min.js"></script>
     <script src="js/dom-to-image.min.js"></script>
-    <script src="js/statblock-script.js?version=5.1.1"></script>
+    <script src="js/statblock-script.js?version=5.2.1"></script>
 
 </head>
 
@@ -65,7 +65,7 @@
         <h2>How Often is the Community Compendium Updated?</h2>
         <p>For now, it gets updated daily around 00:00 GMT if there are new submissions. In the future, there will likely be some sort of codified review process and updates will be made weekly.</p>
         <h2>Latest Update</h2>
-        <p>30 July 2020 - Added CR calculator, bonus/villain actions, encounter XP, paragon monster/dismemberment HP pools, and small bugfixes. Thank you for all the feedback on the survey! (The README on the GitHub repo shows the resulting priorities.)</p>
+        <p>30 July 2020 - Added CR calculator, bonus/villain actions, encounter XP, paragon monster/dismemberment HP pools, regex bestiary filtering, and small bugfixes. Thank you for all the feedback on the survey! (The README on the GitHub repo shows the resulting priorities.)</p>
       </div>
 
       <div style="visibility: hidden; text-align: center">
@@ -85,6 +85,9 @@
         <button onclick="LoadFilePrompt2()">Load Monster(s)</button>
         <input id="file-upload2" type="file" onChange="TryLoadFile2();" hidden />
         <input id="mon-sort-order" type="text" hidden />
+        <br>
+        <br>
+        <label style="width: 75%" for="monster-filter">Filter terms:<br>separate with semicolon for "AND" matches<br>separate with comma for "OR" matches<input style="width: 100%" id="monster-filter" type="text" value="" onchange="getMonsterInfo()"></label>
       </div>
       <div class="monster-manual">
         <table>
@@ -102,6 +105,7 @@
           <tbody id="mon2-input-list">
           </tbody></table>
       </div>
+      <br>
     </div>
 
     <div id="encounter" class="container tabcontent" style="text-align: center;">

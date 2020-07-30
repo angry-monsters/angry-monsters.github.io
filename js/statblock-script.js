@@ -1003,6 +1003,13 @@ var FormFunctions = {
             content = "",
             content2 = "",
             arrElement = "#mon2-input-list";
+
+        let fullFilter = $("#monster-filter").val();
+        fullFilter = fullFilter.replace(/\s\,\s|\s\,|\,\s|\,/g, "|");
+        fullFilter = fullFilter.replace(/\s\;\s|\s\;|\;\s|\;/g, "))(?=.*(");
+        fullFilter = "(?=.*(" + fullFilter + "))";
+        let filterRegex = (fullFilter === "(?=.*())" ? new RegExp('.', 'gi') : new RegExp(fullFilter, 'gi'));
+
         for (let index = 0; index < mon2.length; index++) {
             let element = mon2[index],
                 elementName = StringFunctions.StringCapitalize(element.name),
@@ -1017,8 +1024,14 @@ var FormFunctions = {
                 imageHTML = "<td style='text-align: center' nowrap><img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove from Bestiary' onclick='FormFunctions.RemoveMonsterListItem(" + functionArgs + ")'>";
                 imageHTML += " <img class='statblock-image' src='dndimages/edit-icon.png' alt='Edit' title='Edit Monster' onclick='FormFunctions.EditMonsterListItem(" + functionArgs + ")'>";
                 imageHTML += " <img class='statblock-image' src='dndimages/plus-icon.png' alt='Add' title='Add to Encounter' onclick='LoadEncounterAdd.retrieveFromWindow(mon2[" + functionArgs + "]);getEncounterInfo();'></td>";
-                displayArr.push("<tr> " + imageHTML + content_name + content_tier + content_org + content_size + content_type + content_tags + "</tr>");
-                if (element.tier === $("#tier-level").val())  dropdownBuffer.push("<option value=", index, ">", content2, "</option>");
+
+                let fullDisplayString = content_name + content_tier + content_org + content_size + content_type + content_tags;
+
+                if (filterRegex.test(fullDisplayString)) {
+                  displayArr.push("<tr> " + imageHTML + fullDisplayString + "</tr>");
+                  if (element.tier === $("#tier-level").val())  dropdownBuffer.push("<option value=", index, ">", content2, "</option>");
+                }
+
         }
         $(arrElement).html(displayArr.join(""));
 
