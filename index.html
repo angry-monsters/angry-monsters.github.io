@@ -18,14 +18,14 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=2.3">
     <link rel="stylesheet" type="text/css" href="css/statblock-page-style.css?version=2.1">
-    <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=3.4">
+    <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=3.5">
     <link rel="stylesheet" type="text/css" href="css/libre-baskerville.css">
     <link rel="stylesheet" type="text/css" href="css/noto-sans.css">
     <script src="js/jquery-3.4.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/FileSaver.min.js"></script>
     <script src="js/dom-to-image.min.js"></script>
-    <script src="js/statblock-script.js?version=4.5.9"></script>
+    <script src="js/statblock-script.js?version=5.0.0"></script>
 
 </head>
 
@@ -39,7 +39,7 @@
         <a target="_blank" href="https://github.com/angry-monsters/angry-monsters.github.io">GitHub Repo</a>
         <br>
         <a target="_self" href="." onclick="clearStorage()">Clear Data</a>
-        <p><br>Latest Update:<br>15 July 2020<br>(see FAQ)</p>
+        <p><br>Latest Update:<br>29 July 2020<br>(see FAQ)</p>
 	<br>
 	<br>
 	<a href='https://ko-fi.com/M4M81VQKK' target='_blank'><img width='85%' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
@@ -60,13 +60,15 @@
         <p>Use the menus to select what you want for stats. The attack bonus, the ability save DC, and the average DPR are NOT automatically added to abilities and actions - you have to manually type them in.</p>
         <p>It is recommended to set ability scores based on the monster's attack bonus and DPR, then use the syntax (i.e. [STR 1d6]) for attacks. This will also bold the attack and damage in the abbreviated statblocks. The abbreviated statblocks are still in beta and will only show actions that have descriptions of less than 144 characters.</p>
         <p>Additionally, you can start from presets. If you are editing a monster from your bestiary, you have to add the edited monster back to the bestiary like it is a new monster, and then if you want to, remove the old version.</p>
+        <h2>Using the CR Calculator</h2>
+        <p>It currently does not have modifiers for traits. It will take the maximum of the save DC or attack bonus, so set the secondary mode of attack less than or equal to the primary. Averaging offensive and defensive CR is also done differently, it is done by index rather than value. </p>
         <h2>How Often is the Community Compendium Updated?</h2>
         <p>For now, it gets updated daily around 00:00 GMT if there are new submissions. In the future, there will likely be some sort of codified review process and updates will be made weekly.</p>
         <h2>Latest Update</h2>
-        <p>15 July 2020 - Tweaked morale %Mod calc to make it more intuitive and added design goals survey.</p>
+        <p>29 July 2020 - Added CR calculator and paragon monster/dismemberment HP pools. Thank you for all the feedback on the survey! (The README on the GitHub repo shows the resulting priorities.)</p>
       </div>
 
-      <div style="text-align:center">
+      <div style="visibility: hidden; text-align: center">
         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScBJrckpK3HtD_aqvrZSpfbdeThTTr-GBNteHrgkRKtn1LR4A/viewform?embedded=true" width="100%" height="1800px" frameborder="0">Loading…</iframe>
       </div>
 
@@ -325,7 +327,52 @@
                             </div> <!-- property line -->
                             <div class="property-line">
                                 <h4>Hit Points</h4>
+                                <h4 id="paragon-tag">(Paragon)</h4>
                                 <p id="hit-points"></p>
+                            </div> <!-- property line -->
+                            <div id="hp-block" style="padding-left: 0; text-indent: 0" class="property-line cen_td2">
+                              <table>
+                                <tr>
+                                  <td>
+                                    <h4 id="pool-1"></h4>
+                                  </td>
+                                  <td>
+                                    <h4 id="pool-2"></h4>
+                                  </td>
+                                  <td>
+                                    <h4 id="pool-3"></h4>
+                                  </td>
+                                  <td>
+                                    <h4 id="pool-4"></h4>
+                                  </td>
+                                  <td>
+                                    <h4 id="pool-5"></h4>
+                                  </td>
+                                  <td>
+                                    <h4 id="pool-6"></h4>
+                                  </td>
+                                </tr>
+                                <tr>
+                                  <td>
+                                    <p id="pval-1"></p>
+                                  </td>
+                                  <td>
+                                    <p id="pval-2"></p>
+                                  </td>
+                                  <td>
+                                    <p id="pval-3"></p>
+                                  </td>
+                                  <td>
+                                    <p id="pval-4"></p>
+                                  </td>
+                                  <td>
+                                    <p id="pval-5"></p>
+                                  </td>
+                                  <td>
+                                    <p id="pval-6"></p>
+                                  </td>
+                                </tr>
+                              </table>
                             </div> <!-- property line -->
                             <div id="m-block" class="property-line">
                                 <h4>Morale</h4>
@@ -368,6 +415,10 @@
                                 <polyline points="0,0 400,2.5 0,5"></polyline>
                             </svg>
                             <div id="properties-list"></div>
+                            <div id="cr-block" class="property-line">
+                                <h4>CR</h4>
+                                <p id="cr-level"></p>
+                            </div>
                             <div class="property-line last">
                                 <h4>Threat</h4>
                                 <p id="threat-level"></p>
@@ -485,7 +536,7 @@
                           <div id="threat-mod-prompt"><label for="threat-mod">Threat Adjustment: <br>
                             <input type="number" value="0" id="threat-mod"></label></div>
                         </td>
-                        <td colspan="2">
+                        <td colspan="1">
                           <div id="arch-form">
                               <label for="arch-input">Archetype: <br>
                                   <select id="arch-input" onchange="InputFunctions.InputArchetype(this.value)">
@@ -503,6 +554,9 @@
                                   </select>
                               </label>
                           </div>
+                        </td>
+                        <td>
+                          <div id="cr-box-prompt" class="box-note"><label for="cr-input">Show CR:<br><input id="cr-input" type="checkbox" onchange="FormFunctions.ShowHideCR()"></label></div>
                         </td>
                       </tr>
                     </table>
@@ -541,11 +595,11 @@
                               </label>
                               <div id="hp-box-note" class="box-note"><label for="half-hp">Halve: <input id="half-hp" type="checkbox"></label></div>
                         </td>
-			<td>
+			                  <td>
                             <div id="hp-mod-prompt"><label for="hp-updown">Tweak HP: <br>
                             <input type="number" id="hp-updown" value="0" step="1"></label></div>
-			</td>
-		     </tr>
+			                  </td>
+		                 </tr>
                 </table>
                 <br>
                 <table id="save-armorclass-form"  class="cen_td2">
@@ -577,11 +631,67 @@
                                 <div id="otherarmor-box-note" class="box-note"><i>Use _ to italicize</i></div>
                             </div>
                         </td>
-			<td>
+			                  <td>
                             <div id="ac-mod-prompt"><label for="ac-updown">Tweak AC: <br>
                             <input type="number" id="ac-updown" value="0" step="1"></label></div>
-			</td>
+			                  </td>
                     </tr>
+                </table>
+                <br>
+                <table id="paragon-form"  class="cen_td2">
+                  <tr>
+                      <td>
+                        <div id="hp-pool-box-prompt" class="box-note"><label for="paragon-input">Paragon Monster<br>(Multiple HP Pools)?<br><input id="paragon-input" type="checkbox" onchange="FormFunctions.ShowHideParagon()"></label></div>
+                        <div id="hpnum-form">
+                            <label for="hpnum-input">Number of Pools: <br>
+                                <select id="hpnum-input" onchange="FormFunctions.ShowHideParagon()">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3" selected>3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                </select>
+                            </label>
+                        </div>
+                      </td>
+                      <td>
+                          <div id="pstat-1">
+                            <label for="psn-1">Pool Name: <input id="psn-1" type="text" value="Torso"></label><br>
+                            <label for="psv-1">Pool HP: <br><input id="psv-1" type="number" value="0" step="1"></label>
+                          </div>
+                      </td>
+                      <td>
+                          <div id="pstat-2">
+                            <label for="psn-2">Pool Name: <input id="psn-2" type="text" value="Torso"></label><br>
+                            <label for="psv-2">Pool HP: <br><input id="psv-2" type="number" value="0" step="1"></label>
+                          </div>
+                      </td>
+                      <td>
+                          <div id="pstat-3">
+                            <label for="psn-3">Pool Name: <input id="psn-3" type="text" value="Torso"></label><br>
+                            <label for="psv-3">Pool HP: <br><input id="psv-3" type="number" value="0" step="1"></label>
+                          </div>
+                      </td>
+                      <td>
+                          <div id="pstat-4">
+                            <label for="psn-4">Pool Name: <input id="psn-4" type="text" value="Torso"></label><br>
+                            <label for="psv-4">Pool HP: <br><input id="psv-4" type="number" value="0" step="1"></label>
+                          </div>
+                      </td>
+                      <td>
+                          <div id="pstat-5">
+                            <label for="psn-5">Pool Name: <input id="psn-5" type="text" value="Torso"></label><br>
+                            <label for="psv-5">Pool HP: <br><input id="psv-5" type="number" value="0" step="1"></label>
+                          </div>
+                      </td>
+                      <td>
+                          <div id="pstat-6">
+                            <label for="psn-6">Pool Name: <input id="psn-6" type="text" value="Torso"></label><br>
+                            <label for="psv-6">Pool HP: <br><input id="psv-6" type="number" value="0" step="1"></label>
+                          </div>
+                      </td>
+                  </tr>
                 </table>
                 <br>
                 <table id="morale-form"  class="cen_td2">
@@ -594,7 +704,7 @@
                               <label for="mdc-input">Morale DC: <br>
                                   <select id="mdc-input">
                                       <option value="2">Unshakeable (2)</option>
-				      <option value="7">Courageous (7)</option>
+				                              <option value="7">Courageous (7)</option>
                                       <option value="12" selected>Hardened (12)</option>
                                       <option value="17">Green (17)</option>
                                       <option value="22">Cowardly (22)</option>

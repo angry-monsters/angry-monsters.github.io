@@ -261,6 +261,11 @@ td {
     vertical-align: middle;
 }
 
+.cen_td input[type=text],
+.cen_td2 input[type=text] {
+    text-align: center;
+}
+
 .cen_td2 td {
     text-align: center;
     vertical-align: top;

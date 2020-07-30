@@ -107,7 +107,8 @@ var mon = {
     org: "group",
     threatadj: 0,
     threatval: 0,
-    avgDMG: 0
+    avgDMG: 0,
+    paragon: []
 };
 
 // Update bestiary
@@ -434,12 +435,16 @@ function UpdateStatblock(moveSeparationPoint) {
 
     // Hit Points
     $("#hit-points").html(StringFunctions.GetHP());
+    StringFunctions.SetParagon();
 
     // Morale
     $("#morale").html(StringFunctions.GetMorale());
 
     // Speed
     $("#speed").html(StringFunctions.GetSpeed());
+
+    // CR
+    $("#cr-level").html(StringFunctions.GetCR());
 
     // Threat
     mon.threatval = calcThreat();
@@ -646,7 +651,7 @@ function TryMarkdown() {
             (Array.isArray(propertiesDisplayArr[index].arr) ? propertiesDisplayArr[index].arr.join(", ") : propertiesDisplayArr[index].arr),
             "<br>");
     }
-    markdown.push("> - **Threat** ", StringFunctions.GetThreat(mon.threatval,true));
+    markdown.push(StringFunctions.GetMdCR(), "> - **Threat** ", StringFunctions.GetThreat(mon.threatval,true));
 
     if (mon.abilities.length > 0) markdown.push("<br>", GetTraitMarkdown(mon.abilities, false));
     if (mon.actions.length > 0) markdown.push("<br>> ### Actions<br>", GetTraitMarkdown(mon.actions, false));
@@ -708,6 +713,9 @@ var FormFunctions = {
         $("#hp-input").val(mon.hpName);
 	      $("#hp-updown").val(mon.hpadj);
         $("#half-hp").prop("checked", (mon.hpCut < 1 ? true : false));
+        $("#paragon-input").prop("checked",false);
+        StringFunctions.LoadParagon();
+        this.ShowHideParagon();
 
         // Morale
 	      $("#mdc-input").val(mon.mdc);
@@ -717,8 +725,12 @@ var FormFunctions = {
         $("#morale-input").prop("checked",true);
         this.ShowHideMorale();
 
-	// Threat
-	$("#threat-mod").val(mon.threatadj);
+        // CR
+        $("#cr-input").prop("checked",false);
+        this.ShowHideCR();
+
+	      // Threat
+	      $("#threat-mod").val(mon.threatadj);
 
         // Speeds
         $("#speed-input").val(mon.speed);
@@ -772,7 +784,7 @@ var FormFunctions = {
         $("#tier-input").val(mon.tier);
         this.ChangeTierForm();
 
-	// Org
+	      // Org
         $("#org-input").val(mon.org);
         this.ChangeDPRForm();
 
@@ -806,6 +818,26 @@ var FormFunctions = {
         if ($("#morale-input").prop('checked'))
             $("#mdc-form, #mreact-form, #mtrig-form, #mthresh-input-prompt, #m-block").show();
     },
+
+    ShowHideCR: function() {
+        $("#cr-block").hide();
+        if ($("#cr-input").prop('checked'))
+            $("#cr-block").show();
+    },
+
+    ShowHideParagon: function() {
+        $("#hp-block, #paragon-tag, #hpnum-form").hide();
+        for (let i = 1; i <= 6; i++) {
+          $('#pstat-' + i).hide();
+        }
+        if ($("#paragon-input").prop('checked')) {
+          $("#hp-block, #paragon-tag, #hpnum-form").show();
+          for (let i = 1; i <= $("#hpnum-input").val(); i++) {
+            $('#pstat-' + i).show();
+          }
+        }
+    },
+
     ShowHideCustomSpeed: function() {
         $(".normal-speed-col, .custom-speed-col").hide();
         if ($("#custom-speed-input").prop('checked'))
@@ -1431,8 +1463,9 @@ var GetVariablesFunctions = {
 
         // Hit Points
         mon.hpName = $("#hp-input").val();
-	mon.hpadj = $("#hp-updown").val() * 1;
+	      mon.hpadj = $("#hp-updown").val() * 1;
         mon.hpCut = $("#half-hp").prop("checked") ? .5 : 1;
+        StringFunctions.GetParagon();
 
         // Damage
         mon.dprName = $("#dpr-input").val();
@@ -1513,7 +1546,7 @@ var GetVariablesFunctions = {
         // Organization
         mon.org = "group";
 
-	// Morale
+	      // Morale
 	      mon.mtrig = "staggered";
         mon.mthresh = 0.5;
         mon.mtype = "retreat";
@@ -1547,13 +1580,14 @@ var GetVariablesFunctions = {
         // Attack Bonus
         mon.atkName = "average";
 
-	// Threat
-	mon.threatadj = 0;
+	      // Threat
+	      mon.threatadj = 0;
 
         // Hit Dice
         mon.hpName = "average";
-	mon.hpadj = 0;
-	mon.hpCut = 1;
+	      mon.hpadj = 0;
+	      mon.hpCut = 1;
+        mon.paragon = ["3","Head",0,"Torso",0,"L Arm",0,"R Arm",0,"L Leg",0,"R Leg",0];
 
         // Damage
         mon.dprName = "average";
@@ -1878,11 +1912,15 @@ var StringFunctions = {
     BonusFormat: (stat) => stat >= 0 ? "+" + stat : stat,
 
     // Get the string displayed for the monster's AC
-    GetArmorData: function(mon_name,shownote) {
+    GetArmorVal: function(mon_name) {
       let armor_mod = 0;
       if (mon_name.armorName === "poor") armor_mod = -1;
       if (mon_name.armorName === "good") armor_mod = 1;
 
+      return mon_name.acadj + data.armorclass[(data.tiers[mon_name.tier].trow+armor_mod)];
+    },
+
+    GetArmorData: function(mon_name,shownote) {
       let armor_note = "";
       if (shownote) {
         if (mon_name.shieldBonus > 0) armor_note = " (shield)";
@@ -1890,7 +1928,7 @@ var StringFunctions = {
         if (mon_name.otherArmorDesc && (mon_name.shieldBonus > 0)) armor_note = " (" + mon_name.otherArmorDesc + ", shield)";
       }
 
-      return (mon_name.acadj + data.armorclass[(data.tiers[mon_name.tier].trow+armor_mod)]) + armor_note;
+      return this.GetArmorVal(mon_name) + armor_note;
     },
 
     // Get the string displayed for the monster's Save DC
@@ -1950,8 +1988,63 @@ var StringFunctions = {
       return "DC " + mon.mdc + " or " + mon.mtype + " when " + mon.mtrig + " (" + Math.floor(morale_hp * mon.avgHP) + ")";
     },
 
+    GetParagon: function() {
+      mon.paragon = [];
+      mon.paragon.push($("#hpnum-input").val());
+      for (let i = 1; i <= 6; i++) {
+        mon.paragon.push($('#psn-' + i).val(),$('#psv-' + i).val());
+      }
+    },
+
+    LoadParagon: function() {
+      if (!mon.paragon) {
+        mon.paragon = ["3","Head",0,"Torso",0,"L Arm",0,"R Arm",0,"L Leg",0,"R Leg",0];
+      }
+      $("#hpnum-input").val(mon.paragon[0]);
+      for (let i = 1; i <= 6; i++) {
+        $('#psn-' + i).val(mon.paragon[2*i-1]);
+        $('#psv-' + i).val(mon.paragon[2*i]);
+      }
+    },
+
+    SetParagon: function() {
+      let num_pools = mon.paragon[0] * 1;
+      for (let i = 1; i <= num_pools; i++) {
+        $('#pool-' + i).html(mon.paragon[2*i-1]);
+        $('#pval-' + i).html(mon.paragon[2*i]);
+      }
+      for (let i = num_pools + 1; i <= 6; i++) {
+        $('#pool-' + i).html("");
+        $('#pval-' + i).html("");
+      }
+    },
+
     GetMdMorale: function() {
-      if ($("#morale-input").prop('checked')) return '<br>> - **Morale** ' + StringFunctions.GetMorale();
+      if ($("#morale-input").prop('checked')) return '<br>> - **Morale** ' + this.GetMorale();
+      return "";
+    },
+
+    GetCRdx: function() {
+      // defensive cr
+      // get cr from hp
+      let dcr_idx = data.hpforcr.findIndex(element => element <= mon.avgHP);
+      // get AC diff and adjust dCR
+      dcr_idx = dcr_idx - Math.floor((this.GetArmorVal(mon) - data.acforcr[dcr_idx]) / 2);
+      // offensive cr
+      let ocr_idx = data.dmgforcr.findIndex(element => element <= this.GetDPR());
+      // get ATK or save diff and adjust oCR
+      ocr_idx = ocr_idx - Math.max(Math.floor((this.GetSaveDC(mon) - data.saveforcr[ocr_idx]) / 2), Math.floor((this.GetAttackBonus(mon) - data.atkforcr[ocr_idx]) / 2));
+      // average
+      return Math.max(Math.min(Math.round((ocr_idx + dcr_idx) / 2), 33),0);
+    },
+
+    GetCR: function() {
+      let cr_idx = this.GetCRdx();
+      return data.crlist[cr_idx] + " (" + data.xpforcr[cr_idx] + " XP)";
+    },
+
+    GetMdCR: function() {
+      if ($("#cr-input").prop('checked')) return '> - **CR** ' + this.GetCR() + '<br>';
       return "";
     },
 
