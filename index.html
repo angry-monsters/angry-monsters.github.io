@@ -25,7 +25,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/FileSaver.min.js"></script>
     <script src="js/dom-to-image.min.js"></script>
-    <script src="js/statblock-script.js?version=5.0.1"></script>
+    <script src="js/statblock-script.js?version=5.1.1"></script>
 
 </head>
 
@@ -39,7 +39,7 @@
         <a target="_blank" href="https://github.com/angry-monsters/angry-monsters.github.io">GitHub Repo</a>
         <br>
         <a target="_self" href="." onclick="clearStorage()">Clear Data</a>
-        <p><br>Latest Update:<br>29 July 2020<br>(see FAQ)</p>
+        <p><br>Latest Update:<br>30 July 2020<br>(see FAQ)</p>
 	<br>
 	<br>
 	<a href='https://ko-fi.com/M4M81VQKK' target='_blank'><img width='85%' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
@@ -65,7 +65,7 @@
         <h2>How Often is the Community Compendium Updated?</h2>
         <p>For now, it gets updated daily around 00:00 GMT if there are new submissions. In the future, there will likely be some sort of codified review process and updates will be made weekly.</p>
         <h2>Latest Update</h2>
-        <p>29 July 2020 - Added CR calculator and paragon monster/dismemberment HP pools. Thank you for all the feedback on the survey! (The README on the GitHub repo shows the resulting priorities.)</p>
+        <p>30 July 2020 - Added CR calculator, bonus/villain actions, encounter XP, paragon monster/dismemberment HP pools, and small bugfixes. Thank you for all the feedback on the survey! (The README on the GitHub repo shows the resulting priorities.)</p>
       </div>
 
       <div style="visibility: hidden; text-align: center">
@@ -148,6 +148,10 @@
                   <div id="enc-party-size"><label for="party-size">Number of PCs: <br>
                     <input type="number" min="1" value="1" id="party-size" onchange="getEncounterInfo()"></label></div>
                 </td>
+                <td>
+                  <div id="enc-xp-in"><label for="xp-in">Encounter XP (0 for auto): <br>
+                    <input type="number" min="0" value="1" id="xp-in" onchange="getEncounterInfo()"></label></div>
+                </td>
               </tr>
             </table>
         <hr>
@@ -203,6 +207,7 @@
                           <h1>&nbsp;</h1>
                           <h3>&nbsp;</h3>
                           <h2>&nbsp;</h2>
+                          <h2>&nbsp;</h2>
                       </div>
                       <svg style="visibility: hidden;" height="5" width="100%" class="tapered-rule">
                           <polyline points="0,0 400,2.5 0,5"></polyline>
@@ -225,6 +230,7 @@
                           <h1 id="enc-name">Encounter Name</h1>
                           <h3 id="mon3-enc-threat">Overall Threat</h3>
                           <h2 id="force-size">Force Size</h2>
+                          <h2 id="xp-amt">XP</h2>
                       </div>
                       <svg height="5" width="100%" class="tapered-rule">
                           <polyline points="0,0 500,2.5 0,5"></polyline>
@@ -950,7 +956,9 @@
                 <div>
                     <button type="button" id="add-ability-button" onclick="InputFunctions.AddAbilityInput('abilities')">Add Ability</button>
                     <button type="button" id="add-action-button" onclick="InputFunctions.AddAbilityInput('actions')">Add Action</button>
+                    <button type="button" id="add-bonus-button" onclick="InputFunctions.AddAbilityInput('bonuses')">Add Bonus Action</button>
                     <button type="button" id="add-reaction-button" onclick="InputFunctions.AddAbilityInput('reactions')">Add Reaction</button>
+                    <button type="button" id="add-villain-button" onclick="InputFunctions.AddAbilityInput('villains')">Add Villain Action</button>
                     <button type="button" id="add-legendary-button" onclick="InputFunctions.AddAbilityInput('legendaries')">Add Legendary Action</button>
                 </div>
                 <div>
@@ -980,8 +988,14 @@
                     <div id="actions-input-section"><b>Actions:</b><br>
                         <ul id="actions-input-list" class="statblock-list"></ul>
                     </div>
+                    <div id="bonuses-input-section"><b>Bonus Actions:</b><br>
+                        <ul id="bonuses-input-list" class="statblock-list"></ul>
+                    </div>
                     <div id="reactions-input-section"><b>Reactions:</b><br>
                         <ul id="reactions-input-list" class="statblock-list"></ul>
+                    </div>
+                    <div id="villains-input-section"><b>Villain Actions:</b><br>
+                        <ul id="villains-input-list" class="statblock-list"></ul>
                     </div>
                     <div id="legendaries-input-section"><b>Legendary Actions:</b><br>
                         <ul id="legendaries-input-list" class="statblock-list"></ul>

@@ -37,6 +37,7 @@ var encDat = {
   terrain: "",
   tactics: "",
   conflict: "",
+  exp: 0,
   pcTier: "apprentice"
 };
 
@@ -89,6 +90,8 @@ var mon = {
     properties: [],
     abilities: [],
     actions: [],
+    bonuses: [],
+    villains: [],
     reactions: [],
     legendaries: [],
     sthrows: [],
@@ -180,9 +183,6 @@ function clearStorage() {
 }
 
 function ClearEncounter() {
-  mon3 = [];
-  getEncounterInfo();
-  localStorage.setItem("Mon3", JSON.stringify(mon3));
   encDat = {
     battle: "Encounter",
     numPCs: "1",
@@ -190,10 +190,14 @@ function ClearEncounter() {
     terrain: "",
     tactics: "",
     conflict: "",
+    exp: 0,
     pcTier: "apprentice"
   };
   FormFunctions.SetEncVars();
   localStorage.setItem("Enc3", JSON.stringify(encDat));
+  mon3 = [];
+  getEncounterInfo();
+  localStorage.setItem("Mon3", JSON.stringify(mon3));
 }
 
 var TryEncounter = () => {
@@ -407,7 +411,7 @@ var EncounterData = {
 // Update the main stat block
 function UpdateStatblock(moveSeparationPoint) {
     // Set Separation Point
-    let separationMax = mon.abilities.length + mon.actions.length + mon.reactions.length - 1;
+    let separationMax = mon.abilities.length + mon.actions.length + mon.bonuses.length + mon.villains.length + mon.reactions.length - 1;
 
     if (mon.isLegendary)
         separationMax += (mon.legendaries.length == 0 ? 1 : mon.legendaries.length);
@@ -477,7 +481,9 @@ function UpdateStatblock(moveSeparationPoint) {
 
     if (mon.abilities.length > 0) AddToTraitList(traitsHTML, mon.abilities);
     if (mon.actions.length > 0) AddToTraitList(traitsHTML, mon.actions, "<h3>Actions</h3>");
+    if (mon.bonuses.length > 0) AddToTraitList(traitsHTML, mon.bonuses, "<h3>Bonus Actions</h3>");
     if (mon.reactions.length > 0) AddToTraitList(traitsHTML, mon.reactions, "<h3>Reactions</h3>");
+    if (mon.villains.length > 0) AddToTraitList(traitsHTML, mon.villains, "<h3>Villain Actions</h3>");
     if (mon.isLegendary)
         AddToTraitList(traitsHTML, mon.legendaries, mon.legendariesDescription == "" ? "<h3>Legendary Actions</h3>" : ["<h3>Legendary Actions</h3><div class='property-block'>", mon.legendariesDescription, "</div></br>"], true);
 
@@ -655,7 +661,9 @@ function TryMarkdown() {
 
     if (mon.abilities.length > 0) markdown.push("<br>", GetTraitMarkdown(mon.abilities, false));
     if (mon.actions.length > 0) markdown.push("<br>> ### Actions<br>", GetTraitMarkdown(mon.actions, false));
+    if (mon.bonuses.length > 0) markdown.push("<br>> ### Bonus Actions<br>", GetTraitMarkdown(mon.bonuses, false));
     if (mon.reactions.length > 0) markdown.push("<br>> ### Reactions<br>", GetTraitMarkdown(mon.reactions, false));
+    if (mon.villains.length > 0) markdown.push("<br>> ### Villain Actions<br>", GetTraitMarkdown(mon.villains, false));
     if (mon.isLegendary) {
         markdown.push("<br>> ### Legendary Actions<br>> ", mon.legendariesDescription);
         if (mon.legendaries.length > 0) markdown.push("<br>><br>", GetTraitMarkdown(mon.legendaries, true));
@@ -670,7 +678,7 @@ function TryMarkdown() {
 function GetTraitMarkdown(traitArr, legendary) {
     let markdown = [];
     for (let index = 0; index < traitArr.length; index++) {
-        let desc = ReplaceTraitTags(traitArr[index].desc)
+        let desc = ReplaceTraitTags(traitArr[index].desc,mon)
             .replace(/(\r\n|\r|\n)\s*(\r\n|\r|\n)/g, '\n>\n')
             .replace(/(\r\n|\r|\n)>/g, '\&lt;br&gt;<br>>')
             .replace(/(\r\n|\r|\n)/g, '\&lt;br&gt;<br>> &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;');
@@ -773,7 +781,11 @@ var FormFunctions = {
         // Abilities
         this.MakeDisplayList("abilities", false, true);
         this.MakeDisplayList("actions", false, true);
+        if (!mon.bonuses) mon.bonuses = [];
+        this.MakeDisplayList("bonuses", false, true);
         this.MakeDisplayList("reactions", false, true);
+        if (!mon.villains) mon.villains = [];
+        this.MakeDisplayList("villains", false, true);
         this.MakeDisplayList("legendaries", false, true);
 
         // Is Legendary?
@@ -889,17 +901,17 @@ var FormFunctions = {
 
     // Set the attack bonus based on the monster's Tier
     ChangeAtkBForm: function() {
-        $("#atk-bonus").html("Attack Bonus: +" + StringFunctions.GetAttackBonus());
+        $("#atk-bonus").html("Attack Bonus: +" + StringFunctions.GetAttackBonus(mon));
     },
 
     // Set the save dc based on the monster's Tier
     ChangeSDCForm: function() {
-        $("#save-dc").html("Ability Save DC: " + StringFunctions.GetSaveDC());
+        $("#save-dc").html("Ability Save DC: " + StringFunctions.GetSaveDC(mon));
     },
 
     // Set the averageDPR based on the monster's Tier and organization
     ChangeDPRForm: function() {
-        $("#avg-dpr").html("Average DPR: " + StringFunctions.GetDPR());
+        $("#avg-dpr").html("Average DPR: " + StringFunctions.GetDPR(mon));
     },
 
     // For setting the column radio buttons based on saved data
@@ -1070,10 +1082,12 @@ var FormFunctions = {
         $("#mon3-input-list").html(mon4.join(""));
         $("#mon3-input-list-icons").html(display_icons.join(""));
 
+        $("#xp-amt").html(this.GetEncXP(mon3));
+
 	      let overall_threat = (threatsum / encDat.numPCs) - 5;
         $("#mon3-enc-threat").html("Overall Encounter Threat: " + StringFunctions.StringCapitalize(StringFunctions.GetThreat(overall_threat,false)));
 
-        $("#force-size").html(Math.ceil(positsum) + " positions, " + encDat.numPCs + " " + encDat.pcTier + "-tier PCs");
+        $("#force-size").html(Math.ceil(positsum) + "-position force vs. " + encDat.numPCs + " " + encDat.pcTier + "-tier PCs");
 
         $("#mon3-input-list").parent()[mon3.length == 0 ? "hide" : "show"]();
         $("#mon3-input-list-icons").parent()[mon3.length == 0 ? "hide" : "show"]();
@@ -1166,6 +1180,7 @@ var FormFunctions = {
       encDat.conflict = $("#enc-conflict-input").val();
       encDat.terrain = $("#enc-terrain-input").val();
       encDat.tactics = $("#enc-tactics-input").val();
+      encDat.exp = $("#xp-in").val();
     },
 
     SetEncVars: function() {
@@ -1180,6 +1195,22 @@ var FormFunctions = {
       $("#enc-type").val(encDat.type);
       $("#party-size").val(encDat.numPCs);
       $("#tier-level").val(encDat.pcTier);
+      if (!encDat.exp) encDat.exp = 0;
+      $("#xp-in").val(encDat.exp);
+    },
+
+    GetEncXP: function(monArr) {
+      encDat.exp = $("#xp-in").val() * 1;
+      if (encDat.exp != 0) {
+        return encDat.exp + " total awarded XP";
+      } else {
+        for (let index = 0; index < monArr.length; index++) {
+          let act = monArr[index];
+          let xp_incr = data.xpforcr[StringFunctions.GetCRdx(act)];
+          encDat.exp += xp_incr;
+        }
+        return encDat.exp + " total awarded XP";
+      }
     },
 
     GetAtkExp: function(monArr) {
@@ -1702,7 +1733,9 @@ var GetVariablesFunctions = {
         // Abilities
         mon.abilities = [];
         mon.actions = [];
+        mon.bonuses = [];
         mon.reactions = [];
+        mon.villains = [];
         mon.legendaries = [];
         let abilitiesPresetArr = preset.special_abilities,
             actionsPresetArr = preset.actions,
@@ -1932,21 +1965,21 @@ var StringFunctions = {
     },
 
     // Get the string displayed for the monster's Save DC
-    GetSaveDC: function() {
+    GetSaveDC: function(mon_id) {
       let st_mod = 0;
-      if (mon.stName === "poor") st_mod = -1;
-      if (mon.stName === "good") st_mod = 1;
+      if (mon_id.stName === "poor") st_mod = -1;
+      if (mon_id.stName === "good") st_mod = 1;
 
-      return data.savedc[(data.tiers[mon.tier].trow+st_mod)];
+      return data.savedc[(data.tiers[mon_id.tier].trow+st_mod)];
     },
 
     // Get the string displayed for the monster's Attack Bonus
-    GetAttackBonus: function() {
+    GetAttackBonus: function(mon_id) {
       let atk_mod = 0;
-      if (mon.atkName === "poor") atk_mod = -1;
-      if (mon.atkName === "good") atk_mod = 1;
+      if (mon_id.atkName === "poor") atk_mod = -1;
+      if (mon_id.atkName === "good") atk_mod = 1;
 
-      return data.atkbonus[(data.tiers[mon.tier].trow+atk_mod)];
+      return data.atkbonus[(data.tiers[mon_id.tier].trow+atk_mod)];
     },
 
     // Get the string displayed for the monster's HP
@@ -1971,14 +2004,14 @@ var StringFunctions = {
     },
 
     // Get the average damage per round
-    GetDPR: function() {
+    GetDPR: function(mon_id) {
         let dpr_mod = 0;
-        if (mon.dprName === "poor") dpr_mod = -1;
-        if (mon.dprName === "good") dpr_mod = 1;
+        if (mon_id.dprName === "poor") dpr_mod = -1;
+        if (mon_id.dprName === "good") dpr_mod = 1;
 
-        mon.avgDMG = data.dpr[(data.tiers[mon.tier].trow+dpr_mod)][data.organizations[mon.org].ocol];
+        mon_id.avgDMG = data.dpr[(data.tiers[mon_id.tier].trow+dpr_mod)][data.organizations[mon_id.org].ocol];
 
-        return mon.avgDMG;
+        return mon_id.avgDMG;
     },
 
     GetMorale: function() {
@@ -2024,22 +2057,22 @@ var StringFunctions = {
       return "";
     },
 
-    GetCRdx: function() {
+    GetCRdx: function(mon_id) {
       // defensive cr
       // get cr from hp
-      let dcr_idx = data.hpforcr.findIndex(element => element <= mon.avgHP);
+      let dcr_idx = data.hpforcr.findIndex(element => element <= mon_id.avgHP);
       // get AC diff and adjust dCR
-      dcr_idx = dcr_idx - Math.floor((this.GetArmorVal(mon) - data.acforcr[dcr_idx]) / 2);
+      dcr_idx = dcr_idx - Math.floor((this.GetArmorVal(mon_id) - data.acforcr[dcr_idx]) / 2);
       // offensive cr
-      let ocr_idx = data.dmgforcr.findIndex(element => element <= this.GetDPR());
+      let ocr_idx = data.dmgforcr.findIndex(element => element <= this.GetDPR(mon_id));
       // get ATK or save diff and adjust oCR
-      ocr_idx = ocr_idx - Math.max(Math.floor((this.GetSaveDC(mon) - data.saveforcr[ocr_idx]) / 2), Math.floor((this.GetAttackBonus(mon) - data.atkforcr[ocr_idx]) / 2));
+      ocr_idx = ocr_idx - Math.max(Math.floor((this.GetSaveDC(mon_id) - data.saveforcr[ocr_idx]) / 2), Math.floor((this.GetAttackBonus(mon_id) - data.atkforcr[ocr_idx]) / 2));
       // average
       return Math.max(Math.min(Math.round((ocr_idx + dcr_idx) / 2), 33),0);
     },
 
     GetCR: function() {
-      let cr_idx = this.GetCRdx();
+      let cr_idx = this.GetCRdx(mon);
       return data.crlist[cr_idx] + " (" + data.xpforcr[cr_idx] + " XP)";
     },
 
