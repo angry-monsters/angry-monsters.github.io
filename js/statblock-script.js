@@ -2317,7 +2317,7 @@ $(function() {
         });
 
     // Load the json data
-    $.getJSON("js/JSON/statblockdata.json", function(json) {
+    $.getJSON("js/JSON/statblockdata.json?version=5.0", function(json) {
         data = json;
 
         // Set the default monster in case there isn't one saved
