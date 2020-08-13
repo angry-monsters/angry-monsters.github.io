@@ -10,3 +10,4 @@ To contribute to the bestiary, go to the issues page, create a new compendium ad
 - Traits to CR calc / CR adjustor
 - Paragon / dismemberment HP pools to encounter, Markdown and printable block (css)
 - morale, bonus actions/reactions to abbreviated statblocks
+- fix loading of archetypes (guess if one applies and load)
