@@ -8,7 +8,7 @@ function openTab(evt, tabName) {
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" active", "");
   }
-  document.getElementById(tabName).style.display = "flex";
+  document.getElementById(tabName).style.display = "grid";
   if (evt) {
     evt.currentTarget.className += " active";
   } else {
