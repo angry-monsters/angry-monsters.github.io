@@ -12,3 +12,4 @@ To contribute to the bestiary, go to the issues page, create a new compendium ad
 - morale, bonus actions/reactions to abbreviated statblocks
 - toggle light / dark theme, switch color palette
 - responsive layout & icons
+- fix loading of archetypes (guess if one applies and load)
