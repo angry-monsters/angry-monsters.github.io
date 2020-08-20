@@ -13,3 +13,4 @@ To contribute to the bestiary, go to the issues page, create a new compendium ad
 - toggle light / dark theme, switch color palette
 - responsive layout & icons
 - fix loading of archetypes (guess if one applies and load)
+- reload and stay on the same tab
