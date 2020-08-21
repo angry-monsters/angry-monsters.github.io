@@ -16,6 +16,30 @@ function openTab(evt, tabName) {
   }
 }
 
+function anyChange() {
+  var optDiv = $("#mon-opts-div")[0];
+  optDiv.addEventListener("change", function() {
+    UpdateBlockFromVariables(0);
+  });
+}
+
+function showMenu() {
+  var dropdown = document.getElementsByClassName("menu-btn");
+  var i;
+
+  for (i = 0; i < dropdown.length; i++) {
+    dropdown[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var dropdownContent = this.nextElementSibling;
+      if (dropdownContent.style.display === "block") {
+        dropdownContent.style.display = "none";
+      } else {
+        dropdownContent.style.display = "block";
+      }
+    });
+  }
+}
+
 function encSort(value, index, self) {
     return self.indexOf(value) === index;
 }
@@ -799,7 +823,6 @@ var FormFunctions = {
 
         // Is Legendary?
         $("#is-legendary-input").prop("checked", mon.isLegendary);
-        this.ShowHideLegendaryCreature();
 
         // Tier
         $("#tier-input").val(mon.tier);
@@ -835,9 +858,9 @@ var FormFunctions = {
     },
 
     ShowHideMorale: function() {
-        $("#mdc-form, #mreact-form, #mtrig-form, #mthresh-input-prompt, #m-block").hide();
+        $("#m-block").hide();
         if ($("#morale-input").prop('checked'))
-            $("#mdc-form, #mreact-form, #mtrig-form, #mthresh-input-prompt, #m-block").show();
+            $("#m-block").show();
     },
 
     ShowHideCR: function() {
@@ -847,15 +870,15 @@ var FormFunctions = {
     },
 
     ShowHideParagon: function() {
-        $("#hp-block, #paragon-tag, #hpnum-form").hide();
+        $("#hp-block, #paragon-tag").hide();
         for (let i = 1; i <= 6; i++) {
           $('#pstat-' + i).hide();
         }
         if ($("#paragon-input").prop('checked')) {
-          $("#hp-block, #paragon-tag, #hpnum-form").show();
-          for (let i = 1; i <= $("#hpnum-input").val(); i++) {
-            $('#pstat-' + i).show();
-          }
+          $("#hp-block, #paragon-tag").show();
+        }
+        for (let i = 1; i <= $("#hpnum-input").val(); i++) {
+          $('#pstat-' + i).show();
         }
     },
 
@@ -886,12 +909,6 @@ var FormFunctions = {
     ShowHideSeparatorInput: function() {
         this.ShowHideHtmlElement("#left-separator-button", mon.doubleColumns);
         this.ShowHideHtmlElement("#right-separator-button", mon.doubleColumns);
-    },
-
-    ShowHideLegendaryCreature: function() {
-        $("#is-legendary-input:checked").val() ?
-            $("#add-legendary-button, #legendary-actions-form").show() :
-            $("#add-legendary-button, #legendary-actions-form").hide();
     },
 
     ShowHideFormatHelper: function() {

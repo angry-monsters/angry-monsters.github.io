@@ -7,9 +7,13 @@ body {
 		height: 100%;
 }
 
+.enc-descr-form label {
+	width: calc(95% - 1.5em);
+}
+
 .enc-descr-form textarea {
-	 height: 10em;
-	 width: 30%;
+	width: 100%;
+	height: 6em;
 }
 
 .tabs p {
@@ -77,24 +81,97 @@ body {
 
 .gridcontainer {
   display: grid;
-  grid-template-columns: 10em 2.5em auto;
-  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.5em 5.75em 1fr;
+	overflow: hidden;
 }
 
 .tabs {
-  grid-column: 1;
-  display: flex;
-  flex-direction: column;
+  grid-row: 2;
+  display: grid;
+  grid-template-columns: 1.5em 8em 6em 8em 4em 1fr 8em 8em;
+  grid-template-rows: 1fr;
+	text-align: center;
 }
 
 .tabcontent {
-  grid-column: 3;
-  flex-direction: column;
-	overflow: auto;
+  grid-row: 3;
 }
 
-.tabcontentflex {
-	flex: auto;
+.tabcontainer {
+	display: grid;
+  grid-template-columns: 1fr 903px;
+  grid-template-rows: 1fr;
+	padding: 0;
+}
+
+.tabcontainer2 {
+	display: grid;
+  grid-template-columns: .2fr .8fr;
+  grid-template-rows: 1fr;
+	padding: 0;
+}
+
+.enc-container {
+	display: grid;
+  grid-template-columns: 78px 825px;
+  grid-template-rows: 1fr;
+	padding: 0;
+}
+
+.enc-container p {
+	margin: 0;
+}
+
+.enc-overlay {
+	display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 4em 1fr;
+	padding: 0;
+
+}
+
+.menucontainer {
+	display: grid;
+	padding: 0;
+}
+
+.menu-btn {
+	font-size: 125%;
+	color: black;
+	background-color: #FDF1DC;
+	border-top: 0.175em solid #d4c09b;
+	border-bottom: 0em solid #d4c09b;
+	border-left: 0em solid #d4c09b;
+	border-right: 0em solid #d4c09b;
+	line-height: 1.5;
+}
+
+.menudrop .menu-btn {
+	font-size: 100%;
+	color: black;
+	background-color: #FDF1DC;
+	border-top: 0.125em solid #d4c09b;
+	border-bottom: 0em solid #d4c09b;
+	border-left: 0em solid #d4c09b;
+	border-right: 0em solid #d4c09b;
+	width: calc(100% - 1.5em);
+	margin-left: 1.5em;
+}
+
+.menudrop .submenu-end {
+	margin-bottom:-1em;
+	padding-bottom:0;
+}
+
+.menu-btn:hover {
+	background-color: #d4c09b;
+}
+
+.menudrop {
+	display: none;
+	padding: 1em 0 1em 1.5em;
+	text-align: left;
 }
 
 .tabs button {
@@ -104,43 +181,24 @@ body {
   padding: 0.75em;
   width: 100%;
   outline: none;
-  text-align: left;
   cursor: pointer;
   transition: 0.3s;
   font-size: 1.25em;
-  border-right: .0625em solid #000000;
-  border-left: .0625em solid #FFFFFF;
-  border-top: .0625em solid #FFFFFF;
-  border-bottom: .0625em solid #FFFFFF;
-}
-
-.buttonfill {
-  background-color: #FFFFFF;
-  flex-grow: 1;
-  font-size: 1.25em;
-  padding: 0.75em;
-  text-align: left;
-  border-right: .0625em solid #000000;
-  border-left: .0625em solid #FFFFFF;
-  border-top: .0625em solid #FFFFFF;
-  border-bottom: .0625em solid #FFFFFF;
+	border: 0px solid #000000;
+	height: 100%;
 }
 
 .tabs button:hover {
-  background-color: #FDF1DC;
-  border-left: .0625em solid #FDF1DC;
-  border-top: .0625em solid #FDF1DC;
-  border-bottom: .0625em solid #FDF1DC;
+  background-color: #d4c09b;
 }
 
 /* Create an active/current "tab button" class */
 .tabs button.active {
-  background-color: #d4c09b;
-  border-right: .0625em solid #000000;
-  border-left: .0625em solid #000000;
-  border-top: .0625em solid #000000;
-  border-bottom: .0625em solid #000000;
-  width: calc(100% + 1.5em);
+  background-color: #FDF1DC;
+}
+
+.tabs p {
+	margin-bottom: 0;
 }
 
 .container {
@@ -149,12 +207,13 @@ body {
     margin: 0 auto;
     line-height: 125%;
     border-style: none;
-	min-height: 100%;
-	max-width: 100%;
+	  min-height: 100%;
+	  max-width: 100%;
 }
 
 .content {
-    padding: 25px 50px;
+    margin: 25px 0px;
+		padding-right: 100px;
 }
 
 h1,
@@ -202,6 +261,10 @@ button {
     background: #2C313F;
     padding: 2px 6px;
     width: auto;
+}
+
+button:focus {
+	outline: none;
 }
 
 button:hover {
