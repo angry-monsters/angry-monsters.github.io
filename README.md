@@ -11,4 +11,4 @@ To contribute to the bestiary, go to the issues page, create a new compendium ad
 - remove option for only 1 paragon pool
 
 ## Known Bugs
-- CON Modifier of -5 sometimes gives negative HD with a positive modifier
+- If CON Modifier is less than average HD, gives negative number of HD

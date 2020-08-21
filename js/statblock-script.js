@@ -21,6 +21,24 @@ function anyChange() {
   optDiv.addEventListener("change", function() {
     UpdateBlockFromVariables(0);
   });
+
+  var optButton = optDiv.getElementsByTagName("button");
+  var i;
+  for (i = 0; i < optButton.length; i++) {
+    if (!optButton[i].classList.contains("menu-btn")) {
+      optButton[i].addEventListener("click", function() {
+        UpdateBlockFromVariables(0);
+      });
+    }
+  }
+
+  var optLists = optDiv.getElementsByClassName("statblock-list");
+  var j;
+  for (j = 0; j < optLists.length; j++) {
+    optLists[j].addEventListener("click", function() {
+      UpdateBlockFromVariables(0);
+    });
+  }
 }
 
 function showMenu() {
