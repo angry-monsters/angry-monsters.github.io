@@ -346,6 +346,12 @@ body {
 		padding-right: 100px;
 }
 
+.faq-image {
+    width: 30px;
+    height: 30px;
+    fill: var(--color-pri);
+}
+
 #slot-target {
 	position: absolute;
 	display: inline-block;
