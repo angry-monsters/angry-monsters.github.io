@@ -355,7 +355,8 @@ body {
 #slot-target {
 	position: absolute;
 	display: inline-block;
-	background-color: var(--color-text-emph);
+	background-color: var(--color-pri);
+	color: var(--surf-highest);
 	height: 3em;
 	margin-right: 40%;
 	margin-left: 40%;
@@ -365,7 +366,7 @@ body {
 #slot-bar {
 	position: absolute;
 	display: inline-block;
-	background-color: var(--surf-highest);
+	background-color: var(--surf-higher);
 	margin-top: .5em;
 	height: 2em;
 	width: 0%;
@@ -376,7 +377,7 @@ body {
 	display: inline-block;
 	border-width: .075em;
 	border-style: solid;
-	border-color: var(--surf-highest);
+	border-color: var(--color-pri);
 	margin-top: .5em;
 	height: 2em;
 	width: 100%;
