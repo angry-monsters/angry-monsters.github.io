@@ -1,3 +1,27 @@
+:root {
+	--pri-hue: 38; /* primary color */
+
+	--stat-bg-hue: 38; /* statblock background hue */
+	--stat-main-hue: 10; /* statblock primary hue */
+
+	--surf-bg: hsl(var(--pri-hue),0%,7%);
+	--surf-high: hsl(var(--pri-hue),0%,12%);
+	--surf-higher: hsl(var(--pri-hue),0%,16%);
+	--surf-highest: hsl(var(--pri-hue),0%,20%);
+
+	--color-pri: hsl(var(--pri-hue),60%,50%);
+	--color-acc: hsl(var(--pri-hue),80%,50%);
+	--color-text: hsla(var(--pri-hue),0%,100%,.87);
+	--color-text-emph: hsla(var(--pri-hue),80%,50%,.77);
+
+	--stat-main: hsl(var(--stat-main-hue),80%,32%);
+	--stat-acc: hsl(var(--stat-main-hue),80%,26%);
+	--stat-null: hsl(var(--stat-main-hue),0%,0%);
+	--stat-bord: hsl(var(--stat-bg-hue),80%,52%);
+	--stat-bg: hsl(var(--stat-bg-hue),90%,92%);
+	--stat-shad: hsl(var(--stat-bg-hue),24%,44%);
+}
+
 html {
 	height: 100%;
 }
@@ -5,6 +29,8 @@ html {
 body {
     margin: 0;
 		height: 100%;
+		background-color: var(--surf-bg);
+		color: var(--color-text);
 }
 
 .enc-descr-form label {
@@ -22,8 +48,7 @@ body {
 }
 
 .monster-manual td {
-	border: .05em solid #ddd;
-	/*box-shadow: 0 0 .2em #d4c09b inset;*/
+	border: .05em solid var(--surf-highest);
 	vertical-align: middle;
 	padding: 1em;
 	line-height: 1.2;
@@ -35,7 +60,11 @@ body {
 }
 
 .monster-manual tr:nth-child(odd) {
-	background: #FDF1DC;
+	background: var(--surf-higher);
+}
+
+.monster-manual tr:nth-child(even) {
+	background: var(--surf-high);
 }
 
 .monster-manual table {
@@ -46,7 +75,7 @@ body {
 
 .monster-manual thead {
 	text-align: center;
-	color: #7A200D;
+	color: var(--color-pri);
   font-size: 1.2rem;
   line-height: 1.2em;
   font-weight: bold;
@@ -57,26 +86,26 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: .25em;
+    width: 4px;
 		height: 0;
 }
 
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 .25em rgba(0,0,0,0.3);
-    -webkit-border-radius: .65em;
-    border-radius: .65em;
+    -webkit-box-shadow: inset 0 0 4px var(--surf-highest);
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-    -webkit-border-radius: .65em;
-    border-radius: .65em;
-    background: rgba(44,49,63,0.5);
-    -webkit-box-shadow: inset 0 0 .25em rgba(0,0,0,0.5);
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: var(--color-text-emph);
+    -webkit-box-shadow: inset 0 0 4px var(--surf-high);
 }
 
 ::-webkit-scrollbar-corner {
-    background: #2C313F;
+    background: var(--surf-bg);
 }
 
 .gridcontainer {
@@ -92,6 +121,11 @@ body {
   grid-template-columns: 1.5em 8em 6em 8em 4em 1fr 8em 8em;
   grid-template-rows: 1fr;
 	text-align: center;
+	background-color: var(--surf-bg)
+}
+
+.tabs h1 {
+	color: var(--color-pri);
 }
 
 .tabcontent {
@@ -138,23 +172,23 @@ body {
 
 .menu-btn {
 	font-size: 125%;
-	color: black;
-	background-color: #FDF1DC;
-	border-top: 0.175em solid #d4c09b;
-	border-bottom: 0em solid #d4c09b;
-	border-left: 0em solid #d4c09b;
-	border-right: 0em solid #d4c09b;
+	color: var(--color-text);
+	background-color: var(--surf-high);
+	border-top: 0.175em solid var(--surf-higher);
+	border-bottom: 0em solid var(--surf-higher);
+	border-left: 0em solid var(--surf-higher);
+	border-right: 0em solid var(--surf-higher);
 	line-height: 1.5;
 }
 
 .menudrop .menu-btn {
 	font-size: 100%;
-	color: black;
-	background-color: #FDF1DC;
-	border-top: 0.125em solid #d4c09b;
-	border-bottom: 0em solid #d4c09b;
-	border-left: 0em solid #d4c09b;
-	border-right: 0em solid #d4c09b;
+	color: var(--color-text);
+	background-color: var(--surf-high);
+	border-top: 0.125em solid var(--color-pri);
+	border-bottom: 0em solid var(--color-pri);
+	border-left: 0em solid var(--color-pri);
+	border-right: 0em solid var(--color-pri);
 	width: calc(100% - 1.5em);
 	margin-left: 1.5em;
 }
@@ -165,36 +199,40 @@ body {
 }
 
 .menu-btn:hover {
-	background-color: #d4c09b;
+	background-color: var(--color-pri);
+	color: var(--color-text);
 }
 
 .menudrop {
 	display: none;
 	padding: 1em 0 1em 1.5em;
 	text-align: left;
+	background-color: var(--surf-higher)
 }
 
 .tabs button {
   display: block;
-  background-color: inherit;
-  color: black;
+  background-color: var(--surf-high);
+  color: var(--color-text);
   padding: 0.75em;
   width: 100%;
   outline: none;
   cursor: pointer;
   transition: 0.3s;
   font-size: 1.25em;
-	border: 0px solid #000000;
+	border: none;
 	height: 100%;
 }
 
 .tabs button:hover {
-  background-color: #d4c09b;
+  background-color: var(--color-pri);
+	color: var(--color-text);
 }
 
 /* Create an active/current "tab button" class */
 .tabs button.active {
-  background-color: #FDF1DC;
+  background-color: var(--surf-higher);
+	color: var(--color-pri);
 }
 
 .tabs p {
@@ -214,6 +252,36 @@ body {
 .content {
     margin: 25px 0px;
 		padding-right: 100px;
+}
+
+#slot-target {
+	position: absolute;
+	display: inline-block;
+	background-color: var(--color-text-emph);
+	height: 3em;
+	margin-right: 40%;
+	margin-left: 40%;
+	width: 20%;
+}
+
+#slot-bar {
+	position: absolute;
+	display: inline-block;
+	background-color: var(--surf-highest);
+	margin-top: .5em;
+	height: 2em;
+	width: 0%;
+}
+
+#slot-fill {
+	position: absolute;
+	display: inline-block;
+	border-width: .075em;
+	border-style: solid;
+	border-color: var(--surf-highest);
+	margin-top: .5em;
+	height: 2em;
+	width: 100%;
 }
 
 h1,
@@ -241,12 +309,16 @@ h3 {
 
 hr {
     border-style: solid;
-    border-color: black;
+    border-color: var(--color-text);
 }
 
 a {
-    color: darkred;
+    color: var(--color-text-emph);
     text-decoration: none;
+}
+
+a:hover {
+	color: var(--color-acc);
 }
 
 ul {
@@ -255,12 +327,14 @@ ul {
 }
 
 button {
-    color: #ffffff;
+    color: var(--color-pri);
     font-size: 1rem;
     font-family: Tahoma, Georgia, Arial, sans-serif;
-    background: #2C313F;
+    background: var(--surf-highest);
     padding: 2px 6px;
     width: auto;
+		border: none;
+		outline: none;
 }
 
 button:focus {
@@ -268,19 +342,28 @@ button:focus {
 }
 
 button:hover {
-    background: #0C692F;
+    background: var(--color-pri);
     text-decoration: none;
+		color: var(--color-text)
 }
 
 select {
     height: 1.5rem;
     font-family: Tahoma, Georgia, Arial, sans-serif;
     font-size: .8rem;
+		background-color: var(--surf-highest);
+		border: none;
+		outline: none;
+		color: var(--color-text);
 }
 
 input {
     font-family: Tahoma, Georgia, Arial, sans-serif;
     font-size: .8rem;
+		background-color: var(--surf-highest);
+		border: none;
+		outline: none;
+		color: var(--color-text);
 }
 
 input[type=text] {
@@ -306,6 +389,8 @@ textarea {
     letter-spacing: normal;
     line-height: normal;
     width: 80%;
+		background-color: var(--surf-highest);
+		color: var(--color-text);
 }
 
 table {
@@ -349,7 +434,7 @@ label {
 .tooltip {
     position: relative;
     display: inline-block;
-    color: darkred;
+    color: var(--color-text-emph);
     text-decoration: none;
     cursor: help;
 }
@@ -359,7 +444,7 @@ label {
     width: 400px;
     background-size: cover;
     background-position: center;
-    color: #000000;
+    color: var(--color-text);
     padding: 10px;
     position: absolute;
     z-index: 1;
@@ -386,7 +471,7 @@ label {
 .collapsiblebutton {
     cursor: pointer;
     font-size: 15px;
-    color: darkred;
+    color: var(--color-pri);
 
     /* Make Unselectable */
 
@@ -403,7 +488,7 @@ label {
     font-family: Tahoma, Georgia, Arial, sans-serif;
     font-size: 1.2rem;
 	font-weight: bold;
-    color: darkred;
+    color: var(--color-pri);
     display: inline;
     margin-left: 3rem;
 
@@ -439,20 +524,6 @@ label {
 
 .radio-row b {
     line-height: 2rem;
-}
-
-.lock-button {
-    width: 2rem;
-    background: #888888;
-}
-
-.lock-button:hover {
-    background: #cccccc;
-}
-
-#imagecanvas {
-    border-color: white;
-    border-style: solid;
 }
 
 #character-columns ul {

@@ -996,11 +996,11 @@ var FormFunctions = {
                 ":</b> " + StringFunctions.FormatString(element.desc, isBlock) : "</b>");
 
             let functionArgs = arrName + "\", " + index + ", " + capitalize + ", " + isBlock,
-                imageHTML = "<img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove' onclick='FormFunctions.RemoveDisplayListItem(\"" + functionArgs + ")'>";
+                imageHTML = "<svg class='statblock-image' onclick='FormFunctions.RemoveDisplayListItem(\"" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use></svg>";
             if (isBlock)
-                imageHTML += " <img class='statblock-image' src='dndimages/edit-icon.png' alt='Edit' title='Edit' onclick='FormFunctions.EditDisplayListItem(\"" + functionArgs + ")'>" +
-                " <img class='statblock-image' src='dndimages/up-icon.png' alt='Up' title='Up' onclick='FormFunctions.SwapDisplayListItem(\"" + arrName + "\", " + index + ", -1)'>" +
-                " <img class='statblock-image' src='dndimages/down-icon.png' alt='Down' title='Down' onclick='FormFunctions.SwapDisplayListItem(\"" + arrName + "\", " + index + ", 1)'>";
+                imageHTML += " <svg class='statblock-image' onclick='FormFunctions.EditDisplayListItem(\"" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#edit-icon'></use></svg>" +
+                " <svg class='statblock-image' onclick='FormFunctions.SwapDisplayListItem(\"" + arrName + "\", " + index + ", -1)'><use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use></svg>" +
+                " <svg class='statblock-image' onclick='FormFunctions.SwapDisplayListItem(\"" + arrName + "\", " + index + ", 1)'><use xlink:href='dndimages/icons.svg?version=1.0#down-icon'></use></svg>";
             displayArr.push("<li> " + imageHTML + " " + content + "</li>");
         }
         $(arrElement).html(displayArr.join(""));
@@ -1065,9 +1065,9 @@ var FormFunctions = {
                 content_tags = "<td colspan='4'><i>" + element.tag + "</i></td>",
                 content2 = StringFunctions.FormatString(elementName, false) + " (" + element.org + " organization)";
             let functionArgs = index,
-                imageHTML = "<td style='text-align: center' nowrap><img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove from Bestiary' onclick='FormFunctions.RemoveMonsterListItem(" + functionArgs + ")'>";
-                imageHTML += " <img class='statblock-image' src='dndimages/edit-icon.png' alt='Edit' title='Edit Monster' onclick='FormFunctions.EditMonsterListItem(" + functionArgs + ")'>";
-                imageHTML += " <img class='statblock-image' src='dndimages/plus-icon.png' alt='Add' title='Add to Encounter' onclick='LoadEncounterAdd.retrieveFromWindow(mon2[" + functionArgs + "]);getEncounterInfo();'></td>";
+                imageHTML = "<td style='text-align: center' nowrap><svg class='statblock-image' onclick='FormFunctions.RemoveMonsterListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use></svg>";
+                imageHTML += " <svg class='statblock-image' onclick='FormFunctions.EditMonsterListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#edit-icon'></use></svg>";
+                imageHTML += " <svg class='statblock-image' onclick='LoadEncounterAdd.retrieveFromWindow(mon2[" + functionArgs + "]);getEncounterInfo();'><use xlink:href='dndimages/icons.svg?version=1.0#plus-icon'></use></svg></td>";
 
                 let fullDisplayString = content_name + content_tier + content_org + content_size + content_type + content_tags;
 
@@ -1128,10 +1128,10 @@ var FormFunctions = {
             if (mon_tmp[index] === displayArr[newdx]) mon_ct += 1;
           }
           let oldIndex = displayArr.lastIndexOf(mon_tmp[index]);
-          let imageHTML = "<img class='statblock-image' src='dndimages/x-icon.png' alt='Remove' title='Remove' onclick='FormFunctions.RemoveEncounterListItem(" + oldIndex + ")'>" +
-                " <img class='statblock-image' src='dndimages/up-icon.png' alt='Up' title='Up' onclick='FormFunctions.SwapEncounterListItem(" + index + ", -1)'>" +
-                " <img class='statblock-image' src='dndimages/down-icon.png' alt='Down' title='Down' onclick='FormFunctions.SwapEncounterListItem(" + index + ", 1)'>" +
-                " <img class='statblock-image' src='dndimages/plus-icon.png' alt='Add' title='Add to Encounter' onclick='LoadEncounterAdd.retrieveFromWindow(mon3[" + oldIndex + "]);getEncounterInfo();'></td>";
+          let imageHTML = "<svg class='statblock-image' onclick='FormFunctions.RemoveEncounterListItem(" + oldIndex + ")'><use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use></svg>" +
+                " <svg class='statblock-image' onclick='FormFunctions.SwapEncounterListItem(" + index + ", -1)'><use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use></svg>" +
+                " <svg class='statblock-image' onclick='FormFunctions.SwapEncounterListItem(" + index + ", 1)'><use xlink:href='dndimages/icons.svg?version=1.0#down-icon'></use></svg>" +
+                " <svg class='statblock-image' onclick='LoadEncounterAdd.retrieveFromWindow(mon3[" + oldIndex + "]);getEncounterInfo();'><use xlink:href='dndimages/icons.svg?version=1.0#plus-icon'></use></svg></td>";
           mon4.push("<li> <b>" + mon_ct + "x " + mon_tmp[index]);
           display_icons.push("<li> " + imageHTML + "</li>");
         }

@@ -8,7 +8,7 @@
 }
 
 .removable-list-item:hover {
-    color: red;
+    color: var(--color-pri);
     text-decoration: line-through;
     cursor: pointer;
 }
@@ -17,6 +17,7 @@
     width: 12px;
     height: 12px;
     cursor: pointer;
+    fill: var(--color-pri);
 }
 
 .statblock-list {
@@ -27,7 +28,6 @@
 
 #stat-block-wrapper {
     margin: 15px;
-    box-shadow: 0 0 15px #867453;
     display: inline-block;
 }
 
