@@ -1,3 +1,27 @@
+function switchTheme(e) {
+    if (e.target.checked) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('theme', 'dark'); //add this
+    }
+    else {
+        document.documentElement.setAttribute('data-theme', 'light');
+        localStorage.setItem('theme', 'light'); //add this
+    }
+}
+
+function setNight() {
+  const toggleSwitch = $("#night-toggle")[0];
+  toggleSwitch.addEventListener('change', switchTheme, false);
+  const currentTheme = localStorage.getItem('theme') ? localStorage.getItem('theme') : null;
+
+  if (currentTheme) {
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    if (currentTheme === 'dark') {
+        toggleSwitch.checked = true;
+    }
+  }
+}
+
 function openTab(evt, tabName) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");

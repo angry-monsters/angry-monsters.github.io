@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=3.0">
     <link rel="stylesheet" type="text/css" href="css/statblock-page-style.css?version=2.3">
-    <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=5.0">
+    <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=6.0">
     <link rel="stylesheet" type="text/css" href="css/libre-baskerville.css">
     <link rel="stylesheet" type="text/css" href="css/noto-sans.css">
     <!-- <link rel="stylesheet" type="text/css" href="css/material-components-web.min.css?version=7.0.0">
@@ -29,7 +29,7 @@
     <script src="js/dom-to-image.min.js"></script>
     <script src="js/svg4everybody.min.js"></script>
     <script>svg4everybody();</script>
-    <script src="js/statblock-script.js?version=5.5.0"></script>
+    <script src="js/statblock-script.js?version=5.6.0"></script>
 </head>
 
 <body class="gridcontainer" id="stat-block-body">
@@ -38,19 +38,26 @@
       <div style="grid-column:3;"><button class="tablinks" onclick="openTab(event, 'bestiary')">Bestiary</button></div>
       <div style="grid-column:4;"><button class="tablinks" onclick="openTab(event, 'encounter')">Encounter<br>Builder</button></div>
       <div style="grid-column:5;"><button class="tablinks" onclick="openTab(event, 'faq')">FAQ</button></div>
-      <div style="grid-column:6;">
-        <h1 style="padding-top:0.675em">5e Angry Monster Manager</h1>
-        <p>Latest Update: 21 August 2020 (see FAQ, + new features survey)</p>
+      <div class="tab-wrap" style="grid-column:6;">
+        <h1 style="">5e Angry Monster Manager</h1>
+        <p style="margin-top:-.5em">Latest Update: 21 August 2020 (see FAQ, + new features survey)</p>
       </div>
-      <div style="grid-column:7;">
-        <div style="padding-top:1.35em">
-        <a target="_blank" href="https://github.com/angry-monsters/angry-monsters.github.io">GitHub Repo</a>
-        <br>
-        <a target="_self" href="." onclick="clearStorage()">Clear Data</a>
+      <div class="tab-wrap" style="grid-column:7;">
+        <div style="">
+        <a target="_blank" href="https://github.com/angry-monsters/angry-monsters.github.io"><strong>GitHub Repo</strong></a>
+        <div style="padding-top:.5em"></div>
+        <a target="_self" href="." onclick="clearStorage()"><strong>Clear Data</strong></a>
         </div>
       </div>
-      <div style="grid-column:8;">
-        <div style="padding-top:2.1em">
+      <div class="tab-wrap" style="grid-column:8;">
+        <div class="dark-wrapper">
+          <label class="switch" for="night-toggle"><br>
+            <input type="checkbox" id="night-toggle" />
+            <div class="slider round"></div>
+          </label>
+          <em>dark mode</em>
+        </div>
+        <div style="padding-top:.5em">
         <a href='https://ko-fi.com/M4M81VQKK' target='_blank'><img width='85%' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
         </div>
       </div>
@@ -1030,5 +1037,6 @@
   document.getElementById("defaultOpen").click();
   showMenu();
   anyChange();
+  setNight();
 </script>
 </html>

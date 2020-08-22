@@ -1,13 +1,37 @@
 :root {
+	--pri-hue: 10; /* primary color */
+
+	--stat-bg-hue: 38; /* statblock background hue */
+	--stat-main-hue: 10; /* statblock primary hue */
+
+	--surf-bg: hsl(var(--pri-hue),0%,98%);
+	--surf-high: hsl(var(--pri-hue),0%,88%);
+	--surf-higher: hsl(var(--pri-hue),0%,82%);
+	--surf-highest: hsl(var(--pri-hue),0%,90%);
+
+	--color-pri: hsl(var(--pri-hue),85%,40%);
+	--color-acc: hsl(var(--pri-hue),90%,55%);
+	--color-text: hsla(var(--pri-hue),0%,12%,1);
+	--color-text-emph: hsla(var(--pri-hue),80%,32%,1);
+
+	--stat-main: hsl(var(--stat-main-hue),80%,32%);
+	--stat-acc: hsl(var(--stat-main-hue),80%,26%);
+	--stat-null: hsl(var(--stat-main-hue),0%,0%);
+	--stat-bord: hsl(var(--stat-bg-hue),80%,52%);
+	--stat-bg: hsl(var(--stat-bg-hue),90%,92%);
+	--stat-shad: hsl(var(--stat-bg-hue),24%,44%);
+}
+
+[data-theme="dark"] {
 	--pri-hue: 38; /* primary color */
 
 	--stat-bg-hue: 38; /* statblock background hue */
 	--stat-main-hue: 10; /* statblock primary hue */
 
-	--surf-bg: hsl(var(--pri-hue),0%,7%);
+	--surf-bg: hsl(var(--pri-hue),0%,8%);
 	--surf-high: hsl(var(--pri-hue),0%,12%);
-	--surf-higher: hsl(var(--pri-hue),0%,16%);
-	--surf-highest: hsl(var(--pri-hue),0%,20%);
+	--surf-higher: hsl(var(--pri-hue),0%,18%);
+	--surf-highest: hsl(var(--pri-hue),0%,24%);
 
 	--color-pri: hsl(var(--pri-hue),60%,50%);
 	--color-acc: hsl(var(--pri-hue),80%,50%);
@@ -20,6 +44,74 @@
 	--stat-bord: hsl(var(--stat-bg-hue),80%,52%);
 	--stat-bg: hsl(var(--stat-bg-hue),90%,92%);
 	--stat-shad: hsl(var(--stat-bg-hue),24%,44%);
+}
+
+.dark-wrapper {
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+}
+
+.tab-wrap {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.dark-wrapper em {
+	font-size: .75em;
+	line-height: 24px;
+	padding-left: 8px;
+}
+
+.switch {
+  display: inline-block;
+  height: 24px;
+  position: relative;
+  width: 48px;
+}
+
+.switch input {
+  display:none;
+}
+
+.slider {
+  background-color: var(--surf-higher);
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: .4s;
+}
+
+.slider:before {
+  background-color: var(--color-text);
+  bottom: 0px;
+  content: "";
+  height: 24px;
+  left: 0px;
+  position: absolute;
+  transition: .4s;
+  width: 24px;
+}
+
+input:checked + .slider {
+  background-color: var(--color-pri);
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px);
+}
+
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
 
 html {
