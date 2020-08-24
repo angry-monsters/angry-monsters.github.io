@@ -810,6 +810,7 @@ var FormFunctions = {
 
         // CR
         $("#cr-input").prop("checked",false);
+        $("#no-angry-input").prop("checked",false);
         this.ShowHideCR();
 
 	      // Threat
@@ -907,8 +908,20 @@ var FormFunctions = {
 
     ShowHideCR: function() {
         $("#cr-block").hide();
-        if ($("#cr-input").prop('checked'))
-            $("#cr-block").show();
+        $("#tier-org").show();
+        $("#threat-block").show();
+
+        if ($("#cr-input").prop('checked') || $("#no-angry-input").prop('checked')) {
+          $("#cr-block").show();
+
+          if ($("#no-angry-input").prop('checked')) {
+            $("#tier-org").hide();
+            $("#threat-block").hide();
+          }
+        }
+
+        $("#cr-block")[0].classList.toggle("last", $("#no-angry-input").prop('checked'));
+        $("#threat-block")[0].classList.toggle("last", !$("#no-angry-input").prop('checked'));
     },
 
     ShowHideParagon: function() {

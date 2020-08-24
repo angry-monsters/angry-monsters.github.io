@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=3.0">
     <link rel="stylesheet" type="text/css" href="css/statblock-page-style.css?version=2.3">
-    <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=6.2">
+    <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=6.3">
     <link rel="stylesheet" type="text/css" href="css/libre-baskerville.css">
     <link rel="stylesheet" type="text/css" href="css/noto-sans.css">
     <!-- <link rel="stylesheet" type="text/css" href="css/material-components-web.min.css?version=7.0.0">
@@ -29,7 +29,7 @@
     <script src="js/dom-to-image.min.js"></script>
     <script src="js/svg4everybody.min.js"></script>
     <script>svg4everybody();</script>
-    <script src="js/statblock-script.js?version=5.6.0"></script>
+    <script src="js/statblock-script.js?version=5.7.0"></script>
 </head>
 
 <body class="gridcontainer" id="stat-block-body">
@@ -40,7 +40,7 @@
       <div style="grid-column:5;"><button class="tablinks" onclick="openTab(event, 'faq')">FAQ</button></div>
       <div class="tab-wrap" style="grid-column:6;">
         <h1 style="">5e Angry Monster Manager</h1>
-        <p style="margin-top:-.5em">Latest Update: 21 August 2020 (see FAQ, + new features survey)</p>
+        <p style="margin-top:-.5em">Latest Update: 24 August 2020 (see FAQ, + new features survey)</p>
       </div>
       <div class="tab-wrap" style="grid-column:7;">
         <div style="">
@@ -103,7 +103,7 @@
         <h3 id="faq-compendium">How Often is the Community Compendium Updated?</h3>
         <p>For now, it gets updated daily around 00:00 GMT if there are new submissions. In the future, there will likely be some sort of codified review process and updates will be made weekly.</p>
         <h3 id="faq-update">Latest Update</h3>
-        <p>21 August 2020 - HUGE UI/UX update.</p>
+        <p>22 August 2020 - HUGE UI/UX update, 24 Aug - option to use non-Angry formatting for the statblock.</p>
         <div id="faq-survey" style="text-align:center">
           <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScBJrckpK3HtD_aqvrZSpfbdeThTTr-GBNteHrgkRKtn1LR4A/viewform?embedded=true" width="100%" height="1900px" frameborder="0">Loading…</iframe>
         </div>
@@ -525,8 +525,13 @@
           </div>
           <button class="menu-btn" onclick="">Block Format</button>
           <div class="menudrop">
-            <label for="cr-input">Show CR:<input id="cr-input" type="checkbox" onchange="FormFunctions.ShowHideCR()"></label>
-            <br><br>
+            <table><tr>
+              <td>
+                <label for="cr-input">Show CR:<input id="cr-input" type="checkbox" onchange="FormFunctions.ShowHideCR()"></label>
+              </td><td>
+                <label for="no-angry-input">Standard Format:<input id="no-angry-input" type="checkbox" onchange="FormFunctions.ShowHideCR()"></label>
+            </td></tr></table>
+            <br>
             <label for="morale-input">Show Morale:<input id="morale-input" type="checkbox" onchange="FormFunctions.ShowHideMorale()"></label>
             <br><br>
             <label for="paragon-input">Paragon Monster (Multiple HP Pools):<input id="paragon-input" type="checkbox" onchange="FormFunctions.ShowHideParagon()"></label>
@@ -900,9 +905,13 @@
         <br>
       </div>
       <div style="grid-column:2;overflow:auto;text-align:center">
-        <button id="left-separator-button" type="button" onclick="UpdateBlockFromVariables(1)">&lt;&lt;shift</button>
-        <button type="button" onclick="UpdateBlockFromVariables(0)">Update Statblock</button>
-        <button id="right-separator-button" type="button" onclick="UpdateBlockFromVariables(-1)">shift&gt;&gt;</button>
+        <div style="" class="shift-button-wrapper">
+          <button id="left-separator-button" type="button" onclick="UpdateBlockFromVariables(1)"><em>&lt;&lt; shift</em></button>
+          &nbsp;
+          <button type="button" onclick="UpdateBlockFromVariables(0)">Update Statblock</button>
+          &nbsp;
+          <button id="right-separator-button" type="button" onclick="UpdateBlockFromVariables(-1)"><em>shift &gt;&gt;</em></button>
+        </div>
         <br>
         <!-- The Actual Stat Block -->
         <div id="stat-block-wrapper">
@@ -1016,7 +1025,7 @@
                             <h4>CR</h4>
                             <p id="cr-level"></p>
                         </div>
-                        <div class="property-line last">
+                        <div id="threat-block" class="property-line last">
                             <h4>Threat</h4>
                             <p id="threat-level"></p>
                         </div> <!-- property line -->

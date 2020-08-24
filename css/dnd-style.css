@@ -59,6 +59,16 @@
 	justify-content: center;
 }
 
+.shift-button-wrapper {
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+}
+
+.shift-button-wrapper em {
+	font-size: .8em;
+}
+
 .dark-wrapper em {
 	font-size: .75em;
 	line-height: 24px;
