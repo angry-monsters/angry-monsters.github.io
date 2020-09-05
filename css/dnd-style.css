@@ -129,10 +129,11 @@ html {
 }
 
 body {
-    margin: 0;
+    margin: 0 auto;
 		height: 100%;
 		background-color: var(--surf-bg);
 		color: var(--color-text);
+		max-width: 90rem;
 }
 
 .enc-descr-form label {
@@ -213,17 +214,40 @@ body {
 .gridcontainer {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1.5rem 5.75rem 1fr;
-	overflow: hidden;
+  grid-template-rows: 1.5rem minmax(5.75rem,auto) 1fr;
+	overflow-y: hidden;
+	overflow-x: auto;
 }
 
 .tabs {
   grid-row: 2;
   display: grid;
-  grid-template-columns: 1.5rem 8rem 6rem 8rem 4rem 1fr 8rem 8rem;
-  grid-template-rows: 1fr;
+  grid-template-columns: 1.5rem 1fr;
+  grid-template-rows: auto;
 	text-align: center;
 	background-color: var(--surf-bg)
+}
+
+.tabflow {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(13rem,1fr));
+	grid-column: 2;
+	grid-row: 1;
+	grid-template-rows: auto auto;
+}
+
+.tableft {
+	display: grid;
+	grid-template-columns: minmax(8rem, 1fr) minmax(6rem, 1fr) minmax(8rem, 1fr) minmax(4rem, 1fr);
+	grid-column-start: span 2;
+}
+
+.tabright {
+	display: grid;
+	grid-template-columns: 1fr 8rem 8rem;
+	grid-column-start: span 3;
+	grid-column-end: -1;
+	grid-row: 1;
 }
 
 .tabs h1 {
@@ -232,13 +256,14 @@ body {
 
 .tabcontent {
   grid-row: 3;
-	overflow: auto;
+	overflow-y: auto;
+	overflow-x: auto;
 }
 
 .tabcontainer {
 	display: grid;
   grid-template-columns: repeat(auto-fit, minmax(28.21875rem, 1fr));
-  grid-template-rows: calc(100vh - 7.25rem) calc(100vh - 7.25rem);
+  grid-template-rows: 100% 100%;
 	padding: 0;
 	grid-auto-flow: row;
 }
@@ -246,7 +271,7 @@ body {
 .tabcontainer2 {
 	display: grid;
   grid-template-columns: repeat(auto-fit, minmax(17rem,1fr));
-  grid-template-rows: calc(100vh - 7.25rem) calc(100vh - 7.25rem);
+  grid-template-rows: 100% 100%;
 	padding: 0;
 	grid-auto-flow: row;
 }
@@ -357,6 +382,7 @@ body {
 .content {
     margin: 1.25rem 0;
 		padding-right: 6.25rem;
+		padding-left: 1.5rem;
 }
 
 .faq-image {
