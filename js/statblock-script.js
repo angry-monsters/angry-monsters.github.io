@@ -540,7 +540,7 @@ function UpdateStatblock(moveSeparationPoint) {
     StringFunctions.SetParagon();
 
     // Morale
-    $("#morale").html(StringFunctions.GetMorale());
+    $("#morale").html(StringFunctions.GetMorale(mon));
 
     // Speed
     $("#speed").html(StringFunctions.GetSpeed());
@@ -1259,6 +1259,7 @@ var FormFunctions = {
           let element = mon3[monico[index]];
           abb_nameline = "<h3>" + StringFunctions.StringCapitalize(element.name) + "</h3> (" + element.size + " " + element.type + ")";
           abb_hitline = "<b>AC </b>" + StringFunctions.GetArmorData(element,false) + " <b>HP </b>" + element.avgHP + " <b>SPD </b>" + element.speedDesc;
+          abb_hitline += $("#encmor-input").prop("checked") ? (" <b>MOR </b>" + StringFunctions.GetMorale(element,false)) : "";
           abb_statline = "<b>STR </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.strPoints)) + " <b>DEX </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.dexPoints)) +  " <b>CON </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.conPoints)) +  " <b>INT </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.intPoints)) +  " <b>WIS </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.wisPoints)) +  " <b>CHA </b>" +  StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.chaPoints));
           abb_atks = this.GetAtkExp(element);
           abb_atks0 = this.GetAtkExp(element, "abilities");
@@ -2148,11 +2149,15 @@ var StringFunctions = {
         return mon_id.avgDMG;
     },
 
-    GetMorale: function() {
-      let morale_hp = .25 + (mon.mthresh / 2);
-      if (mon.mtrig === "wounded") morale_hp = .5 + (mon.mthresh / 2);
-      if (mon.mtrig === "critical" || mon.mtrig === "about to die") morale_hp = (mon.mthresh / 2);
-      return "DC " + mon.mdc + " or " + mon.mtype + " when " + mon.mtrig + " (" + Math.floor(morale_hp * mon.avgHP) + ")";
+    GetMorale: function(mon_id, enc = true) {
+      let morale_hp = .25 + (mon_id.mthresh / 2);
+      if (mon_id.mtrig === "wounded") morale_hp = .5 + (mon_id.mthresh / 2);
+      if (mon_id.mtrig === "critical" || mon_id.mtrig === "about to die") morale_hp = (mon_id.mthresh / 2);
+      if (!enc) {
+        return Math.floor(morale_hp * mon_id.avgHP) + " / " + mon_id.mtype + " DC " + mon_id.mdc;
+      } else {
+        return "DC " + mon_id.mdc + " or " + mon_id.mtype + " when " + mon_id.mtrig + " (" + Math.floor(morale_hp * mon_id.avgHP) + ")";
+      }
     },
 
     GetParagon: function() {
@@ -2187,7 +2192,7 @@ var StringFunctions = {
     },
 
     GetMdMorale: function() {
-      if ($("#morale-input").prop('checked')) return '<br>> - **Morale** ' + this.GetMorale();
+      if ($("#morale-input").prop('checked')) return '<br>> - **Morale** ' + this.GetMorale(mon);
       return "";
     },
 
