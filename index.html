@@ -29,7 +29,7 @@
     <script src="js/dom-to-image.min.js"></script>
     <script src="js/svg4everybody.min.js"></script>
     <script>svg4everybody();</script>
-    <script src="js/statblock-script.js?version=5.7.1"></script>
+    <script src="js/statblock-script.js?version=5.7.2"></script>
 </head>
 
 <body class="gridcontainer" id="stat-block-body">
@@ -43,7 +43,7 @@
     </div><div class="tabright">
       <div class="tab-wrap" style="grid-column:1;">
         <h1 style="">5e Angry Monster Manager</h1>
-        <p style="margin-top:-.5rem">Latest Update: 5 September 2020 (see FAQ, + new features survey)</p>
+        <p style="margin-top:-.5rem">Latest Update: 10 September 2020 (see FAQ, + new features survey)</p>
       </div>
       <div class="tab-wrap" style="grid-column:2;">
         <div style="">
@@ -109,7 +109,7 @@
         <h3 id="faq-compendium">How Often is the Community Compendium Updated?</h3>
         <p>For now, it gets updated daily around 00:00 GMT if there are new submissions. In the future, there will likely be some sort of codified review process and updates will be made weekly.</p>
         <h3 id="faq-update">Latest Update</h3>
-        <p>5 September 2020 - much more responsive / mobile friendly layout.</p>
+        <p>10 September 2020 - bestiary pagination.</p>
         <div id="faq-survey" style="text-align:center">
           <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScBJrckpK3HtD_aqvrZSpfbdeThTTr-GBNteHrgkRKtn1LR4A/viewform?embedded=true" width="100%" height="1900px" frameborder="0">Loading…</iframe>
         </div>
@@ -126,11 +126,11 @@
         <br><br>
         <button onclick="LoadFilePrompt2()">Load Monster(s)</button>
         <br><br>
-        <label for="mon-per-pg">Number Displayed Per Page: <input id="mon-per-pg" value="5" type="number" min="5" step="5" onchange="changeMonPage(0);getMonsterInfo()"></label>
+        <label for="mon-per-pg">Number Displayed Per Page: <input id="mon-per-pg" value="5" type="number" min="5" step="5" onchange="getMonsterInfo()"></label>
         <br>
-        <svg onclick="changeMonPage(-1)" class='paginate-image'><use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use></svg>
+        <svg onclick="getMonsterInfo(-1)" class='paginate-image'><use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use></svg>
         <div id="page-num-list"></div>
-        <svg onclick="changeMonPage(1)" class='paginate-image'><use xlink:href='dndimages/icons.svg?version=1.0#down-icon'></use></svg>
+        <svg onclick="getMonsterInfo(1)" class='paginate-image'><use xlink:href='dndimages/icons.svg?version=1.0#down-icon'></use></svg>
         <br><br>
 	      <p>Download the <a target="_blank" href="./compendium/bestiary.compendium?v=5">Community Compendium</a> and contribute <a target="_blank" href="https://github.com/angry-monsters/angry-monsters.github.io/issues/new?assignees=&labels=bestiary&template=compendium-addition.md&title=General+Title+of+Monsters%2FTheme%2FAdditions">your own creations!</a></p>
         <p>Last addition on 5 September 2020 - Green Fang Kobolds from phildhub.</p>

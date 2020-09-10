@@ -183,26 +183,20 @@ var mon = {
 };
 
 // Update bestiary
-function changeMonPage(val) {
+function getMonsterInfo(val = 0) {
   let max_row = $("#mon-per-pg").val() * 1;
-  let num_pg = Math.ceil(mon2.length / max_row);
+  let tot_row = FormFunctions.GenMonsterLength();
+  let num_pg = Math.ceil(tot_row / max_row);
+
   let exist_page = monCurrentPage;
-
   monCurrentPage = Math.min(Math.max(1,(exist_page + val)),num_pg);
-
-  getMonsterInfo();
-}
-
-function getMonsterInfo() {
-  let max_row = $("#mon-per-pg").val() * 1;
-  let num_pg = Math.ceil(mon2.length / max_row);
 
   let pgnum_arr = [];
   for (idx = 1; idx <= num_pg; idx++) {
     if (idx === monCurrentPage) {
       pgnum_arr.push("<span>&nbsp;&nbsp;<strong>" + idx + "</strong>&nbsp;&nbsp;</span>");
     } else {
-      pgnum_arr.push("<span onclick='changeMonPage(" + (idx - monCurrentPage) + ")'>&nbsp;&nbsp;" + idx + "&nbsp;&nbsp;</span>");
+      pgnum_arr.push("<span onclick='getMonsterInfo(" + (idx - monCurrentPage) + ")'>&nbsp;&nbsp;" + idx + "&nbsp;&nbsp;</span>");
     }
   }
 
@@ -1107,18 +1101,40 @@ var FormFunctions = {
         this.MakeDisplayList(arrName, false, true);
     },
 
+    GenMonsterFilter: function() {
+      let fullFilter = $("#monster-filter").val();
+      fullFilter = fullFilter.replace(/\s\,\s|\s\,|\,\s|\,/g, "|");
+      fullFilter = fullFilter.replace(/\s\;\s|\s\;|\;\s|\;/g, "))(?=.*(");
+      fullFilter = "(?=.*(" + fullFilter + "))";
+      let filterRegex = (fullFilter === "(?=.*())" ? new RegExp('.', 'gi') : new RegExp(fullFilter, 'gi'));
+
+      return filterRegex;
+    },
+
+    GenMonsterLength: function() {
+      let mon_tot = 0;
+      let filterRegex = this.GenMonsterFilter();
+
+      for (let index = 0; index < mon2.length; index++) {
+          let element = mon2[index];
+
+          if (filterRegex.test(element.name + element.tier + element.org + element.size + element.type + element.tag)) {
+            mon_tot++;
+          }
+        }
+
+        return mon_tot;
+    },
+
     MakeMonsterList: function(llim,ulim) {
         let displayArr = [],
             dropdownBuffer = [],
             content = "",
             content2 = "",
-            arrElement = "#mon2-input-list";
+            arrElement = "#mon2-input-list",
+            lenCount = 0;
 
-        let fullFilter = $("#monster-filter").val();
-        fullFilter = fullFilter.replace(/\s\,\s|\s\,|\,\s|\,/g, "|");
-        fullFilter = fullFilter.replace(/\s\;\s|\s\;|\;\s|\;/g, "))(?=.*(");
-        fullFilter = "(?=.*(" + fullFilter + "))";
-        let filterRegex = (fullFilter === "(?=.*())" ? new RegExp('.', 'gi') : new RegExp(fullFilter, 'gi'));
+        let filterRegex = this.GenMonsterFilter();
 
         for (let index = 0; index < mon2.length; index++) {
             let element = mon2[index],
@@ -1138,10 +1154,11 @@ var FormFunctions = {
                 let fullDisplayString = content_name + content_tier + content_org + content_size + content_type + content_tags;
 
                 if (filterRegex.test(fullDisplayString)) {
-                  if ((index >= llim) && (index <= ulim)) {
+                  if ((lenCount >= llim) && (lenCount <= ulim)) {
                     displayArr.push("<tr> " + imageHTML + fullDisplayString + "</tr>");
                     if (element.tier === $("#tier-level").val())  dropdownBuffer.push("<option value=", index, ">", content2, "</option>");
                   }
+                  lenCount++;
                 }
 
         }
@@ -1149,7 +1166,7 @@ var FormFunctions = {
 
         $("#monster-options").html(dropdownBuffer.join(""));
 
-        $(arrElement).parent()[mon2.length == 0 ? "hide" : "show"]();
+        $(arrElement).parent()[$("#mon2-input-list")[0].rows.length === 0 ? "hide" : "show"]();
         localStorage.setItem("Mon2", JSON.stringify(mon2));
     },
 
