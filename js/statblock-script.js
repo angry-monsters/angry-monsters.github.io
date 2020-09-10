@@ -114,6 +114,8 @@ var mon3 = [];
 var mon4 = [];
 var monico = [];
 
+var monCurrentPage = 1;
+
 var mon = {
     name: "Monster",
     size: "medium",
@@ -181,8 +183,35 @@ var mon = {
 };
 
 // Update bestiary
+function changeMonPage(val) {
+  let max_row = $("#mon-per-pg").val() * 1;
+  let num_pg = Math.ceil(mon2.length / max_row);
+  let exist_page = monCurrentPage;
+
+  monCurrentPage = Math.min(Math.max(1,(exist_page + val)),num_pg);
+
+  getMonsterInfo();
+}
+
 function getMonsterInfo() {
-  FormFunctions.MakeMonsterList();
+  let max_row = $("#mon-per-pg").val() * 1;
+  let num_pg = Math.ceil(mon2.length / max_row);
+
+  let pgnum_arr = [];
+  for (idx = 1; idx <= num_pg; idx++) {
+    if (idx === monCurrentPage) {
+      pgnum_arr.push("<span>&nbsp;&nbsp;<strong>" + idx + "</strong>&nbsp;&nbsp;</span>");
+    } else {
+      pgnum_arr.push("<span onclick='changeMonPage(" + (idx - monCurrentPage) + ")'>&nbsp;&nbsp;" + idx + "&nbsp;&nbsp;</span>");
+    }
+  }
+
+  $("#page-num-list").html(pgnum_arr.join(""));
+
+  let llim = (monCurrentPage - 1) * max_row + 1;
+  let ulim = llim + max_row - 1;
+
+  FormFunctions.MakeMonsterList(llim - 1,ulim - 1);
 }
 
 function sortBestiary(sort_cat) {
@@ -1078,7 +1107,7 @@ var FormFunctions = {
         this.MakeDisplayList(arrName, false, true);
     },
 
-    MakeMonsterList: function() {
+    MakeMonsterList: function(llim,ulim) {
         let displayArr = [],
             dropdownBuffer = [],
             content = "",
@@ -1109,8 +1138,10 @@ var FormFunctions = {
                 let fullDisplayString = content_name + content_tier + content_org + content_size + content_type + content_tags;
 
                 if (filterRegex.test(fullDisplayString)) {
-                  displayArr.push("<tr> " + imageHTML + fullDisplayString + "</tr>");
-                  if (element.tier === $("#tier-level").val())  dropdownBuffer.push("<option value=", index, ">", content2, "</option>");
+                  if ((index >= llim) && (index <= ulim)) {
+                    displayArr.push("<tr> " + imageHTML + fullDisplayString + "</tr>");
+                    if (element.tier === $("#tier-level").val())  dropdownBuffer.push("<option value=", index, ">", content2, "</option>");
+                  }
                 }
 
         }
@@ -1124,8 +1155,7 @@ var FormFunctions = {
 
     RemoveMonsterListItem: function(index) {
         mon2.splice(index, 1);
-        this.MakeMonsterList();
-        localStorage.setItem("Mon2", JSON.stringify(mon2));
+        getMonsterInfo();
     },
 
     EditMonsterListItem: function(index) {

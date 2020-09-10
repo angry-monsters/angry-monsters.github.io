@@ -391,6 +391,14 @@ body {
     fill: var(--color-pri);
 }
 
+.paginate-image {
+    width: 1rem;
+    height: 1rem;
+    cursor: pointer;
+    fill: var(--color-pri);
+		transform: rotate(-90deg);
+}
+
 #slot-target {
 	position: absolute;
 	display: inline-block;
@@ -675,4 +683,13 @@ label {
 
 #character-columns button {
     margin-top: .125rem;
+}
+
+#page-num-list {
+	display: inline-block;
+	cursor: pointer;
+}
+
+#page-num-list strong {
+	color: var(--color-text-emph);
 }
