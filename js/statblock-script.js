@@ -1258,8 +1258,11 @@ var FormFunctions = {
         for (let index = 0; index < monico.length; index++) {
           let element = mon3[monico[index]];
           abb_nameline = "<h3>" + StringFunctions.StringCapitalize(element.name) + "</h3> (" + element.size + " " + element.type + ")";
-          abb_hitline = "<b>AC </b>" + StringFunctions.GetArmorData(element,false) + " <b>HP </b>" + element.avgHP + " <b>SPD </b>" + element.speedDesc;
+          let parhp = $("#enchp-input").prop("checked") ? (StringFunctions.ShowEncParagon(element)) : "";
+          abb_hitline = "<b>AC </b>" + StringFunctions.GetArmorData(element,false) + " <b>HP </b>" + element.avgHP + parhp;
+          abb_hitline += ((parhp !== "") && $("#encmor-input").prop("checked")) ? "<br>" : "";
           abb_hitline += $("#encmor-input").prop("checked") ? (" <b>MOR </b>" + StringFunctions.GetMorale(element,false)) : "";
+          abb_hitline += " <b>SPD </b>" + element.speedDesc;
           abb_statline = "<b>STR </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.strPoints)) + " <b>DEX </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.dexPoints)) +  " <b>CON </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.conPoints)) +  " <b>INT </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.intPoints)) +  " <b>WIS </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.wisPoints)) +  " <b>CHA </b>" +  StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.chaPoints));
           abb_atks = this.GetAtkExp(element);
           abb_atks0 = this.GetAtkExp(element, "abilities");
@@ -2158,6 +2161,24 @@ var StringFunctions = {
       } else {
         return "DC " + mon_id.mdc + " or " + mon_id.mtype + " when " + mon_id.mtrig + " (" + Math.floor(morale_hp * mon_id.avgHP) + ")";
       }
+    },
+
+    ShowEncParagon: function(mon_id) {
+      let parhp = "";
+      if (mon_id["paragon"]) {
+        let num_pools = mon_id.paragon[0] * 1;
+        for (let i = 1; i <= num_pools; i++) {
+          if (i === 1) parhp += " (";
+          parhp += mon_id.paragon[2*i-1] + " ";
+          parhp += mon_id.paragon[2*i];
+          if (i !== num_pools) {
+            parhp += "/";
+          } else {
+            parhp += ")";
+          }
+        }
+      }
+      return parhp;
     },
 
     GetParagon: function() {
