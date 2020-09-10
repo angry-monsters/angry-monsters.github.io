@@ -29,7 +29,7 @@
     <script src="js/dom-to-image.min.js"></script>
     <script src="js/svg4everybody.min.js"></script>
     <script>svg4everybody();</script>
-    <script src="js/statblock-script.js?version=5.7.2"></script>
+    <script src="js/statblock-script.js?version=5.7.3"></script>
 </head>
 
 <body class="gridcontainer" id="stat-block-body">
@@ -109,7 +109,7 @@
         <h3 id="faq-compendium">How Often is the Community Compendium Updated?</h3>
         <p>For now, it gets updated daily around 00:00 GMT if there are new submissions. In the future, there will likely be some sort of codified review process and updates will be made weekly.</p>
         <h3 id="faq-update">Latest Update</h3>
-        <p>10 September 2020 - bestiary pagination.</p>
+        <p>10 September 2020 - bestiary pagination and more options for encounter statblocks.</p>
         <div id="faq-survey" style="text-align:center">
           <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScBJrckpK3HtD_aqvrZSpfbdeThTTr-GBNteHrgkRKtn1LR4A/viewform?embedded=true" width="100%" height="1900px" frameborder="0">Loading…</iframe>
         </div>
@@ -219,7 +219,19 @@
             <button id="show-terrain" onclick="showHideEncNotes(true)">Show Notes Section</button>
             <button id="hide-terrain" onclick="showHideEncNotes(false)" style="display:none">Hide Notes Section</button>
             <br><br>
-            <label for="beta-input"><input id="beta-input" type="checkbox" onchange="getEncounterInfo()" checked>Beta feature: abbreviate monster actions; works well for simple weapon attacks.</label>
+            <label for="encmor-input">Show Morale Info: <input id="encmor-input" type="checkbox" onchange="getEncounterInfo()" checked></label>
+            <br>
+            <label for="enchp-input">Show Paragon HP Info: <input id="enchp-input" type="checkbox" onchange="getEncounterInfo()" checked></label>
+            <br>
+            <hr>
+            <p>Beta features: show additional monster info; works well for simple weapon attacks.</p>
+            <label for="beta-input"><input id="beta-input" type="checkbox" onchange="getEncounterInfo()" checked>Abbreviate Actions</label>
+            <br>
+            <label for="beta-input2"><input id="beta-input2" type="checkbox" onchange="getEncounterInfo()" checked>Abbreviate Bonus Actions.</label>
+            <br>
+            <label for="beta-input3"><input id="beta-input3" type="checkbox" onchange="getEncounterInfo()" checked>Abbreviate Reactions.</label>
+            <br>
+            <label for="beta-input0"><input id="beta-input0" type="checkbox" onchange="getEncounterInfo()" checked>Abbreviate Traits.</label>
           </div>
           <button class="menu-btn" onclick="">Extra Details</button>
           <div class="menudrop">

@@ -1261,6 +1261,9 @@ var FormFunctions = {
           abb_hitline = "<b>AC </b>" + StringFunctions.GetArmorData(element,false) + " <b>HP </b>" + element.avgHP + " <b>SPD </b>" + element.speedDesc;
           abb_statline = "<b>STR </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.strPoints)) + " <b>DEX </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.dexPoints)) +  " <b>CON </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.conPoints)) +  " <b>INT </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.intPoints)) +  " <b>WIS </b>" + StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.wisPoints)) +  " <b>CHA </b>" +  StringFunctions.BonusFormat(MathFunctions.PointsToBonus(element.chaPoints));
           abb_atks = this.GetAtkExp(element);
+          abb_atks0 = this.GetAtkExp(element, "abilities");
+          abb_atks1 = this.GetAtkExp(element, "bonuses");
+          abb_atks2 = this.GetAtkExp(element, "reactions");
 
           let elementProps = StringFunctions.GetPropertiesDisplayArr(element);
 
@@ -1283,7 +1286,10 @@ var FormFunctions = {
           abb_absorb = getFindVal(elementProps,"name","Damage Absorption") ? "<br><b>Absorb:</b> " + getFindVal(elementProps,"name","Damage Absorption").arr : "";
 
           let upperLine = "<br><li> " + abb_nameline + "<br>" +  abb_hitline + "<br>" +  abb_statline;
-          let atkLine = $("#beta-input").prop("checked") ? "<span style='color:black;'>" + abb_atks + "</span>" : "";
+          let atkLine = $("#beta-input0").prop("checked") ? "<span style='color:black;'>" + abb_atks0 + "</span>" : "";
+          atkLine += $("#beta-input").prop("checked") ? "<span style='color:black;'>" + abb_atks + "</span>" : "";
+          atkLine += $("#beta-input2").prop("checked") ? "<span style='color:black;'>" + abb_atks1 + "</span>" : "";
+          atkLine += $("#beta-input3").prop("checked") ? "<span style='color:black;'>" + abb_atks2 + "</span>" : "";
 
           let midline = abb_prof + abb_sense + abb_vul + abb_resist + abb_immune + abb_absorb;
 
@@ -1354,17 +1360,12 @@ var FormFunctions = {
       }
     },
 
-    GetAtkExp: function(monArr) {
+    GetAtkExp: function(monArr, arrName = "actions") {
       let atkArr = [],
         atkRes = "";
-      /* for (let index = 0; index < monArr.abilities.length; index++) {
-        let act = monArr.abilities[index];
-        let revName = act.desc;
-        atkRes = "<b>" + act.name + ":</b> ";
-        atkArr.push("<br>" + atkRes);
-      } */
-      for (let index = 0; index < monArr.actions.length; index++) {
-        let act = monArr.actions[index];
+      if (monArr[arrName]) {
+      for (let index = 0; index < monArr[arrName].length; index++) {
+        let act = monArr[arrName][index];
         let revName = act.desc;
         revName = revName.replace(/_|damage| to hit| one (target|creature).|(reach|range) |\[MON\]| reach 5 ft.,/gi, "");
         revName = revName.replace(/ Hit:|The /gi, "");
@@ -1383,12 +1384,7 @@ var FormFunctions = {
         atkRes = "<b>" + act.name + ":</b> " + ReplaceTraitTags(revName,monArr);
         if (revName.length < 144) atkArr.push("<br>" + atkRes);
       }
-      /* for (let index = 0; index < monArr.reactions.length; index++) {
-        let act = monArr.reactions[index];
-        let revName = act.desc;
-        atkRes = "<b>" + act.name + " (React):</b> ";
-        atkArr.push("<br>" + atkRes);
-      } */
+      }
       return atkArr.join("");
     }
 }
