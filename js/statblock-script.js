@@ -639,8 +639,15 @@ function ReplaceTraitTags(desc,mon_id) {
         let readString = match[1].toLowerCase().replace(/ +/g, ' ').trim();
 
         if (readString.length > 0) {
-            if (readString == "mon")
+            if (readString == "mon") {
                 desc = desc.replace(match[0], mon_id.name.toLowerCase());
+            }
+            else if (readString == "dc") {
+                desc = desc.replace(match[0], "DC " + StringFunctions.GetSaveDC(mon_id));
+            }
+            else if (readString == "atk") {
+                desc = desc.replace(match[0], "+" + StringFunctions.GetAttackBonus(mon_id));
+            }
             else {
                 let readPosition = 0,
                     type = null,
