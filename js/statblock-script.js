@@ -744,10 +744,10 @@ function ReplaceTraitTags(desc,mon_id) {
 // Homebrewery/GM Binder markdown
 function TryMarkdown() {
     let markdownWindow = window.open();
-    let markdown = ['<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><title>', mon.name, '</title></head><body><h2>Homebrewery/GM Binder Markdown</h2><code>', mon.doubleColumns ? "___<br>___<br>" : "___<br>", '> ## ', mon.name, '<br>> #### *', (StringFunctions.StringCapitalize(mon.tier) + " tier, " + mon.org + " organization"), '* <br>> *', StringFunctions.StringCapitalize(mon.size), ' ', mon.type];
+    let markdown = ['<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"/><title>', mon.name, '</title></head><body><h2>Homebrewery/GM Binder Markdown</h2><code>', mon.doubleColumns ? "___<br>___<br>" : "___<br>", '> ## ', mon.name, '<br>',$("#no-angry-input").prop('checked') ? "" : '> #### *' + (StringFunctions.StringCapitalize(mon.tier) + " tier, " + mon.org + " organization") + '* <br>','>*', StringFunctions.StringCapitalize(mon.size), ' ', mon.type];
     if (mon.tag != "")
         markdown.push(' (', mon.tag, ')');
-    markdown.push((mon.alignment == "" ? "" : ", " + mon.alignment), '*<br> > ## &lt;!-- --&gt; &lt;div style="margin-top:-25px"&gt;&amp;nbsp;&lt;/div&gt; <br> >___<br>> - **Armor Class** ', StringFunctions.FormatString(StringFunctions.GetArmorData(mon,true)), '<br>> - **Hit Points** ', StringFunctions.GetHP(), StringFunctions.GetMdMorale(), '<br>> - **Speed** ', StringFunctions.GetSpeed(), "<br>>___<br>>|STR|DEX|CON|INT|WIS|CHA|<br>>|:---:|:---:|:---:|:---:|:---:|:---:|<br>>|",
+    markdown.push((mon.alignment == "" ? "" : ", " + mon.alignment), '* <br> ',$("#no-angry-input").prop('checked') ? "" : '> ## &lt;!-- --&gt; &lt;div style="margin-top:-25px"&gt;&amp;nbsp;&lt;/div&gt; <br> ','>___<br>> - **Armor Class** ', StringFunctions.FormatString(StringFunctions.GetArmorData(mon,true)), '<br>> - **Hit Points** ', StringFunctions.GetHP(), StringFunctions.GetMdMorale(), '<br>> - **Speed** ', StringFunctions.GetSpeed(), "<br>>___<br>>|STR|DEX|CON|INT|WIS|CHA|<br>>|:---:|:---:|:---:|:---:|:---:|:---:|<br>>|",
         mon.strPoints, " (", StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon.strPoints)), ")|",
         mon.dexPoints, " (", StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon.dexPoints)), ")|",
         mon.conPoints, " (", StringFunctions.BonusFormat(MathFunctions.PointsToBonus(mon.conPoints)), ")|",
@@ -762,7 +762,7 @@ function TryMarkdown() {
             (Array.isArray(propertiesDisplayArr[index].arr) ? propertiesDisplayArr[index].arr.join(", ") : propertiesDisplayArr[index].arr),
             "<br>");
     }
-    markdown.push(StringFunctions.GetMdCR(), "> - **Threat** ", StringFunctions.GetThreat(mon.threatval,true));
+    markdown.push(StringFunctions.GetMdCR(),'<br>>___');
 
     if (mon.abilities.length > 0) markdown.push("<br>", GetTraitMarkdown(mon.abilities, false));
     if (mon.actions.length > 0) markdown.push("<br>> ### Actions<br>", GetTraitMarkdown(mon.actions, false));
@@ -2244,8 +2244,17 @@ var StringFunctions = {
     },
 
     GetMdCR: function() {
-      if ($("#cr-input").prop('checked')) return '> - **CR** ' + this.GetCR() + '<br>';
-      return "";
+      let outStr = "";
+      if ($("#cr-input").prop('checked') || $("#no-angry-input").prop('checked')) {
+        outStr = '> - **Challenge** ' + this.GetCR()
+      }
+      if (!$("#no-angry-input").prop('checked')) {
+        if ($("#cr-input").prop('checked')) {
+          outStr += '<br>';
+        }
+        outStr += "> - **Threat** " + StringFunctions.GetThreat(mon.threatval,true);
+      }
+      return outStr;
     },
 
     GetThreat: function(threat_check,show_num) {
