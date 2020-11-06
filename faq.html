@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157574901-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-157574901-2');
+  </script>
+  <meta charset="utf-8" />
+  <title>5e Angry Creature Manager FAQ</title>
+  <meta name="description" content="A D&amp;D 5e integrated monster tool for creating statblocks, managing compendiums, and building encounters using the Angry GM paradigm.">
+  <meta name="keywords" content="D&amp;D, Dungeons and Dragons, 5th Edition, 5e, Angry GM, Monster Manual, Statblock, Encounter">
+  <meta name="author" content="hokieboat">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.0">
+  <link rel="stylesheet" type="text/css" href="css/statblock-page-style.css?version=3.0">
+  <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=7.2">
+  <link rel="stylesheet" type="text/css" href="css/libre-baskerville.css">
+  <link rel="stylesheet" type="text/css" href="css/noto-sans.css">
+  <!-- <link rel="stylesheet" type="text/css" href="css/material-components-web.min.css?version=7.0.0">
+    <script src="js/material-components-web.min.js?version=7.0.0"></script> -->
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/FileSaver.min.js"></script>
+  <script src="js/dom-to-image.min.js"></script>
+  <script src="js/svg4everybody.min.js"></script>
+  <script>
+    svg4everybody();
+  </script>
+  <script src="js/statblock-script.js?version=5.8.2"></script>
+</head>
+
+<body class="gridcontainer" id="stat-block-body">
+  <div class="tabs">
+    <div class="tabflow">
+      <div class="tableft">
+        <div style="grid-column:1;"><button class="tablinks" onclick="saveTab('monster');location.href='/'">Monster<br>Generator</button></div>
+        <div style="grid-column:2;"><button class="tablinks" onclick="saveTab('bestiary');location.href='/'">Bestiary</button></div>
+        <div style="grid-column:3;"><button class="tablinks" onclick="saveTab('encounter');location.href='/'">Encounter<br>Builder</button></div>
+        <div style="grid-column:4;"><button class="tablinks" onclick="location.href='/new.html'">Companions</button></div>
+      </div>
+      <div class="tabright">
+        <div class="tab-wrap" style="grid-column:1;">
+          <h1 style="">5e Angry Monster Manager</h1>
+          <p style="margin-top:-.5rem"><a href="/"><strong>Homepage</strong></a></p>
+        </div>
+        <div class="tab-wrap" style="grid-column:2;">
+          <div style="">
+            <a target="_blank" href="https://github.com/angry-monsters/angry-monsters.github.io"><strong>GitHub Repo</strong></a>
+            <div style="padding-top:.5rem"></div>
+            <a target="_self" href="." onclick="clearStorage()"><strong>Clear Data</strong></a>
+          </div>
+        </div>
+        <div class="tab-wrap" style="grid-column:3;">
+          <div class="dark-wrapper">
+            <label class="switch" for="night-toggle"><br>
+              <input type="checkbox" id="night-toggle" />
+              <div class="slider round"></div>
+            </label>
+            <em>dark mode</em>
+          </div>
+          <div style="padding-top:.5rem">
+            <a href='https://ko-fi.com/M4M81VQKK' target='_blank'><img width='85%' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="faq" class="container tabcontent tabcontainer2">
+    <div style="grid-column:1;overflow:inherit;text-align:center;padding-right:1rem">
+      <br>
+      <h2>Frequently Asked Questions</h2>
+      <br><a href="#faq-intro">Origin</a>
+      <br><a href="#faq-save">Saving and Loading</a>
+      <br><a href="#faq-colors">Changing Color Scheme</a>
+      <br><a href="#faq-mon">Monster Design</a>
+      <br><a href="#faq-icon">Icon Meanings</a>
+      <br><a href="#faq-cr">CR Calculator</a>
+      <br><a href="#faq-compendium">Compendium</a>
+      <br><a href="#faq-update">Latest Update</a>
+      <!--<br><a href="#faq-survey">Feature Survey</a>-->
+      <br>
+    </div>
+    <div class="content" style="grid-column:span 3;overflow:inherit">
+      <br>
+      <h3 id="faq-intro">Where did all of this come from?</h3>
+      <p>- The statblock is modified from <a target="_blank" href="http://tetra-cube.com/dnd/dnd-statblock.html">D&amp;D 5e Statblock Generator</a>
+        <br>- Uses the creature archetypes from <a target="_blank" href="https://docs.google.com/spreadsheets/d/1NUE_st_Bm3ZdhVZ8N-uUT0WHOOsuak6m-DkyOCMkCV0/edit">AndruC</a>
+        <p>
+          <h3 id="faq-save">How Does Saving and Loading Files Work?</h3>
+          <p>Your data is automatically saved in your browser and is preserved unless you manually clear it (You can do so with the 'Clear Data' button on the sidebar).</p>
+          <p>Each page saves a different file: a .monster, a .compendium, or a .encounter. These are all really just text files and the extensions are simply to help the end user know what they are.</p>
+          <p>You can load ANY of these three files into ANY of the sections. The monster page will load the first monster of a bestiary or encounter and the bestiary and encounter page will load and add all the monsters in the file. Additionally, if
+            you load an encounter file in the encounter page, it will first clear the current encounter and also load the extra encounter-specific data.</p>
+          <h3 id="faq-colors">Change Color Scheme</h3>
+          <div class="">
+            <label>Ajust the website color scheme: <br>
+              <input type="range" min="0" max="360" value="10" onchange="changeColors('--pri-hue',this.value)" id="wholeHue">
+            </label>
+            <button type="button" onclick="changeColors('--pri-hue','10');setColorBars()">Light Mode Default</button>
+            <button type="button" onclick="changeColors('--pri-hue','38');setColorBars()">Dark Mode Default</button>
+            <br><br>
+            <label>Statblock main hue: <br>
+              <input type="range" min="0" max="360" value="10" onchange="changeColors('--stat-main-hue',this.value)" id="mainHue">
+            </label>
+            <button type="button" onclick="changeColors('--stat-main-hue','10');setColorBars()">Default</button>
+            <br><br>
+            <label>Statblock background hue: <br>
+              <input type="range" min="0" max="360" value="10" onchange="changeColors('--stat-bg-hue',this.value)" id="bgHue">
+            </label>
+            <button type="button" onclick="changeColors('--stat-bg-hue','38');setColorBars()">Default</button>
+            <br><br>
+          </div>
+          <h3 id="faq-mon">How Do I Make a Monster?</h3>
+          <p>First, READ THE ARTICLE on the process.</p>
+          <p>Use the menus to select what you want for stats. The attack bonus, the ability save DC, and the average DPR are NOT automatically added to abilities and actions - you have to manually type them in.</p>
+          <p>It is recommended to set ability scores based on the monster's attack bonus and DPR, then use the syntax (i.e. [STR 1d6]) for attacks. This will also bold the attack and damage in the abbreviated statblocks. The abbreviated statblocks
+            are still in beta and will only show actions that have descriptions of less than 144 characters.</p>
+          <p>Additionally, you can start from presets. Adding a monster to the bestiary from the monster generator will overwrite an existing monster if they have the same name - like if you are editing monsters from your bestiary. If you use manual
+            file uploads to get multiple monsters with the same name, this function will not work properly.</p>
+          <h3 id="faq-icon">What do the icons mean?</h3>
+          <p><svg class='faq-image'>
+              <use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use>
+            </svg> - Remove from list / Remove 1 from encounter</p>
+          <p><svg class='faq-image'>
+              <use xlink:href='dndimages/icons.svg?version=1.0#edit-icon'></use>
+            </svg> - Edit monster / Edit ability</p>
+          <p><svg class='faq-image'>
+              <use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use>
+            </svg> - Move up in list</p>
+          <p><svg class='faq-image'>
+              <use xlink:href='dndimages/icons.svg?version=1.0#down-icon'></use>
+            </svg> - Move down in list</p>
+          <p><svg class='faq-image'>
+              <use xlink:href='dndimages/icons.svg?version=1.0#plus-icon'></use>
+            </svg> - Add 1 to encounter</p>
+          <p><svg class='faq-image'>
+              <use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use>
+            </svg> - Sort alphabetically</p>
+          <h3 id="faq-cr">Using the CR Calculator</h3>
+          <p>It currently does not have modifiers for traits. It will take the maximum of the save DC or attack bonus, so set the secondary mode of attack less than or equal to the primary. Calculaing CR is also done slightly differently, it is done
+            by index rather than value. That means that CR is incremented up and down levels instead of added, so offensive CR 0 + defensive CR 1 becomes a CR 1/4 instead of CR 1/2. This mainly affects the low end of the spectrum. </p>
+          <h3 id="faq-compendium">How Often is the Community Compendium Updated?</h3>
+          <p>For now, it gets updated daily around 00:00 GMT if there are new submissions. In the future, there will likely be some sort of codified review process and updates will be made weekly.</p>
+          <h3 id="faq-update">Latest Update</h3>
+          <p>4 October 2020 - Added [DC] and [ATK] abbreviations.</p>
+          <!--<div id="faq-survey" style="text-align:center">
+      <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScBJrckpK3HtD_aqvrZSpfbdeThTTr-GBNteHrgkRKtn1LR4A/viewform?embedded=true" width="100%" height="1900px" frameborder="0">Loading…</iframe>
+    </div>-->
+    </div>
+  </div>
+
+</body>
+<script>
+  setNight();
+  checkColorScheme();
+  setColorBars();
+</script>
+</html>
