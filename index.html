@@ -2,258 +2,236 @@
 <html lang="en">
 
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157574901-2"></script>
-    <script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'UA-157574901-2');
-    </script>
-    <meta charset="utf-8" />
-    <title>5e Angry Monster Manager</title>
-    <meta name="description" content="A D&amp;D 5e integrated monster tool for creating statblocks, managing compendiums, and building encounters using the Angry GM paradigm.">
-    <meta name="keywords" content="D&amp;D, Dungeons and Dragons, 5th Edition, 5e, Angry GM, Monster Manual, Statblock, Encounter">
-    <meta name="author" content="hokieboat">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.0">
-    <link rel="stylesheet" type="text/css" href="css/statblock-page-style.css?version=3.0">
-    <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=7.2">
-    <link rel="stylesheet" type="text/css" href="css/libre-baskerville.css">
-    <link rel="stylesheet" type="text/css" href="css/noto-sans.css">
-    <!-- <link rel="stylesheet" type="text/css" href="css/material-components-web.min.css?version=7.0.0">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157574901-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-157574901-2');
+  </script>
+  <meta charset="utf-8" />
+  <title>5e Angry Monster Manager</title>
+  <meta name="description" content="A D&amp;D 5e integrated monster tool for creating statblocks, managing compendiums, and building encounters using the Angry GM paradigm.">
+  <meta name="keywords" content="D&amp;D, Dungeons and Dragons, 5th Edition, 5e, Angry GM, Monster Manual, Statblock, Encounter">
+  <meta name="author" content="hokieboat">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.0">
+  <link rel="stylesheet" type="text/css" href="css/statblock-page-style.css?version=3.0">
+  <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.0">
+  <link rel="stylesheet" type="text/css" href="css/libre-baskerville.css">
+  <link rel="stylesheet" type="text/css" href="css/noto-sans.css">
+  <!-- <link rel="stylesheet" type="text/css" href="css/material-components-web.min.css?version=7.0.0">
     <script src="js/material-components-web.min.js?version=7.0.0"></script> -->
-    <script src="js/jquery-3.4.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/FileSaver.min.js"></script>
-    <script src="js/dom-to-image.min.js"></script>
-    <script src="js/svg4everybody.min.js"></script>
-    <script>svg4everybody();</script>
-    <script src="js/statblock-script.js?version=5.8.2"></script>
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/FileSaver.min.js"></script>
+  <script src="js/dom-to-image.min.js"></script>
+  <script src="js/svg4everybody.min.js"></script>
+  <script>
+    svg4everybody();
+  </script>
+  <script src="js/statblock-script.js?version=6.0.0"></script>
+  <script src="js/monster-script.js?version=1.0.0"></script>
 </head>
 
 <body class="gridcontainer" id="stat-block-body">
-    <div class="tabs">
+  <div class="tabs">
     <div class="tabflow">
-    <div class="tableft">
-      <div style="grid-column:1;"><button class="tablinks" onclick="openTab(event, 'monster')" id="defaultOpen">Monster<br>Generator</button></div>
-      <div style="grid-column:2;"><button class="tablinks" onclick="openTab(event, 'bestiary')">Bestiary</button></div>
-      <div style="grid-column:3;"><button class="tablinks" onclick="openTab(event, 'encounter')">Encounter<br>Builder</button></div>
-      <div style="grid-column:4;"><button class="tablinks" onclick="openTab(event, 'faq')">FAQ</button></div>
-    </div><div class="tabright">
-      <div class="tab-wrap" style="grid-column:1;">
-        <h1 style="">5e Angry Monster Manager</h1>
-        <p style="margin-top:-.5rem">Latest Update: 4 October 2020 (see FAQ)</p>
+      <div class="tableft">
+        <div style="grid-column:1;"><button class="tablinks" onclick="openTab('monster')" id="monstertab">Monster<br>Generator</button></div>
+        <div style="grid-column:2;"><button class="tablinks" onclick="openTab('bestiary')" id="bestiarytab">Bestiary</button></div>
+        <div style="grid-column:3;"><button class="tablinks" onclick="openTab('encounter')" id="encountertab">Encounter<br>Builder</button></div>
+        <div style="grid-column:4;"><button class="tablinks" onclick="location.href='/new.html'">Companions</button></div>
       </div>
-      <div class="tab-wrap" style="grid-column:2;">
-        <div style="">
-        <a target="_blank" href="https://github.com/angry-monsters/angry-monsters.github.io"><strong>GitHub Repo</strong></a>
-        <div style="padding-top:.5rem"></div>
-        <a target="_self" href="." onclick="clearStorage()"><strong>Clear Data</strong></a>
+      <div class="tabright">
+        <div class="tab-wrap" style="grid-column:1;">
+          <h1 style="">5e Angry Creature Manager</h1>
+          <p style="margin-top:-.5rem">Latest Update: 6 November 2020 <a href="/faq.html#faq-update"><strong>(see FAQ & change colors)</strong></a></p>
+        </div>
+        <div class="tab-wrap" style="grid-column:2;">
+          <div style="">
+            <a target="_blank" href="https://github.com/angry-monsters/angry-monsters.github.io"><strong>GitHub Repo</strong></a>
+            <div style="padding-top:.5rem"></div>
+            <a target="_self" href="." onclick="clearStorage()"><strong>Clear Data</strong></a>
+          </div>
+        </div>
+        <div class="tab-wrap" style="grid-column:3;">
+          <div class="dark-wrapper">
+            <label class="switch" for="night-toggle"><br>
+              <input type="checkbox" id="night-toggle" />
+              <div class="slider round"></div>
+            </label>
+            <em>dark mode</em>
+          </div>
+          <div style="padding-top:.5rem">
+            <a href='https://ko-fi.com/M4M81VQKK' target='_blank'><img width='85%' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+          </div>
         </div>
       </div>
-      <div class="tab-wrap" style="grid-column:3;">
-        <div class="dark-wrapper">
-          <label class="switch" for="night-toggle"><br>
-            <input type="checkbox" id="night-toggle" />
-            <div class="slider round"></div>
+    </div>
+  </div>
+
+  <div id="bestiary" class="container tabcontent tabcontainer2" style="text-align: center;">
+    <div style="grid-column:1;overflow:inherit">
+      <br>
+      <h2>Personal Monsters</h2>
+      <label style="width: 80%" for="monster-filter">Filter terms:<br>separate with semicolon for "AND" matches<br>separate with comma for "OR" matches<input style="width: 100%" id="monster-filter" type="text" value=""
+          onchange="getMonsterInfo()"></label>
+      <br><br>
+      <button onclick="TrySaveFile2()">Save Compendium</button>
+      <br><br>
+      <button onclick="LoadFilePrompt2()">Load Monster(s)</button>
+      <br><br>
+      <label for="mon-per-pg">Number Displayed Per Page: <input id="mon-per-pg" value="5" type="number" min="5" step="5" onchange="getMonsterInfo()"></label>
+      <br>
+      <svg onclick="getMonsterInfo(-1)" class='paginate-image'>
+        <use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use>
+      </svg>
+      <div id="page-num-list"></div>
+      <svg onclick="getMonsterInfo(1)" class='paginate-image'>
+        <use xlink:href='dndimages/icons.svg?version=1.0#down-icon'></use>
+      </svg>
+      <br><br>
+      <p>Download the <a target="_blank" href="./compendium/bestiary.compendium?v=5">Community Compendium</a> and contribute <a target="_blank"
+          href="https://github.com/angry-monsters/angry-monsters.github.io/issues/new?assignees=&labels=bestiary&template=compendium-addition.md&title=General+Title+of+Monsters%2FTheme%2FAdditions">your own creations!</a></p>
+      <p>Last addition on 5 September 2020 - Green Fang Kobolds from phildhub.</p>
+      <input id="file-upload2" type="file" onChange="TryLoadFile2();" hidden />
+      <input id="mon-sort-order" type="text" hidden />
+    </div>
+    <div class="monster-manual" style="grid-column:span 3;overflow:inherit">
+      <br>
+      <table style="width:95%;margin-left:2.5%">
+        <thead>
+          <tr style="background-color: transparent;">
+            <th>Actions</th>
+            <th colspan='3' onClick="sortBestiary('name')">Name <svg class='statblock-image'>
+                <use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use>
+              </svg></th>
+            <th onClick="sortBestiary('tier')">Tier <svg class='statblock-image'>
+                <use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use>
+              </svg></th>
+            <th onClick="sortBestiary('org')">Org <svg class='statblock-image'>
+                <use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use>
+              </svg></th>
+            <th onClick="sortBestiary('size')">Size <svg class='statblock-image'>
+                <use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use>
+              </svg></th>
+            <th onClick="sortBestiary('type')">Type <svg class='statblock-image'>
+                <use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use>
+              </svg></th>
+            <th colspan='3' onClick="sortBestiary('tag')" class="absorbing-column">Tags <svg class='statblock-image'>
+                <use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use>
+              </svg></th>
+          </tr>
+        </thead>
+        <tbody id="mon2-input-list">
+        </tbody>
+      </table>
+      <br>
+    </div>
+  </div>
+
+  <div id="encounter" class="container tabcontent tabcontainer">
+    <div style="grid-column-end:2;overflow:inherit;text-align:center">
+      <br>
+      <h2>Angry Encounter Design</h2>
+      <p>Read the example from <a target="_blank" href="https://theangrygm.com/how-to-f-cr-practical-example-2/">The Angry GM</a></p>
+      <div class="menucontainer">
+        <button class="menu-btn" onclick="">Encounter I/O</button>
+        <div class="menudrop">
+          <button onclick="ClearEncounter()">New Encounter</button>
+          <button onclick="TrySaveFile3()">Save Encounter</button>
+          <br><br>
+          <button onclick="TryPrint(false)">Printable Block</button>
+          <button onclick="TryImage(false)">Save Image</button>
+        </div>
+        <button class="menu-btn" onclick="">Main Info</button>
+        <div class="menudrop">
+          <label for="enc-name-input">Name: <br><input onchange="FormFunctions.UpdateEncName()" id="enc-name-input" type="text" value="Encounter"></label>
+          <label for="tier-level">Encounter Tier: <br>
+            <select id="tier-level" onchange="getMonsterInfo();getEncounterInfo()">
+              <option value="apprentice" selected>Apprentice (levels 1-2)</option>
+              <option value="journeyman">Journeyman (levels 3-5)</option>
+              <option value="adventurer">Adventurer (levels 6-9)</option>
+              <option value="veteran">Veteran (levels 7-11)</option>
+              <option value="champion">Champion (levels 12-14)</option>
+              <option value="epic">Epic (levels 15-17)</option>
+              <option value="legendary">Legendary (levels 18-20)</option>
+            </select>
           </label>
-          <em>dark mode</em>
+          <br><br>
+          <label for="enc-type">Encounter Type: <br>
+            <select onchange="getEncounterInfo()" id="enc-type">
+              <option value="20">Complication / Restock (2-3 Positions)</option>
+              <option value="30" selected>Minor / Major (3-5 Positions)</option>
+              <option value="40">Climactic (4-6 Positions)</option>
+            </select>
+          </label>
+          <label for="party-size">Number of PCs: <br>
+            <input type="number" min="1" value="1" id="party-size" onchange="getEncounterInfo()">
+          </label>
+          <br><br>
+          <label for="xp-in">Encounter XP (0 for auto): <br>
+            <input type="number" min="0" value="1" id="xp-in" onchange="getEncounterInfo()">
+          </label>
         </div>
-        <div style="padding-top:.5rem">
-        <a href='https://ko-fi.com/M4M81VQKK' target='_blank'><img width='85%' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+        <button class="menu-btn" onclick="">Add/Load Monsters</button>
+        <div class="menudrop">
+          <label for="monster-options">Add Creatures: <br>
+            <select id="monster-options"></select>
+          </label>
+          <label for="creature-size">Quantity: <br>
+            <input type="number" min="1" value="1" id="creature-size">
+          </label>
+          <button onclick="TryEncounterAdd()">Add to Encounter</button>
+          <br><br>
+          <button onclick="LoadFilePrompt3()">Load Monster(s) from File </button>
+          <input id="file-upload3" type="file" onChange="TryLoadFile3();" hidden />
         </div>
-      </div>
-    </div>
-    </div>
-    </div>
-
-    <div id="faq" class="container tabcontent tabcontainer2">
-      <div style="grid-column:1;overflow:inherit;text-align:center;padding-right:1rem">
-        <br>
-        <h2>Frequently Asked Questions</h2>
-        <br><a href="#faq-intro">Origin</a>
-        <br><a href="#faq-save">Saving and Loading</a>
-        <br><a href="#faq-mon">Monster Design</a>
-        <br><a href="#faq-icon">Icon Meanings</a>
-        <br><a href="#faq-cr">CR Calculator</a>
-        <br><a href="#faq-compendium">Compendium</a>
-        <br><a href="#faq-update">Latest Update</a>
-        <!--<br><a href="#faq-survey">Feature Survey</a>-->
-        <br>
-      </div>
-      <div class="content" style="grid-column:span 3;overflow:inherit">
-        <br>
-        <h3 id="faq-intro">Where did all of this come from?</h3>
-        <p>- The statblock is modified from <a target="_blank" href="http://tetra-cube.com/dnd/dnd-statblock.html">D&amp;D 5e Statblock Generator</a>
-          <br>- Uses the creature archetypes from <a target="_blank" href="https://docs.google.com/spreadsheets/d/1NUE_st_Bm3ZdhVZ8N-uUT0WHOOsuak6m-DkyOCMkCV0/edit">AndruC</a>
-        <p>
-        <h3 id="faq-save">How Does Saving and Loading Files Work?</h3>
-        <p>Your data is automatically saved in your browser and is preserved unless you manually clear it (You can do so with the 'Clear Data' button on the sidebar).</p>
-        <p>Each page saves a different file: a .monster, a .compendium, or a .encounter. These are all really just text files and the extensions are simply to help the end user know what they are.</p>
-        <p>You can load ANY of these three files into ANY of the sections. The monster page will load the first monster of a bestiary or encounter and the bestiary and encounter page will load and add all the monsters in the file. Additionally, if you load an encounter file in the encounter page, it will first clear the current encounter and also load the extra encounter-specific data.</p>
-        <h3 id="faq-mon">How Do I Make a Monster?</h3>
-        <p>First, READ THE ARTICLE on the process.</p>
-        <p>Use the menus to select what you want for stats. The attack bonus, the ability save DC, and the average DPR are NOT automatically added to abilities and actions - you have to manually type them in.</p>
-        <p>It is recommended to set ability scores based on the monster's attack bonus and DPR, then use the syntax (i.e. [STR 1d6]) for attacks. This will also bold the attack and damage in the abbreviated statblocks. The abbreviated statblocks are still in beta and will only show actions that have descriptions of less than 144 characters.</p>
-        <p>Additionally, you can start from presets. Adding a monster to the bestiary from the monster generator will overwrite an existing monster if they have the same name - like if you are editing monsters from your bestiary. If you use manual file uploads to get multiple monsters with the same name, this function will not work properly.</p>
-        <h3 id="faq-icon">What do the icons mean?</h3>
-        <p><svg class='faq-image'><use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use></svg> - Remove from list / Remove 1 from encounter</p>
-        <p><svg class='faq-image'><use xlink:href='dndimages/icons.svg?version=1.0#edit-icon'></use></svg> - Edit monster / Edit ability</p>
-        <p><svg class='faq-image'><use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use></svg> - Move up in list</p>
-        <p><svg class='faq-image'><use xlink:href='dndimages/icons.svg?version=1.0#down-icon'></use></svg> - Move down in list</p>
-        <p><svg class='faq-image'><use xlink:href='dndimages/icons.svg?version=1.0#plus-icon'></use></svg> - Add 1 to encounter</p>
-        <p><svg class='faq-image'><use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use></svg> - Sort alphabetically</p>
-        <h3 id="faq-cr">Using the CR Calculator</h3>
-        <p>It currently does not have modifiers for traits. It will take the maximum of the save DC or attack bonus, so set the secondary mode of attack less than or equal to the primary. Calculaing CR is also done slightly differently, it is done by index rather than value. That means that CR is incremented up and down levels instead of added, so offensive CR 0 + defensive CR 1 becomes a CR 1/4 instead of CR 1/2. This mainly affects the low end of the spectrum. </p>
-        <h3 id="faq-compendium">How Often is the Community Compendium Updated?</h3>
-        <p>For now, it gets updated daily around 00:00 GMT if there are new submissions. In the future, there will likely be some sort of codified review process and updates will be made weekly.</p>
-        <h3 id="faq-update">Latest Update</h3>
-        <p>4 October 2020 - Added [DC] and [ATK] abbreviations.</p>
-        <!--<div id="faq-survey" style="text-align:center">
-          <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScBJrckpK3HtD_aqvrZSpfbdeThTTr-GBNteHrgkRKtn1LR4A/viewform?embedded=true" width="100%" height="1900px" frameborder="0">Loading…</iframe>
-        </div>-->
-      </div>
-    </div>
-
-    <div id="bestiary" class="container tabcontent tabcontainer2" style="text-align: center;">
-      <div style="grid-column:1;overflow:inherit">
-        <br>
-        <h2>Personal Monsters</h2>
-        <label style="width: 80%" for="monster-filter">Filter terms:<br>separate with semicolon for "AND" matches<br>separate with comma for "OR" matches<input style="width: 100%" id="monster-filter" type="text" value="" onchange="getMonsterInfo()"></label>
-        <br><br>
-        <button onclick="TrySaveFile2()">Save Compendium</button>
-        <br><br>
-        <button onclick="LoadFilePrompt2()">Load Monster(s)</button>
-        <br><br>
-        <label for="mon-per-pg">Number Displayed Per Page: <input id="mon-per-pg" value="5" type="number" min="5" step="5" onchange="getMonsterInfo()"></label>
-        <br>
-        <svg onclick="getMonsterInfo(-1)" class='paginate-image'><use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use></svg>
-        <div id="page-num-list"></div>
-        <svg onclick="getMonsterInfo(1)" class='paginate-image'><use xlink:href='dndimages/icons.svg?version=1.0#down-icon'></use></svg>
-        <br><br>
-	      <p>Download the <a target="_blank" href="./compendium/bestiary.compendium?v=5">Community Compendium</a> and contribute <a target="_blank" href="https://github.com/angry-monsters/angry-monsters.github.io/issues/new?assignees=&labels=bestiary&template=compendium-addition.md&title=General+Title+of+Monsters%2FTheme%2FAdditions">your own creations!</a></p>
-        <p>Last addition on 5 September 2020 - Green Fang Kobolds from phildhub.</p>
-        <input id="file-upload2" type="file" onChange="TryLoadFile2();" hidden />
-        <input id="mon-sort-order" type="text" hidden />
-      </div>
-      <div class="monster-manual" style="grid-column:span 3;overflow:inherit">
-        <br>
-        <table style="width:95%;margin-left:2.5%">
-          <thead>
-            <tr style="background-color: transparent;">
-              <th>Actions</th>
-              <th colspan='3' onClick="sortBestiary('name')">Name <svg class='statblock-image'><use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use></svg></th>
-              <th onClick="sortBestiary('tier')">Tier <svg class='statblock-image'><use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use></svg></th>
-              <th onClick="sortBestiary('org')">Org <svg class='statblock-image'><use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use></svg></th>
-              <th onClick="sortBestiary('size')">Size <svg class='statblock-image'><use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use></svg></th>
-              <th onClick="sortBestiary('type')">Type <svg class='statblock-image'><use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use></svg></th>
-              <th colspan='3' onClick="sortBestiary('tag')" class="absorbing-column">Tags <svg class='statblock-image'><use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use></svg></th>
-            </tr>
-          </thead>
-          <tbody id="mon2-input-list">
-          </tbody></table>
+        <button class="menu-btn" onclick="">Block Format</button>
+        <div class="menudrop">
+          <button id="show-terrain" onclick="showHideEncNotes(true)">Show Notes Section</button>
+          <button id="hide-terrain" onclick="showHideEncNotes(false)" style="display:none">Hide Notes Section</button>
+          <br><br>
+          <label for="encmor-input">Show Morale Info: <input id="encmor-input" type="checkbox" onchange="getEncounterInfo()" checked></label>
           <br>
-      </div>
-    </div>
-
-    <div id="encounter" class="container tabcontent tabcontainer">
-      <div style="grid-column-end:2;overflow:inherit;text-align:center">
-        <br>
-        <h2>Angry Encounter Design</h2>
-        <p>Read the example from <a target="_blank" href="https://theangrygm.com/how-to-f-cr-practical-example-2/">The Angry GM</a></p>
-        <div class="menucontainer">
-          <button class="menu-btn" onclick="">Encounter I/O</button>
-          <div class="menudrop">
-            <button onclick="ClearEncounter()">New Encounter</button>
-            <button onclick="TrySaveFile3()">Save Encounter</button>
-            <br><br>
-            <button onclick="TryPrint(false)">Printable Block</button>
-            <button onclick="TryImage(false)">Save Image</button>
-          </div>
-          <button class="menu-btn" onclick="">Main Info</button>
-          <div class="menudrop">
-            <label for="enc-name-input">Name: <br><input onchange="FormFunctions.UpdateEncName()" id="enc-name-input" type="text" value="Encounter"></label>
-            <label for="tier-level">Encounter Tier: <br>
-                <select id="tier-level" onchange="getMonsterInfo();getEncounterInfo()">
-                    <option value="apprentice" selected>Apprentice (levels 1-2)</option>
-                    <option value="journeyman">Journeyman (levels 3-5)</option>
-                    <option value="adventurer">Adventurer (levels 6-9)</option>
-                    <option value="veteran">Veteran (levels 7-11)</option>
-                    <option value="champion">Champion (levels 12-14)</option>
-                    <option value="epic">Epic (levels 15-17)</option>
-                    <option value="legendary">Legendary (levels 18-20)</option>
-                </select>
+          <label for="enchp-input">Show Paragon HP Info: <input id="enchp-input" type="checkbox" onchange="getEncounterInfo()" checked></label>
+          <br>
+          <hr>
+          <p>Beta features: show additional monster info; works well for simple weapon attacks.</p>
+          <label for="beta-input"><input id="beta-input" type="checkbox" onchange="getEncounterInfo()" checked>Abbreviate Actions</label>
+          <br>
+          <label for="beta-input2"><input id="beta-input2" type="checkbox" onchange="getEncounterInfo()">Abbreviate Bonus Actions.</label>
+          <br>
+          <label for="beta-input3"><input id="beta-input3" type="checkbox" onchange="getEncounterInfo()">Abbreviate Reactions.</label>
+          <br>
+          <label for="beta-input0"><input id="beta-input0" type="checkbox" onchange="getEncounterInfo()">Abbreviate Traits.</label>
+        </div>
+        <button class="menu-btn" onclick="">Extra Details</button>
+        <div class="menudrop">
+          <div class="enc-descr-form">
+            <label for="enc-conflict-input">Conflict: <br>
+              <textarea onchange="FormFunctions.UpdateEncName()" id="enc-conflict-input"></textarea>
             </label>
-            <br><br>
-            <label for="enc-type">Encounter Type: <br>
-                <select onchange="getEncounterInfo()" id="enc-type">
-                  <option value="20">Complication / Restock (2-3 Positions)</option>
-                  <option value="30" selected>Minor / Major (3-5 Positions)</option>
-                  <option value="40">Climactic (4-6 Positions)</option>
-                </select>
-            </label>
-            <label for="party-size">Number of PCs: <br>
-              <input type="number" min="1" value="1" id="party-size" onchange="getEncounterInfo()">
-            </label>
-            <br><br>
-            <label for="xp-in">Encounter XP (0 for auto): <br>
-              <input type="number" min="0" value="1" id="xp-in" onchange="getEncounterInfo()">
-            </label>
-          </div>
-          <button class="menu-btn" onclick="">Add/Load Monsters</button>
-          <div class="menudrop">
-            <label for="monster-options">Add Creatures: <br>
-              <select id="monster-options"></select>
-            </label>
-            <label for="creature-size">Quantity: <br>
-              <input type="number" min="1" value="1" id="creature-size">
-            </label>
-            <button onclick="TryEncounterAdd()">Add to Encounter</button>
-            <br><br>
-            <button onclick="LoadFilePrompt3()">Load Monster(s) from File </button>
-            <input id="file-upload3" type="file" onChange="TryLoadFile3();" hidden />
-          </div>
-          <button class="menu-btn" onclick="">Block Format</button>
-          <div class="menudrop">
-            <button id="show-terrain" onclick="showHideEncNotes(true)">Show Notes Section</button>
-            <button id="hide-terrain" onclick="showHideEncNotes(false)" style="display:none">Hide Notes Section</button>
-            <br><br>
-            <label for="encmor-input">Show Morale Info: <input id="encmor-input" type="checkbox" onchange="getEncounterInfo()" checked></label>
             <br>
-            <label for="enchp-input">Show Paragon HP Info: <input id="enchp-input" type="checkbox" onchange="getEncounterInfo()" checked></label>
+            <label for="enc-terrain-input">Terrain: <br>
+              <textarea onchange="FormFunctions.UpdateEncName()" id="enc-terrain-input"></textarea>
+            </label>
             <br>
-            <hr>
-            <p>Beta features: show additional monster info; works well for simple weapon attacks.</p>
-            <label for="beta-input"><input id="beta-input" type="checkbox" onchange="getEncounterInfo()" checked>Abbreviate Actions</label>
-            <br>
-            <label for="beta-input2"><input id="beta-input2" type="checkbox" onchange="getEncounterInfo()">Abbreviate Bonus Actions.</label>
-            <br>
-            <label for="beta-input3"><input id="beta-input3" type="checkbox" onchange="getEncounterInfo()">Abbreviate Reactions.</label>
-            <br>
-            <label for="beta-input0"><input id="beta-input0" type="checkbox" onchange="getEncounterInfo()">Abbreviate Traits.</label>
-          </div>
-          <button class="menu-btn" onclick="">Extra Details</button>
-          <div class="menudrop">
-            <div class="enc-descr-form">
-              <label for="enc-conflict-input">Conflict: <br>
-                <textarea onchange="FormFunctions.UpdateEncName()" id="enc-conflict-input"></textarea>
-              </label>
-              <br>
-              <label for="enc-terrain-input">Terrain: <br>
-                <textarea onchange="FormFunctions.UpdateEncName()" id="enc-terrain-input"></textarea>
-              </label>
-              <br>
-              <label for="enc-tactics-input">Tactics: <br>
-                <textarea onchange="FormFunctions.UpdateEncName()" id="enc-tactics-input"></textarea>
-              </label>
-            </div>
+            <label for="enc-tactics-input">Tactics: <br>
+              <textarea onchange="FormFunctions.UpdateEncName()" id="enc-tactics-input"></textarea>
+            </label>
           </div>
         </div>
-        <br>
       </div>
-      <div style="grid-column-start:span 2;grid-column-end:-1;grid-row:1;text-align:left;overflow:inherit" class="enc-overlay">
-        <div class="enc-container" style="grid-row:1">
+      <br>
+    </div>
+    <div style="grid-column-start:span 2;grid-column-end:-1;grid-row:1;text-align:left;overflow:inherit" class="enc-overlay">
+      <div class="enc-container" style="grid-row:1">
         <div style="grid-column:1;text-align:center">
           <p style="padding-top:0.75rem">Slots Filled:</p>
         </div>
@@ -261,32 +239,34 @@
           <table style="width:31.25rem;margin-top:0.5rem">
             <tr>
               <td style="position: relative;text-align:left;vertical-align:top;height:3rem">
-                  <div id="slot-target"><div class="tab-wrap" style="height:100%;font-size:0.8rem">Target Range</div></div>
-                  <div id="slot-bar"></div>
-                  <div id="slot-fill"></div>
+                <div id="slot-target">
+                  <div class="tab-wrap" style="height:100%;font-size:0.8rem">Target Range</div>
+                </div>
+                <div id="slot-bar"></div>
+                <div id="slot-fill"></div>
               </td>
             </tr>
           </table>
         </div>
-        </div>
-        <div class="enc-container" style="grid-row:2;overflow:inherit">
+      </div>
+      <div class="enc-container" style="grid-row:2;overflow:inherit">
         <div style="grid-column:1">
           <div style="width: 100%; background-color: inherit; background-image: none;" class="stat-block">
             <hr style="visibility: hidden;" class="orange-border" />
             <div>
-                <div style="visibility: hidden;" class="creature-heading">
-                    <h1>&nbsp;</h1>
-                    <h3>&nbsp;</h3>
-                    <h2>&nbsp;</h2>
-                    <h2>&nbsp;</h2>
-                </div>
-                <svg style="visibility: hidden;" height=".3125rem" width="100%" class="tapered-rule">
-                    <polyline points="0,0 400,2.5 0,5"></polyline>
-                </svg>
-                <div class="encblock-list">
-                    <br>
-                    <ul style="text-align: right;" id="mon3-input-list-icons"></ul>
-                </div>
+              <div style="visibility: hidden;" class="creature-heading">
+                <h1>&nbsp;</h1>
+                <h3>&nbsp;</h3>
+                <h2>&nbsp;</h2>
+                <h2>&nbsp;</h2>
+              </div>
+              <svg style="visibility: hidden;" height=".3125rem" width="100%" class="tapered-rule">
+                <polyline points="0,0 400,2.5 0,5"></polyline>
+              </svg>
+              <div class="encblock-list">
+                <br>
+                <ul style="text-align: right;" id="mon3-input-list-icons"></ul>
+              </div>
             </div>
             <hr style="visibility: hidden;" class="orange-border bottom" />
           </div>
@@ -296,26 +276,26 @@
             <div id="enc-block" class="enctr-block">
               <hr class="orange-border" />
               <div class="section-left">
-                  <div class="creature-heading">
-                      <h1 id="enc-name">Encounter Name</h1>
-                      <h3 id="mon3-enc-threat">Overall Threat</h3>
-                      <h2 id="force-size">Force Size</h2>
-                      <h2 id="xp-amt">XP</h2>
-                  </div>
-                  <svg height=".3125rem" width="100%" class="tapered-rule">
-                      <polyline points="0,0 400,2.5 0,5"></polyline>
-                  </svg>
-                  <div class="encblock-list">
-                      <br>
-                      <ul id="mon3-input-list"></ul>
-                  </div>
+                <div class="creature-heading">
+                  <h1 id="enc-name">Encounter Name</h1>
+                  <h3 id="mon3-enc-threat">Overall Threat</h3>
+                  <h2 id="force-size">Force Size</h2>
+                  <h2 id="xp-amt">XP</h2>
+                </div>
+                <svg height=".3125rem" width="100%" class="tapered-rule">
+                  <polyline points="0,0 400,2.5 0,5"></polyline>
+                </svg>
+                <div class="encblock-list">
                   <br>
-                  <svg height=".3125rem" width="100%" class="tapered-rule">
-                      <polyline points="0,0 400,2.5 0,5"></polyline>
-                  </svg>
-                  <div class="encblock-list">
-                      <ul id="abbrev-input-list"></ul>
-                  </div>
+                  <ul id="mon3-input-list"></ul>
+                </div>
+                <br>
+                <svg height=".3125rem" width="100%" class="tapered-rule">
+                  <polyline points="0,0 400,2.5 0,5"></polyline>
+                </svg>
+                <div class="encblock-list">
+                  <ul id="abbrev-input-list"></ul>
+                </div>
               </div>
               <div id="enc-descr-right" class="section-right">
                 <div class="actions">
@@ -338,749 +318,755 @@
           </div>
           <br>
         </div>
-        </div>
       </div>
     </div>
+  </div>
 
-    <div id="monster" class="container tabcontent tabcontainer">
-      <div id="mon-opts-div" style="grid-column-end:2;overflow:inherit;text-align:center">
-        <br>
-        <h2>Angry Monster Design</h2>
-        <p>Read the original article from <a target="_blank" href="https://theangrygm.com/f-cr-theres-a-better-way-part-1/">The Angry GM</a></p>
-        <div class="menucontainer">
-          <button class="menu-btn" onclick="">Monster I/O</button>
+  <div id="monster" class="container tabcontent tabcontainer">
+    <div id="mon-opts-div" style="grid-column-end:2;overflow:inherit;text-align:center">
+      <br>
+      <h2>Angry Monster Design</h2>
+      <p>Read the original article from <a target="_blank" href="https://theangrygm.com/f-cr-theres-a-better-way-part-1/">The Angry GM</a></p>
+      <div class="menucontainer">
+        <button class="menu-btn" onclick="">Monster I/O</button>
+        <div class="menudrop">
+          <button onclick="TrySaveFile()">Save Statblock</button>
+          <button onclick="LoadFilePrompt()">Load Statblock</button>
+          <br><br>
+          <button onclick="TryPrint(true)">Printable Block</button>
+          <button onclick="TryImage(true)">Save Image</button>
+          <button onclick="TryMarkdown()">View Markdown</button>
+          <br>
+          <br>
+          <button onclick="TryManual()">Add to Bestiary</button>
+          <button onclick="TryEncounter()">Add to Encounter</button>
+          <input id="file-upload" type="file" onChange="TryLoadFile();" hidden />
+          <br><br>
+          <div id="monster-select-form">Monster Presets: <select id="monster-select">
+              <option value="">-Select-</option>
+              <option value="default">Restore Default</option>
+            </select> <button type="button" id="monster-select-button" onclick="InputFunctions.GetPreset()">Use Preset</button></div>
+        </div>
+        <button class="menu-btn" onclick="">Basic Info</button>
+        <div class="menudrop">
+          <label for="name-input">Name: <br>
+            <input id="name-input" type="text" value="Monster">
+          </label>
+          <label for="size-input">Size: <br>
+            <select id="size-input">
+              <option value="tiny">Tiny</option>
+              <option value="small">Small</option>
+              <option value="medium" selected="selected">Medium</option>
+              <option value="large">Large</option>
+              <option value="huge">Huge</option>
+              <option value="gargantuan">Gargantuan</option>
+            </select>
+          </label>
+          <br><br>
+          <label for="type-input">Type: <br>
+            <select id="type-input" onchange="FormFunctions.ShowHideTypeOther()">
+              <option value="aberration">Aberration</option>
+              <option value="beast">Beast</option>
+              <option value="celestial">Celestial</option>
+              <option value="construct">Construct</option>
+              <option value="dragon">Dragon</option>
+              <option value="elemental">Elemental</option>
+              <option value="fey">Fey</option>
+              <option value="fiend">Fiend</option>
+              <option value="giant">Giant</option>
+              <option value="humanoid" selected>Humanoid</option>
+              <option value="monstrosity">Monstrosity</option>
+              <option value="ooze">Ooze</option>
+              <option value="plant">Plant</option>
+              <option value="undead">Undead</option>
+              <option value="*">Other</option>
+            </select>
+          </label>
+          <input id="other-type-input" type="text" value="swarm of Tiny beasts">
+          <label for="tag-input">Tag: <br>
+            <input id="tag-input" type="text">
+          </label>
+          <label for="alignment-input">Alignment: <br>
+            <input id="alignment-input" type="text" value="any alignment">
+          </label>
+        </div>
+        <button class="menu-btn" onclick="">Main Specs</button>
+        <div class="menudrop" style="padding-top:0">
+          <button class="menu-btn" onclick="">Values</button>
           <div class="menudrop">
-            <button onclick="TrySaveFile()">Save Statblock</button>
-            <button onclick="LoadFilePrompt()">Load Statblock</button>
-            <br><br>
-            <button onclick="TryPrint(true)">Printable Block</button>
-            <button onclick="TryImage(true)">Save Image</button>
-            <button onclick="TryMarkdown()">View Markdown</button>
-            <br>
-            <br>
-            <button onclick="TryManual()">Add to Bestiary</button>
-            <button onclick="TryEncounter()">Add to Encounter</button>
-            <input id="file-upload" type="file" onChange="TryLoadFile();" hidden />
-            <br><br>
-            <div id="monster-select-form">Monster Presets: <select id="monster-select">
-                    <option value="">-Select-</option>
-                    <option value="default">Restore Default</option>
-                </select> <button type="button" id="monster-select-button" onclick="InputFunctions.GetPreset()">Use Preset</button></div>
+            <div class="box-note" id="prof-bonus"></div>
+            <div class="box-note" id="atk-bonus"></div>
+            <div class="box-note" id="save-dc"></div>
+            <div class="box-note" id="avg-dpr"></div>
           </div>
-          <button class="menu-btn" onclick="">Basic Info</button>
-          <div class="menudrop">
-            <label for="name-input">Name: <br>
-              <input id="name-input" type="text" value="Monster">
-            </label>
-            <label for="size-input">Size: <br>
-                <select id="size-input">
-                    <option value="tiny">Tiny</option>
-                    <option value="small">Small</option>
-                    <option value="medium" selected="selected">Medium</option>
-                    <option value="large">Large</option>
-                    <option value="huge">Huge</option>
-                    <option value="gargantuan">Gargantuan</option>
-                </select>
-            </label>
-            <br><br>
-            <label for="type-input">Type: <br>
-                <select id="type-input" onchange="FormFunctions.ShowHideTypeOther()">
-                    <option value="aberration">Aberration</option>
-                    <option value="beast">Beast</option>
-                    <option value="celestial">Celestial</option>
-                    <option value="construct">Construct</option>
-                    <option value="dragon">Dragon</option>
-                    <option value="elemental">Elemental</option>
-                    <option value="fey">Fey</option>
-                    <option value="fiend">Fiend</option>
-                    <option value="giant">Giant</option>
-                    <option value="humanoid" selected>Humanoid</option>
-                    <option value="monstrosity">Monstrosity</option>
-                    <option value="ooze">Ooze</option>
-                    <option value="plant">Plant</option>
-                    <option value="undead">Undead</option>
-                    <option value="*">Other</option>
-                </select>
-            </label>
-            <input id="other-type-input" type="text" value="swarm of Tiny beasts">
-            <label for="tag-input">Tag: <br>
-                <input id="tag-input" type="text">
-            </label>
-            <label for="alignment-input">Alignment: <br>
-                <input id="alignment-input" type="text" value="any alignment">
-            </label>
-          </div>
-          <button class="menu-btn" onclick="">Main Specs</button>
-          <div class="menudrop" style="padding-top:0">
-            <button class="menu-btn" onclick="">Values</button>
-            <div class="menudrop">
-              <div class="box-note" id="prof-bonus"></div>
-              <div class="box-note" id="atk-bonus"></div>
-              <div class="box-note" id="save-dc"></div>
-              <div class="box-note" id="avg-dpr"></div>
-            </div>
-            <button class="menu-btn" onclick="">Adjustments</button>
-            <div class="menudrop submenu-end" style="">
-              <table>
-                <tr>
-                  <td>
-                    <label for="threat-mod">Threat: <br>
-                      <input type="number" value="0" id="threat-mod">
-                    </label>
-                  </td>
-                  <td>
-                    <label for="hp-updown">HP: <br>
-                      <input type="number" id="hp-updown" value="0" step="1">
-                    </label>
-                  </td>
-                  <td>
-                    <label for="ac-updown">AC: <br>
-                      <input type="number" id="ac-updown" value="0" step="1">
-                    </label>
-                  </td>
-                </tr>
-              </table>
-            </div>
-            <br><br>
-            <label for="tier-input">Tier: <br>
-                <select id="tier-input" onchange="InputFunctions.InputTier()">
-                    <option value="apprentice">Apprentice (1-2)</option>
-                    <option value="journeyman">Journeyman (3-5)</option>
-                    <option value="adventurer">Adventurer (6-9)</option>
-                    <option value="veteran">Veteran (7-11)</option>
-                    <option value="champion">Champion (12-14)</option>
-                    <option value="epic">Epic (15-17)</option>
-                    <option value="legendary">Legendary (18-20)</option>
-                </select>
-            </label>
-            <label for="org-input" onchange="InputFunctions.InputOrg()">Organization: <br>
-                <select id="org-input">
-                    <option value="solo">Solo (4 positions)</option>
-                    <option value="pair">Pair (2 positions)</option>
-                    <option value="group" selected>Group (1 position)</option>
-                    <option value="party">Party (1 position)</option>
-                    <option value="gang">Gang (&frac12; position)</option>
-                    <option value="mob">Mob (&frac14; position)</option>
-                </select>
-            </label>
-            <br><br>
-            <label for="arch-input">Archetype: <br>
-                <select id="arch-input" onchange="InputFunctions.InputArchetype(this.value)">
-                    <option value="baseline" selected>Baseline</option>
-                    <option value="brute">Brute (good DPR & HP, poor AC & ATK)</option>
-                    <option value="bulwark">Bulwark (good AC & ATK, poor DPR & HP)</option>
-                    <option value="enforcer">Enforcer (good ATK & DPR)</option>
-                    <option value="fodder">Fodder (poor AC, ATK, DPR & HP)</option>
-                    <option value="meat">Meat (good HP, poor AC)</option>
-                    <option value="paragon">Paragon (good AC, ATK, DPR & HP)</option>
-                    <option value="sniper">Sniper (good ATK & DPR, poor AC & HP)</option>
-                    <option value="striker">Striker (good AC, poor DPR)</option>
-                    <option value="tank">Tank (good AC & HP, poor ATK & DPR)</option>
-                    <option value="ward">Ward (good AC, poor HP)</option>
-                </select>
-            </label>
-            <br><br>
+          <button class="menu-btn" onclick="">Adjustments</button>
+          <div class="menudrop submenu-end" style="">
             <table>
               <tr>
                 <td>
-                  <label for="attack-input">Attack: <br>
-                      <select id="attack-input" onchange="InputFunctions.InputAtk()">
-                          <option value="poor">Poor</option>
-                          <option value="average" selected>Average</option>
-                          <option value="good">Good</option>
-                      </select>
+                  <label for="threat-mod">Threat: <br>
+                    <input type="number" value="0" id="threat-mod">
                   </label>
                 </td>
                 <td>
-                  <label for="savedc-input">Save DC: <br>
-                      <select id="savedc-input" onchange="InputFunctions.InputSDC()">
-                          <option value="poor">Poor</option>
-                          <option value="average" selected>Average</option>
-                          <option value="good">Good</option>
-                      </select>
+                  <label for="hp-updown">HP: <br>
+                    <input type="number" id="hp-updown" value="0" step="1">
                   </label>
                 </td>
-                <td colspan="2">
-                  <label for="dpr-input">Damage: <br>
-                      <select id="dpr-input" onchange="InputFunctions.InputDPR()">
-                          <option value="poor">Poor</option>
-                          <option value="average" selected>Average</option>
-                          <option value="good">Good</option>
-                      </select>
+                <td>
+                  <label for="ac-updown">AC: <br>
+                    <input type="number" id="ac-updown" value="0" step="1">
                   </label>
                 </td>
               </tr>
             </table>
-            <br><br>
-            <table>
-              <tr>
-                <td>
-                  <label for="hp-input">HP: <br>
-                      <select id="hp-input">
-                          <option value="poor">Poor</option>
-                          <option value="average" selected>Average</option>
-                          <option value="good">Good</option>
-                      </select>
-                  </label>
-                  <div id="hp-box-note" class="box-note"><label for="half-hp">Halve:
+          </div>
+          <br><br>
+          <label for="tier-input">Tier: <br>
+            <select id="tier-input" onchange="InputFunctions.InputTier()">
+              <option value="apprentice">Apprentice (1-2)</option>
+              <option value="journeyman">Journeyman (3-5)</option>
+              <option value="adventurer">Adventurer (6-9)</option>
+              <option value="veteran">Veteran (7-11)</option>
+              <option value="champion">Champion (12-14)</option>
+              <option value="epic">Epic (15-17)</option>
+              <option value="legendary">Legendary (18-20)</option>
+            </select>
+          </label>
+          <label for="org-input" onchange="InputFunctions.InputOrg()">Organization: <br>
+            <select id="org-input">
+              <option value="solo">Solo (4 positions)</option>
+              <option value="pair">Pair (2 positions)</option>
+              <option value="group" selected>Group (1 position)</option>
+              <option value="party">Party (1 position)</option>
+              <option value="gang">Gang (&frac12; position)</option>
+              <option value="mob">Mob (&frac14; position)</option>
+            </select>
+          </label>
+          <br><br>
+          <label for="arch-input">Archetype: <br>
+            <select id="arch-input" onchange="InputFunctions.InputArchetype(this.value)">
+              <option value="baseline" selected>Baseline</option>
+              <option value="brute">Brute (good DPR & HP, poor AC & ATK)</option>
+              <option value="bulwark">Bulwark (good AC & ATK, poor DPR & HP)</option>
+              <option value="enforcer">Enforcer (good ATK & DPR)</option>
+              <option value="fodder">Fodder (poor AC, ATK, DPR & HP)</option>
+              <option value="meat">Meat (good HP, poor AC)</option>
+              <option value="paragon">Paragon (good AC, ATK, DPR & HP)</option>
+              <option value="sniper">Sniper (good ATK & DPR, poor AC & HP)</option>
+              <option value="striker">Striker (good AC, poor DPR)</option>
+              <option value="tank">Tank (good AC & HP, poor ATK & DPR)</option>
+              <option value="ward">Ward (good AC, poor HP)</option>
+            </select>
+          </label>
+          <br><br>
+          <table>
+            <tr>
+              <td>
+                <label for="attack-input">Attack: <br>
+                  <select id="attack-input" onchange="InputFunctions.InputAtk()">
+                    <option value="poor">Poor</option>
+                    <option value="average" selected>Average</option>
+                    <option value="good">Good</option>
+                  </select>
+                </label>
+              </td>
+              <td>
+                <label for="savedc-input">Save DC: <br>
+                  <select id="savedc-input" onchange="InputFunctions.InputSDC()">
+                    <option value="poor">Poor</option>
+                    <option value="average" selected>Average</option>
+                    <option value="good">Good</option>
+                  </select>
+                </label>
+              </td>
+              <td colspan="2">
+                <label for="dpr-input">Damage: <br>
+                  <select id="dpr-input" onchange="InputFunctions.InputDPR()">
+                    <option value="poor">Poor</option>
+                    <option value="average" selected>Average</option>
+                    <option value="good">Good</option>
+                  </select>
+                </label>
+              </td>
+            </tr>
+          </table>
+          <br><br>
+          <table>
+            <tr>
+              <td>
+                <label for="hp-input">HP: <br>
+                  <select id="hp-input">
+                    <option value="poor">Poor</option>
+                    <option value="average" selected>Average</option>
+                    <option value="good">Good</option>
+                  </select>
+                </label>
+                <div id="hp-box-note" class="box-note"><label for="half-hp">Halve:
                     <input id="half-hp" type="checkbox">
                   </label></div>
-                </td>
-                <td>
-                  <label for="armor-input">Armor: <br>
-                      <select id="armor-input">
-                          <option value="poor">Poor</option>
-                          <option value="average" selected>Average</option>
-                          <option value="good">Good</option>
-                      </select>
-                    </label>
-                    <div id="shield-box-note" class="box-note"><label for="shield-input">Shield:
-                      <input id="shield-input" type="checkbox">
-                    </label></div>
-                </td>
-                <td colspan="2">
-                  <div id="otherarmor-prompt">
-                      <label for="otherarmor-input">Armor Type: <input id="otherarmor-input" type="text" value="natural armor"></label><br>
-                      <div id="otherarmor-box-note" class="box-note"><i>Use _ to italicize</i></div>
-                  </div>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <button class="menu-btn" onclick="">Block Format</button>
-          <div class="menudrop">
-            <table><tr>
+              </td>
+              <td>
+                <label for="armor-input">Armor: <br>
+                  <select id="armor-input">
+                    <option value="poor">Poor</option>
+                    <option value="average" selected>Average</option>
+                    <option value="good">Good</option>
+                  </select>
+                </label>
+                <div id="shield-box-note" class="box-note"><label for="shield-input">Shield:
+                    <input id="shield-input" type="checkbox">
+                  </label></div>
+              </td>
+              <td colspan="2">
+                <div id="otherarmor-prompt">
+                  <label for="otherarmor-input">Armor Type: <input id="otherarmor-input" type="text" value="natural armor"></label><br>
+                  <div id="otherarmor-box-note" class="box-note"><i>Use _ to italicize</i></div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <button class="menu-btn" onclick="">Block Format</button>
+        <div class="menudrop">
+          <table>
+            <tr>
               <td>
                 <label for="cr-input">Show CR:<input id="cr-input" type="checkbox" onchange="FormFunctions.ShowHideCR()"></label>
-              </td><td>
+              </td>
+              <td>
                 <label for="no-angry-input">Standard Format:<input id="no-angry-input" type="checkbox" onchange="FormFunctions.ShowHideCR()"></label>
-            </td></tr></table>
-            <br>
-            <label for="morale-input">Show Morale:<input id="morale-input" type="checkbox" onchange="FormFunctions.ShowHideMorale()"></label>
-            <br><br>
-            <label for="paragon-input">Paragon Monster (Multiple HP Pools):<input id="paragon-input" type="checkbox" onchange="FormFunctions.ShowHideParagon()"></label>
-            <br><br>
-            <label for="is-legendary-input">Legendary Creature:<input type="checkbox" id="is-legendary-input" onclick=""></label>
-            <br><br>
-            <label for="1col-input"><input id="1col-input" type="radio" name="columns-input" value="1col" checked> One Column</label>
-            <label for="2col-input" style="margin-left: .5rem;"><input id="2col-input" type="radio" name="columns-input" value="2col"> Two Columns <em style="font-size:.8rem">(shift buttons balance columns)</em></label>
+              </td>
+            </tr>
+          </table>
+          <br>
+          <label for="morale-input">Show Morale:<input id="morale-input" type="checkbox" onchange="FormFunctions.ShowHideMorale()"></label>
+          <br><br>
+          <label for="paragon-input">Paragon Monster (Multiple HP Pools):<input id="paragon-input" type="checkbox" onchange="FormFunctions.ShowHideParagon()"></label>
+          <br><br>
+          <label for="is-legendary-input">Legendary Creature:<input type="checkbox" id="is-legendary-input" onclick=""></label>
+          <br><br>
+          <label for="1col-input"><input id="1col-input" type="radio" name="columns-input" value="1col" checked> One Column</label>
+          <label for="2col-input" style="margin-left: .5rem;"><input id="2col-input" type="radio" name="columns-input" value="2col"> Two Columns <em style="font-size:0.8rem;">(use buttons to balance columns)</em></label>
+          <div style="" id="separator-button" class="shift-button-wrapper">
+            <button id="left-separator-button" type="button" onclick="UpdateBlockFromVariables(1)"><em>&lt;&lt; shift left</em></button>
+            &nbsp;
+            &nbsp;
+            &nbsp;
+            <button id="right-separator-button" type="button" onclick="UpdateBlockFromVariables(-1)"><em>shift right &gt;&gt;</em></button>
           </div>
-          <button class="menu-btn" onclick="">Attributes</button>
-          <div class="menudrop" style="padding-left:0">
-            <table id="monster-stats-form"  class="cen_td2">
-                <tr>
-                    <td><label for="str-input">STR: <br><input type="number" id="str-input" min="1" max="99" value="10" onchange="FormFunctions.ChangeBonus('str')"> (<span id="strbonus"></span>)</label></td>
-                    <td><label for="dex-input">DEX: <br><input type="number" id="dex-input" min="1" max="99" value="10" onchange="FormFunctions.ChangeBonus('dex')"> (<span id="dexbonus"></span>)</label></td>
-                    <td><label for="con-input">CON: <br><input type="number" id="con-input" min="1" max="99" value="10" onchange="FormFunctions.ChangeBonus('con')"> (<span id="conbonus"></span>)</label></td>
-                    <td><label for="int-input">INT: <br><input type="number" id="int-input" min="1" max="99" value="10" onchange="FormFunctions.ChangeBonus('int')"> (<span id="intbonus"></span>)</label></td>
-                    <td><label for="wis-input">WIS: <br><input type="number" id="wis-input" min="1" max="99" value="10" onchange="FormFunctions.ChangeBonus('wis')"> (<span id="wisbonus"></span>)</label></td>
-                    <td><label for="cha-input">CHA: <br><input type="number" id="cha-input" min="1" max="99" value="10" onchange="FormFunctions.ChangeBonus('cha')"> (<span id="chabonus"></span>)</label></td>
-                </tr>
-            </table>
-          </div>
-          <button class="menu-btn" onclick="">Abilities</button>
-          <div class="menudrop" style="padding-top:0">
-            <button class="menu-btn" onclick="">Lists</button>
-            <div class="menudrop">
-              <div style="text-align: left; min-height: 5rem;">
-                  <div id="abilities-input-section"><b>Abilities:</b><br>
-                      <ul id="abilities-input-list" class="statblock-list"></ul>
-                  </div>
-                  <div id="actions-input-section"><b>Actions:</b><br>
-                      <ul id="actions-input-list" class="statblock-list"></ul>
-                  </div>
-                  <div id="bonuses-input-section"><b>Bonus Actions:</b><br>
-                      <ul id="bonuses-input-list" class="statblock-list"></ul>
-                  </div>
-                  <div id="reactions-input-section"><b>Reactions:</b><br>
-                      <ul id="reactions-input-list" class="statblock-list"></ul>
-                  </div>
-                  <div id="villains-input-section"><b>Villain Actions:</b><br>
-                      <ul id="villains-input-list" class="statblock-list"></ul>
-                  </div>
-                  <div id="legendaries-input-section"><b>Legendary Actions:</b><br>
-                      <ul id="legendaries-input-list" class="statblock-list"></ul>
-                  </div>
+        </div>
+        <button class="menu-btn" onclick="">Attributes</button>
+        <div class="menudrop" style="padding-left:0">
+          <table id="monster-stats-form" class="cen_td2">
+            <tr>
+              <td><label for="str-input">STR: <br><input type="number" id="str-input" min="1" max="99" value="10" onchange="FormFunctions.ChangeBonus('str')"> (<span id="strbonus"></span>)</label></td>
+              <td><label for="dex-input">DEX: <br><input type="number" id="dex-input" min="1" max="99" value="10" onchange="FormFunctions.ChangeBonus('dex')"> (<span id="dexbonus"></span>)</label></td>
+              <td><label for="con-input">CON: <br><input type="number" id="con-input" min="1" max="99" value="10" onchange="FormFunctions.ChangeBonus('con')"> (<span id="conbonus"></span>)</label></td>
+              <td><label for="int-input">INT: <br><input type="number" id="int-input" min="1" max="99" value="10" onchange="FormFunctions.ChangeBonus('int')"> (<span id="intbonus"></span>)</label></td>
+              <td><label for="wis-input">WIS: <br><input type="number" id="wis-input" min="1" max="99" value="10" onchange="FormFunctions.ChangeBonus('wis')"> (<span id="wisbonus"></span>)</label></td>
+              <td><label for="cha-input">CHA: <br><input type="number" id="cha-input" min="1" max="99" value="10" onchange="FormFunctions.ChangeBonus('cha')"> (<span id="chabonus"></span>)</label></td>
+            </tr>
+          </table>
+        </div>
+        <button class="menu-btn" onclick="">Abilities</button>
+        <div class="menudrop" style="padding-top:0">
+          <button class="menu-btn" onclick="">Lists</button>
+          <div class="menudrop">
+            <div style="text-align: left; min-height: 5rem;">
+              <div id="abilities-input-section"><b>Abilities:</b><br>
+                <ul id="abilities-input-list" class="statblock-list"></ul>
+              </div>
+              <div id="actions-input-section"><b>Actions:</b><br>
+                <ul id="actions-input-list" class="statblock-list"></ul>
+              </div>
+              <div id="bonuses-input-section"><b>Bonus Actions:</b><br>
+                <ul id="bonuses-input-list" class="statblock-list"></ul>
+              </div>
+              <div id="reactions-input-section"><b>Reactions:</b><br>
+                <ul id="reactions-input-list" class="statblock-list"></ul>
+              </div>
+              <div id="villains-input-section"><b>Villain Actions:</b><br>
+                <ul id="villains-input-list" class="statblock-list"></ul>
+              </div>
+              <div id="legendaries-input-section"><b>Legendary Actions:</b><br>
+                <ul id="legendaries-input-list" class="statblock-list"></ul>
               </div>
             </div>
-            <button class="menu-btn" onclick="">Legendary Description</button>
-            <div class="menudrop submenu-end">
-              <label for="legendaries-descsection-input" style="width: 100%"><textarea id="legendaries-descsection-input" rows="4"></textarea></label>
-              <button type="button" onclick="InputFunctions.LegendaryDescriptionDefaultInput()">Reset to Default</button>
-            </div>
-            <br><br>
-            <select id="common-ability-input"></select>
-            <button type="button" id="add-common-ability-button" onclick="InputFunctions.AddCommonAbilityInput()">Use Preset</button>
-            <br><br>
-            <label for="abilities-name-input" style="width: 100%;">Name: <input id="abilities-name-input" type="text" value="" style="margin-right: 2.5rem; width: 30%;"></label>
-            <textarea id="abilities-desc-input" style="height: 10rem;"></textarea>
-            <br><br>
-            <button type="button" id="add-ability-button" onclick="InputFunctions.AddAbilityInput('abilities')">Add Ability</button>
-            <button type="button" id="add-action-button" onclick="InputFunctions.AddAbilityInput('actions')">Add Action</button>
-            <button type="button" id="add-bonus-button" onclick="InputFunctions.AddAbilityInput('bonuses')">Add Bonus Action</button>
-            <button type="button" id="add-reaction-button" onclick="InputFunctions.AddAbilityInput('reactions')">Add Reaction</button>
-            <button type="button" id="add-villain-button" onclick="InputFunctions.AddAbilityInput('villains')">Add Villain Action</button>
-            <button type="button" id="add-legendary-button" onclick="InputFunctions.AddAbilityInput('legendaries')">Add Legendary Action</button>
-            <br><br>
-            <label for="format-helper-checkbox">Show Formatting Help: <input type="checkbox" id="format-helper-checkbox" onclick="FormFunctions.ShowHideFormatHelper()"></label>
-            <div id="format-helper" style="text-align: left; padding: 0 2rem;">
-              <br>
-    					<div>Use _ to italicize and ** to bold. For Spellcasting lists, use > to reverse-indent.</div>
-    					<br>
-    					<div><b>[MON]</b>: Shows the monster's name.</div>
-    					<div><b>[CHA]</b>: Shows the monster's charisma modifier.</div>
-    					<div><b>[3D6]</b>: Computes 3d6.</div>
-    					<div><b>[STR ATK]</b>: Calculates the modifier to the monster's attack roll for a strength-based attack.</div>
-    					<div><b>[DEX 2D8]</b>: Calculates the damage roll for a dexterity-based attack with damage dice 2d8.</div>
-    					<div><b>[WIS SAVE]</b>: Calculates the save DC vs the monster's wisdom.</div>
-    					<div><b>[3D6 + 1], [STR ATK - 2], [WIS SAVE + 3]</b>: Adds a modifier to the given values.</div>
-              <div><b>[DC]</b>: Shows the save DC based on the monster's tier.</div>
-              <div><b>[ATK]</b>: Shows the attack bonus based on the monster's tier.</div>
-              <br>
-            </div>
           </div>
-          <button class="menu-btn" onclick="">Speed & Senses</button>
-          <div class="menudrop">
-            <label for="custom-speed-input">Custom: <input id="custom-speed-input" type="checkbox" onchange="FormFunctions.ShowHideCustomSpeed()"></label>
+          <button class="menu-btn" onclick="">Legendary Description</button>
+          <div class="menudrop submenu-end">
+            <label for="legendaries-descsection-input" style="width: 100%"><textarea id="legendaries-descsection-input" rows="4"></textarea></label>
+            <button type="button" onclick="InputFunctions.LegendaryDescriptionDefaultInput()">Reset to Default</button>
+          </div>
+          <br><br>
+          <select id="common-ability-input"></select>
+          <button type="button" id="add-common-ability-button" onclick="InputFunctions.AddCommonAbilityInput()">Use Preset</button>
+          <br><br>
+          <label for="abilities-name-input" style="width: 100%;">Name: <input id="abilities-name-input" type="text" value="" style="margin-right: 2.5rem; width: 30%;"></label>
+          <textarea id="abilities-desc-input" style="height: 10rem;"></textarea>
+          <br><br>
+          <button type="button" id="add-ability-button" onclick="InputFunctions.AddAbilityInput('abilities')">Add Ability</button>
+          <button type="button" id="add-action-button" onclick="InputFunctions.AddAbilityInput('actions')">Add Action</button>
+          <button type="button" id="add-bonus-button" onclick="InputFunctions.AddAbilityInput('bonuses')">Add Bonus Action</button>
+          <button type="button" id="add-reaction-button" onclick="InputFunctions.AddAbilityInput('reactions')">Add Reaction</button>
+          <button type="button" id="add-villain-button" onclick="InputFunctions.AddAbilityInput('villains')">Add Villain Action</button>
+          <button type="button" id="add-legendary-button" onclick="InputFunctions.AddAbilityInput('legendaries')">Add Legendary Action</button>
+          <br><br>
+          <label for="format-helper-checkbox">Show Formatting Help: <input type="checkbox" id="format-helper-checkbox" onclick="FormFunctions.ShowHideFormatHelper()"></label>
+          <div id="format-helper" style="text-align: left; padding: 0 2rem;">
             <br>
-            <table id="monster-speed-form">
-                <tr>
-                    <td class="normal-speed-col"><label for="speed-input"><br><input type="number" id="speed-input" min="0" max="995" step="5" value="30"> ft.</label></td>
-                    <td class="normal-speed-col"><label for="burrow-speed-input">Burrow<br><input type="number" id="burrow-speed-input" min="0" max="995" step="5" value="0"> ft.</label></td>
-                    <td class="normal-speed-col"><label for="climb-speed-input">Climb<br><input type="number" id="climb-speed-input" min="0" max="995" step="5" value="0"> ft.</label></td>
-                    <td class="normal-speed-col">
-                        <label for="fly-speed-input">Fly<br><input type="number" id="fly-speed-input" min="0" max="995" step="5" value="0" onchange="FormFunctions.ShowHideHoverBox()"> ft.</label>
-                        <div id="hover-box-note" class="box-note"><label for="hover-input">(Hover: <input type="checkbox" id="hover-input">)</label></div>
-                    </td>
-                    <td class="normal-speed-col"><label for="swim-speed-input">Swim<br><input type="number" id="swim-speed-input" min="0" max="995" step="5" value="0"> ft.</label></td>
-                    <td colspan="5" class="custom-speed-col">
-                        <label for="custom-speed-prompt" style="width: 100%;"><br><input id="custom-speed-prompt" type="text" value="30 ft."></label><br>
-                    </td>
-                </tr>
-            </table>
-            <hr>
-            <table id="senses-form">
-                <tr>
-                    <td>
-                        <label for="blindsight-input">Blindsight: <input type="number" id="blindsight-input" min="0" max="995" step="5" value="0" onchange="FormFunctions.ShowHideBlindBox()"> ft.</label><br>
-                        <div id="blind-box-note" class="box-note"><label for="blindness-input">(Blind beyond: <input type="checkbox" id="blindness-input">)</label></div>
-                    </td>
-                    <td><label for="darkvision-input">Darkvision: <input type="number" id="darkvision-input" min="0" max="995" step="5" value="0"> ft.</label></td>
-                    <td><label for="tremorsense-input">Tremorsense: <input type="number" id="tremorsense-input" min="0" max="995" step="5" value="0"> ft.</label></td>
-                    <td><label for="truesight-input">Truesight: <input type="number" id="truesight-input" min="0" max="995" step="5" value="0"> ft.</label></td>
-                </tr>
-            </table>
-          </div>
-          <button class="menu-btn" onclick="">Proficiencies</button>
-          <div class="menudrop" style="padding-top:0">
-            <button class="menu-btn" onclick="">Lists</button>
-            <div class="menudrop submenu-end">
-              <table class="">
-                <tr>
-                  <td colspan="1">
-                    Saving Throws:
-                    <div id="sthrows-input-section">
-                      <ul id="sthrows-input-list" class="statblock-list"></ul>
-                    </div>
-                  </td>
-                  <td colspan="2">
-                    Skills:
-                    <div id="skills-input-section">
-                        <ul id="skills-input-list" class="statblock-list"></ul>
-                    </div>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="3">
-                    Languages:
-                    <div id="languages-input-section">
-                        <ul id="languages-input-list" class="statblock-list"></ul>
-                    </div>
-                  </td>
-                </tr>
-              </table>
-            </div>
-            <br><br>
-            <label for="sthrows-input">Saving Throws:</label><br>
-            <select id="sthrows-input">
-                <option value="str">Strength</option>
-                <option value="dex">Dexterity</option>
-                <option value="con">Constitution</option>
-                <option value="int">Intelligence</option>
-                <option value="wis">Wisdom</option>
-                <option value="cha">Charisma</option>
-            </select>
-            <button type="button" onclick="InputFunctions.AddSthrowInput()">Proficient</button>
-            <br><br>
-            <label for="skills-input">Skills:</label><br>
-            <select id="skills-input">
-                <option value="acrobatics">Acrobatics</option>
-                <option value="animal Handling">Animal Handling</option>
-                <option value="arcana">Arcana</option>
-                <option value="athletics">Athletics</option>
-                <option value="deception">Deception</option>
-                <option value="history">History</option>
-                <option value="insight">Insight</option>
-                <option value="intimidation">Intimidation</option>
-                <option value="investigation">Investigation</option>
-                <option value="medicine">Medicine</option>
-                <option value="nature">Nature</option>
-                <option value="perception">Perception</option>
-                <option value="performance">Performance</option>
-                <option value="persuasion">Persuasion</option>
-                <option value="religion">Religion</option>
-                <option value="sleight of Hand">Sleight of Hand</option>
-                <option value="stealth">Stealth</option>
-                <option value="survival">Survival</option>
-            </select>
-            <button type="button" onclick="InputFunctions.AddSkillInput()">Proficient</button>
-            <button type="button" onclick="InputFunctions.AddSkillInput(' (ex)')">Expert</button>
-            <br><br>
-            <label for="languages-input">Languages:<br>
-                <select id="languages-input" onchange="FormFunctions.ShowHideLanguageOther()">
-                    <option value="All">All</option>
-                    <option value="Abyssal">Abyssal</option>
-                    <option value="Aquan">Aquan</option>
-                    <option value="Auran">Auran</option>
-                    <option value="Celestial">Celestial</option>
-                    <option value="Common">Common</option>
-                    <option value="Deep Speech">Deep Speech</option>
-                    <option value="Draconic">Draconic</option>
-                    <option value="Dwarvish">Dwarvish</option>
-                    <option value="Elvish">Elvish</option>
-                    <option value="Giant">Giant</option>
-                    <option value="Gnomish">Gnomish</option>
-                    <option value="Goblin">Goblin</option>
-                    <option value="Halfling">Halfling</option>
-                    <option value="Ignan">Ignan</option>
-                    <option value="Infernal">Infernal</option>
-                    <option value="Orc">Orc</option>
-                    <option value="Primordial">Primordial</option>
-                    <option value="Sylvan">Sylvan</option>
-                    <option value="Terran">Terran</option>
-                    <option value="Undercommon">Undercommon</option>
-                    <option value="*">Other</option>
-                </select>
-            </label>
-            <button type="button" onclick="InputFunctions.AddLanguageInput()">Proficient</button>
-            <label for="telepathy-input" style="margin-left: .5rem;">Telepathy:<br><input type="number" id="telepathy-input" min="0" max="995" step="5" value="0"> ft.</label>
+            <div>Use _ to italicize and ** to bold. For Spellcasting lists, use > to reverse-indent.</div>
             <br>
-            <input id="other-language-input" type="text" value="">
-          </div>
-          <button class="menu-btn" onclick="">Damage Types & Conditions</button>
-          <div class="menudrop" style="padding-top:0">
-            <button class="menu-btn" onclick="">Lists</button>
-            <div class="menudrop submenu-end">
-              <table>
-                <tr>
-                  <td colspan="3">
-                    Damage Types:
-                    <div id="damage-input-section">
-                        <ul id="damage-input-list" class="statblock-list"></ul>
-                    </div>
-                  </td>
-                  <td colspan="2">
-                    Conditions:
-                    <div id="conditions-input-section">
-                        <ul id="conditions-input-list" class="statblock-list"></ul>
-                    </div>
-                  </td>
-                </tr>
-              </table>
-            </div>
-            <br><br>
-            <label for="damagetypes-input">Damage Types:<br>
-                <select id="damagetypes-input" onchange="FormFunctions.ShowHideDamageOther()">
-                    <option value="acid">Acid</option>
-                    <option value="bludgeoning">Bludgeoning</option>
-                    <option value="cold">Cold</option>
-                    <option value="fire">Fire</option>
-                    <option value="force">Force</option>
-                    <option value="lightning">Lightning</option>
-                    <option value="necrotic">Necrotic</option>
-                    <option value="piercing">Piercing</option>
-                    <option value="poison">Poison</option>
-                    <option value="psychic">Psychic</option>
-                    <option value="radiant">Radiant</option>
-                    <option value="slashing">Slashing</option>
-                    <option value="thunder">Thunder</option>
-                    <option value="bludgeoning, piercing, and slashing from nonmagical attacks">Nonmagical Attacks</option>
-                    <option value="bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered">Non-Silvered Attacks</option>
-                    <option value="bludgeoning, piercing, and slashing from nonmagical attacks that aren't adamantine">Non-Adamantine Attacks</option>
-                    <option value="*">Other</option>
-                </select>
-            </label>
-            <input id="other-damage-input" type="text" value="">
+            <div><b>[MON]</b>: Shows the monster's name.</div>
+            <div><b>[CHA]</b>: Shows the monster's charisma modifier.</div>
+            <div><b>[3D6]</b>: Computes 3d6.</div>
+            <div><b>[STR ATK]</b>: Calculates the modifier to the monster's attack roll for a strength-based attack.</div>
+            <div><b>[DEX 2D8]</b>: Calculates the damage roll for a dexterity-based attack with damage dice 2d8.</div>
+            <div><b>[WIS SAVE]</b>: Calculates the save DC vs the monster's wisdom.</div>
+            <div><b>[3D6 + 1], [STR ATK - 2], [WIS SAVE + 3]</b>: Adds a modifier to the given values.</div>
+            <div><b>[DC]</b>: Shows the save DC based on the monster's tier.</div>
+            <div><b>[ATK]</b>: Shows the attack bonus based on the monster's tier.</div>
             <br>
-            <button type="button" onclick="InputFunctions.AddDamageTypeInput('v')">Vulnerable</button>
-            <button type="button" onclick="InputFunctions.AddDamageTypeInput('r')">Resistant</button>
-            <button type="button" onclick="InputFunctions.AddDamageTypeInput('i')">Immune</button>
-            <button type="button" onclick="InputFunctions.AddDamageTypeInput('a')">Absorb</button>
-            <br><br>
-            <label for="conditions-input">Condition Immunities:<br>
-              <select id="conditions-input">
-                  <option value="blinded">Blinded</option>
-                  <option value="charmed">Charmed</option>
-                  <option value="deafened">Deafened</option>
-                  <option value="exhaustion">Exhaustion</option>
-                  <option value="frightened">Frightened</option>
-                  <option value="grappled">Grappled</option>
-                  <option value="incapacitated">Incapacitated</option>
-                  <option value="invisible">Invisible</option>
-                  <option value="paralyzed">Paralyzed</option>
-                  <option value="petrified">Petrified</option>
-                  <option value="poisoned">Poisoned</option>
-                  <option value="prone">Prone</option>
-                  <option value="restrained">Restrained</option>
-                  <option value="stunned">Stunned</option>
-                  <option value="unconscious">Unconscious</option>
-              </select>
-            </label>
-            <button type="button" onclick="InputFunctions.AddConditionInput()">Immune</button>
           </div>
-          <button class="menu-btn" onclick="">Morale</button>
-          <div class="menudrop">
-            <label for="mdc-input">Morale DC: <br>
-                <select id="mdc-input">
-                    <option value="2">Unshakeable (2)</option>
-                    <option value="7">Courageous (7)</option>
-                    <option value="12" selected>Hardened (12)</option>
-                    <option value="17">Green (17)</option>
-                    <option value="22">Cowardly (22)</option>
-                </select>
-            </label>
-            <label for="mreact-input">Failure Type: <br>
-                <select id="mreact-input">
-                    <option value="betray">Betray</option>
-                    <option value="panic">Panic</option>
-                    <option value="rage">Rage</option>
-                    <option value="retreat" selected>Retreat</option>
-                    <option value="rout">Rout</option>
-                    <option value="surrender">Surrender</option>
-                </select>
-            </label>
-            <br><br>
-            <label for="mtrig-input">Trigger: <br>
-                <select id="mtrig-input">
-                    <option value="wounded">Wounded</option>
-                    <option value="bloodied">Bloodied</option>
-                    <option value="staggered" selected>Staggered</option>
-                    <option value="critical">Critically Injured</option>
-                    <option value="about to die">About to Die</option>
-                </select>
-            </label>
-            <label for="mthresh-input">Trigger Threshold % Modifier: <br>
-              <input type="number" min=".05" max=".95" step=".05" value=".5" id="mthresh-input">
-            </label>
-          </div>
-          <button class="menu-btn" onclick="">Paragon HP</button>
-          <div class="menudrop">
-            <label for="hpnum-input">Number of Pools:
-                <select id="hpnum-input" onchange="FormFunctions.ShowHideParagon()">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3" selected>3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                </select>
-            </label>
-            <br><br>
-            <table id="paragon-form"  class="cen_td2">
+        </div>
+        <button class="menu-btn" onclick="">Speed & Senses</button>
+        <div class="menudrop">
+          <label for="custom-speed-input">Custom: <input id="custom-speed-input" type="checkbox" onchange="FormFunctions.ShowHideCustomSpeed()"></label>
+          <br>
+          <table id="monster-speed-form">
+            <tr>
+              <td class="normal-speed-col"><label for="speed-input"><br><input type="number" id="speed-input" min="0" max="995" step="5" value="30"> ft.</label></td>
+              <td class="normal-speed-col"><label for="burrow-speed-input">Burrow<br><input type="number" id="burrow-speed-input" min="0" max="995" step="5" value="0"> ft.</label></td>
+              <td class="normal-speed-col"><label for="climb-speed-input">Climb<br><input type="number" id="climb-speed-input" min="0" max="995" step="5" value="0"> ft.</label></td>
+              <td class="normal-speed-col">
+                <label for="fly-speed-input">Fly<br><input type="number" id="fly-speed-input" min="0" max="995" step="5" value="0" onchange="FormFunctions.ShowHideHoverBox()"> ft.</label>
+                <div id="hover-box-note" class="box-note"><label for="hover-input">(Hover: <input type="checkbox" id="hover-input">)</label></div>
+              </td>
+              <td class="normal-speed-col"><label for="swim-speed-input">Swim<br><input type="number" id="swim-speed-input" min="0" max="995" step="5" value="0"> ft.</label></td>
+              <td colspan="5" class="custom-speed-col">
+                <label for="custom-speed-prompt" style="width: 100%;"><br><input id="custom-speed-prompt" type="text" value="30 ft."></label><br>
+              </td>
+            </tr>
+          </table>
+          <hr>
+          <table id="senses-form">
+            <tr>
+              <td>
+                <label for="blindsight-input">Blindsight: <input type="number" id="blindsight-input" min="0" max="995" step="5" value="0" onchange="FormFunctions.ShowHideBlindBox()"> ft.</label><br>
+                <div id="blind-box-note" class="box-note"><label for="blindness-input">(Blind beyond: <input type="checkbox" id="blindness-input">)</label></div>
+              </td>
+              <td><label for="darkvision-input">Darkvision: <input type="number" id="darkvision-input" min="0" max="995" step="5" value="0"> ft.</label></td>
+              <td><label for="tremorsense-input">Tremorsense: <input type="number" id="tremorsense-input" min="0" max="995" step="5" value="0"> ft.</label></td>
+              <td><label for="truesight-input">Truesight: <input type="number" id="truesight-input" min="0" max="995" step="5" value="0"> ft.</label></td>
+            </tr>
+          </table>
+        </div>
+        <button class="menu-btn" onclick="">Proficiencies</button>
+        <div class="menudrop" style="padding-top:0">
+          <button class="menu-btn" onclick="">Lists</button>
+          <div class="menudrop submenu-end">
+            <table class="">
               <tr>
-                  <td>
-                      <div id="pstat-1">
-                        <label for="psn-1">Pool Name: <input id="psn-1" type="text" value="Torso"></label><br>
-                        <label for="psv-1">Pool HP: <br><input id="psv-1" type="number" value="0" step="1"></label>
-                      </div>
-                  </td>
-                  <td>
-                      <div id="pstat-2">
-                        <label for="psn-2">Pool Name: <input id="psn-2" type="text" value="Torso"></label><br>
-                        <label for="psv-2">Pool HP: <br><input id="psv-2" type="number" value="0" step="1"></label>
-                      </div>
-                  </td>
-                  <td>
-                      <div id="pstat-3">
-                        <label for="psn-3">Pool Name: <input id="psn-3" type="text" value="Torso"></label><br>
-                        <label for="psv-3">Pool HP: <br><input id="psv-3" type="number" value="0" step="1"></label>
-                      </div>
-                  </td>
-                  <td>
-                      <div id="pstat-4">
-                        <label for="psn-4">Pool Name: <input id="psn-4" type="text" value="Torso"></label><br>
-                        <label for="psv-4">Pool HP: <br><input id="psv-4" type="number" value="0" step="1"></label>
-                      </div>
-                  </td>
-                  <td>
-                      <div id="pstat-5">
-                        <label for="psn-5">Pool Name: <input id="psn-5" type="text" value="Torso"></label><br>
-                        <label for="psv-5">Pool HP: <br><input id="psv-5" type="number" value="0" step="1"></label>
-                      </div>
-                  </td>
-                  <td>
-                      <div id="pstat-6">
-                        <label for="psn-6">Pool Name: <input id="psn-6" type="text" value="Torso"></label><br>
-                        <label for="psv-6">Pool HP: <br><input id="psv-6" type="number" value="0" step="1"></label>
-                      </div>
-                  </td>
+                <td colspan="1">
+                  Saving Throws:
+                  <div id="sthrows-input-section">
+                    <ul id="sthrows-input-list" class="statblock-list"></ul>
+                  </div>
+                </td>
+                <td colspan="2">
+                  Skills:
+                  <div id="skills-input-section">
+                    <ul id="skills-input-list" class="statblock-list"></ul>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3">
+                  Languages:
+                  <div id="languages-input-section">
+                    <ul id="languages-input-list" class="statblock-list"></ul>
+                  </div>
+                </td>
               </tr>
             </table>
           </div>
+          <br><br>
+          <label for="sthrows-input">Saving Throws:</label><br>
+          <select id="sthrows-input">
+            <option value="str">Strength</option>
+            <option value="dex">Dexterity</option>
+            <option value="con">Constitution</option>
+            <option value="int">Intelligence</option>
+            <option value="wis">Wisdom</option>
+            <option value="cha">Charisma</option>
+          </select>
+          <button type="button" onclick="InputFunctions.AddSthrowInput()">Proficient</button>
+          <br><br>
+          <label for="skills-input">Skills:</label><br>
+          <select id="skills-input">
+            <option value="acrobatics">Acrobatics</option>
+            <option value="animal Handling">Animal Handling</option>
+            <option value="arcana">Arcana</option>
+            <option value="athletics">Athletics</option>
+            <option value="deception">Deception</option>
+            <option value="history">History</option>
+            <option value="insight">Insight</option>
+            <option value="intimidation">Intimidation</option>
+            <option value="investigation">Investigation</option>
+            <option value="medicine">Medicine</option>
+            <option value="nature">Nature</option>
+            <option value="perception">Perception</option>
+            <option value="performance">Performance</option>
+            <option value="persuasion">Persuasion</option>
+            <option value="religion">Religion</option>
+            <option value="sleight of Hand">Sleight of Hand</option>
+            <option value="stealth">Stealth</option>
+            <option value="survival">Survival</option>
+          </select>
+          <button type="button" onclick="InputFunctions.AddSkillInput()">Proficient</button>
+          <button type="button" onclick="InputFunctions.AddSkillInput(' (ex)')">Expert</button>
+          <br><br>
+          <label for="languages-input">Languages:<br>
+            <select id="languages-input" onchange="FormFunctions.ShowHideLanguageOther()">
+              <option value="All">All</option>
+              <option value="Abyssal">Abyssal</option>
+              <option value="Aquan">Aquan</option>
+              <option value="Auran">Auran</option>
+              <option value="Celestial">Celestial</option>
+              <option value="Common">Common</option>
+              <option value="Deep Speech">Deep Speech</option>
+              <option value="Draconic">Draconic</option>
+              <option value="Dwarvish">Dwarvish</option>
+              <option value="Elvish">Elvish</option>
+              <option value="Giant">Giant</option>
+              <option value="Gnomish">Gnomish</option>
+              <option value="Goblin">Goblin</option>
+              <option value="Halfling">Halfling</option>
+              <option value="Ignan">Ignan</option>
+              <option value="Infernal">Infernal</option>
+              <option value="Orc">Orc</option>
+              <option value="Primordial">Primordial</option>
+              <option value="Sylvan">Sylvan</option>
+              <option value="Terran">Terran</option>
+              <option value="Undercommon">Undercommon</option>
+              <option value="*">Other</option>
+            </select>
+          </label>
+          <button type="button" onclick="InputFunctions.AddLanguageInput()">Proficient</button>
+          <label for="telepathy-input" style="margin-left: .5rem;">Telepathy:<br><input type="number" id="telepathy-input" min="0" max="995" step="5" value="0"> ft.</label>
+          <br>
+          <input id="other-language-input" type="text" value="">
         </div>
-        <br>
-      </div>
-      <div style="grid-column-start:span 2;grid-column-end:-1;grid-row:1;overflow:inherit;text-align:center;margin-top:1rem">
-        <div style="" class="shift-button-wrapper">
-          <button id="left-separator-button" type="button" onclick="UpdateBlockFromVariables(1)"><em>&lt;&lt; shift</em></button>
-          &nbsp;
-          <button type="button" onclick="UpdateBlockFromVariables(0)">Update Statblock</button>
-          &nbsp;
-          <button id="right-separator-button" type="button" onclick="UpdateBlockFromVariables(-1)"><em>shift &gt;&gt;</em></button>
+        <button class="menu-btn" onclick="">Damage Types & Conditions</button>
+        <div class="menudrop" style="padding-top:0">
+          <button class="menu-btn" onclick="">Lists</button>
+          <div class="menudrop submenu-end">
+            <table>
+              <tr>
+                <td colspan="3">
+                  Damage Types:
+                  <div id="damage-input-section">
+                    <ul id="damage-input-list" class="statblock-list"></ul>
+                  </div>
+                </td>
+                <td colspan="2">
+                  Conditions:
+                  <div id="conditions-input-section">
+                    <ul id="conditions-input-list" class="statblock-list"></ul>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <br><br>
+          <label for="damagetypes-input">Damage Types:<br>
+            <select id="damagetypes-input" onchange="FormFunctions.ShowHideDamageOther()">
+              <option value="acid">Acid</option>
+              <option value="bludgeoning">Bludgeoning</option>
+              <option value="cold">Cold</option>
+              <option value="fire">Fire</option>
+              <option value="force">Force</option>
+              <option value="lightning">Lightning</option>
+              <option value="necrotic">Necrotic</option>
+              <option value="piercing">Piercing</option>
+              <option value="poison">Poison</option>
+              <option value="psychic">Psychic</option>
+              <option value="radiant">Radiant</option>
+              <option value="slashing">Slashing</option>
+              <option value="thunder">Thunder</option>
+              <option value="bludgeoning, piercing, and slashing from nonmagical attacks">Nonmagical Attacks</option>
+              <option value="bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered">Non-Silvered Attacks</option>
+              <option value="bludgeoning, piercing, and slashing from nonmagical attacks that aren't adamantine">Non-Adamantine Attacks</option>
+              <option value="*">Other</option>
+            </select>
+          </label>
+          <input id="other-damage-input" type="text" value="">
+          <br>
+          <button type="button" onclick="InputFunctions.AddDamageTypeInput('v')">Vulnerable</button>
+          <button type="button" onclick="InputFunctions.AddDamageTypeInput('r')">Resistant</button>
+          <button type="button" onclick="InputFunctions.AddDamageTypeInput('i')">Immune</button>
+          <button type="button" onclick="InputFunctions.AddDamageTypeInput('a')">Absorb</button>
+          <br><br>
+          <label for="conditions-input">Condition Immunities:<br>
+            <select id="conditions-input">
+              <option value="blinded">Blinded</option>
+              <option value="charmed">Charmed</option>
+              <option value="deafened">Deafened</option>
+              <option value="exhaustion">Exhaustion</option>
+              <option value="frightened">Frightened</option>
+              <option value="grappled">Grappled</option>
+              <option value="incapacitated">Incapacitated</option>
+              <option value="invisible">Invisible</option>
+              <option value="paralyzed">Paralyzed</option>
+              <option value="petrified">Petrified</option>
+              <option value="poisoned">Poisoned</option>
+              <option value="prone">Prone</option>
+              <option value="restrained">Restrained</option>
+              <option value="stunned">Stunned</option>
+              <option value="unconscious">Unconscious</option>
+            </select>
+          </label>
+          <button type="button" onclick="InputFunctions.AddConditionInput()">Immune</button>
         </div>
-        <br>
-        <!-- The Actual Stat Block -->
-        <div id="stat-block-wrapper">
-            <div id="stat-block" class="stat-block">
-                <hr class="orange-border" />
-                <div class="section-left">
-                    <div class="creature-heading">
-                        <h1 id="monster-name">Monster</h1>
-                        <h3 id="tier-org">Tier and Organization</h3>
-                        <h2 id="monster-type">Size, type, alignment</h2>
-                    </div> <!-- creature heading -->
-                    <svg height=".3125rem" width="100%" class="tapered-rule">
-                        <polyline points="0,0 400,2.5 0,5"></polyline>
-                    </svg>
-                    <div class="top-stats">
-                        <div class="property-line first">
-                            <h4>Armor Class</h4>
-                            <p id="armor-class"></p>
-                        </div> <!-- property line -->
-                        <div class="property-line">
-                            <h4>Hit Points</h4>
-                            <h4 id="paragon-tag">(Paragon)</h4>
-                            <p id="hit-points"></p>
-                        </div> <!-- property line -->
-                        <div id="hp-block" style="padding-left: 0; text-indent: 0" class="property-line cen_td2">
-                          <table>
-                            <tr>
-                              <td>
-                                <h4 id="pool-1"></h4>
-                              </td>
-                              <td>
-                                <h4 id="pool-2"></h4>
-                              </td>
-                              <td>
-                                <h4 id="pool-3"></h4>
-                              </td>
-                              <td>
-                                <h4 id="pool-4"></h4>
-                              </td>
-                              <td>
-                                <h4 id="pool-5"></h4>
-                              </td>
-                              <td>
-                                <h4 id="pool-6"></h4>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <p id="pval-1"></p>
-                              </td>
-                              <td>
-                                <p id="pval-2"></p>
-                              </td>
-                              <td>
-                                <p id="pval-3"></p>
-                              </td>
-                              <td>
-                                <p id="pval-4"></p>
-                              </td>
-                              <td>
-                                <p id="pval-5"></p>
-                              </td>
-                              <td>
-                                <p id="pval-6"></p>
-                              </td>
-                            </tr>
-                          </table>
-                        </div> <!-- property line -->
-                        <div id="m-block" class="property-line">
-                            <h4>Morale</h4>
-                            <p id="morale"></p>
-                        </div> <!-- property line -->
-                        <div class="property-line last">
-                            <h4>Speed</h4>
-                            <p id="speed"></p>
-                        </div> <!-- property line -->
-                        <svg height=".3125rem" width="100%" class="tapered-rule">
-                            <polyline points="0,0 400,2.5 0,5"></polyline>
-                        </svg>
-                        <div class="scores">
-                            <div class="scores-strength">
-                                <h4>STR</h4>
-                                <p id="strpts"></p>
-                            </div> <!-- scores strength -->
-                            <div class="scores-dexterity">
-                                <h4>DEX</h4>
-                                <p id="dexpts"></p>
-                            </div> <!-- scores dexterity -->
-                            <div class="scores-constitution">
-                                <h4>CON</h4>
-                                <p id="conpts"></p>
-                            </div> <!-- scores constitution -->
-                            <div class="scores-intelligence">
-                                <h4>INT</h4>
-                                <p id="intpts"></p>
-                            </div> <!-- scores intelligence -->
-                            <div class="scores-wisdom">
-                                <h4>WIS</h4>
-                                <p id="wispts"></p>
-                            </div> <!-- scores wisdom -->
-                            <div class="scores-charisma">
-                                <h4>CHA</h4>
-                                <p id="chapts"></p>
-                            </div> <!-- scores charisma -->
-                        </div> <!-- scores -->
-                        <svg height=".3125rem" width="100%" class="tapered-rule">
-                            <polyline points="0,0 400,2.5 0,5"></polyline>
-                        </svg>
-                        <div id="properties-list"></div>
-                        <div id="cr-block" class="property-line">
-                            <h4>Challenge</h4>
-                            <p id="cr-level"></p>
-                        </div>
-                        <div id="threat-block" class="property-line last">
-                            <h4>Threat</h4>
-                            <p id="threat-level"></p>
-                        </div> <!-- property line -->
-                    </div> <!-- top stats -->
-                    <svg height=".3125rem" width="100%" class="tapered-rule">
-                        <polyline points="0,0 400,2.5 0,5"></polyline>
-                    </svg>
-                    <div class="actions">
-                        <div id="traits-list-left"></div>
-                    </div> <!-- actions -->
-                </div> <!-- section left -->
-                <div class="section-right">
-                    <div class="actions">
-                        <div id="traits-list-right"></div>
-                    </div> <!-- actions -->
-                </div> <!-- section right -->
-                <hr class="orange-border bottom" />
-            </div>
-        </div> <!-- stat block -->
-        <br>
+        <button class="menu-btn" onclick="">Morale</button>
+        <div class="menudrop">
+          <label for="mdc-input">Morale DC: <br>
+            <select id="mdc-input">
+              <option value="2">Unshakeable (2)</option>
+              <option value="7">Courageous (7)</option>
+              <option value="12" selected>Hardened (12)</option>
+              <option value="17">Green (17)</option>
+              <option value="22">Cowardly (22)</option>
+            </select>
+          </label>
+          <label for="mreact-input">Failure Type: <br>
+            <select id="mreact-input">
+              <option value="betray">Betray</option>
+              <option value="panic">Panic</option>
+              <option value="rage">Rage</option>
+              <option value="retreat" selected>Retreat</option>
+              <option value="rout">Rout</option>
+              <option value="surrender">Surrender</option>
+            </select>
+          </label>
+          <br><br>
+          <label for="mtrig-input">Trigger: <br>
+            <select id="mtrig-input">
+              <option value="wounded">Wounded</option>
+              <option value="bloodied">Bloodied</option>
+              <option value="staggered" selected>Staggered</option>
+              <option value="critical">Critically Injured</option>
+              <option value="about to die">About to Die</option>
+            </select>
+          </label>
+          <label for="mthresh-input">Trigger Threshold % Modifier: <br>
+            <input type="number" min=".05" max=".95" step=".05" value=".5" id="mthresh-input">
+          </label>
+        </div>
+        <button class="menu-btn" onclick="">Paragon HP</button>
+        <div class="menudrop">
+          <label for="hpnum-input">Number of Pools:
+            <select id="hpnum-input" onchange="FormFunctions.ShowHideParagon()">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3" selected>3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+            </select>
+          </label>
+          <br><br>
+          <table id="paragon-form" class="cen_td2">
+            <tr>
+              <td>
+                <div id="pstat-1">
+                  <label for="psn-1">Pool Name: <input id="psn-1" type="text" value="Torso"></label><br>
+                  <label for="psv-1">Pool HP: <br><input id="psv-1" type="number" value="0" step="1"></label>
+                </div>
+              </td>
+              <td>
+                <div id="pstat-2">
+                  <label for="psn-2">Pool Name: <input id="psn-2" type="text" value="Torso"></label><br>
+                  <label for="psv-2">Pool HP: <br><input id="psv-2" type="number" value="0" step="1"></label>
+                </div>
+              </td>
+              <td>
+                <div id="pstat-3">
+                  <label for="psn-3">Pool Name: <input id="psn-3" type="text" value="Torso"></label><br>
+                  <label for="psv-3">Pool HP: <br><input id="psv-3" type="number" value="0" step="1"></label>
+                </div>
+              </td>
+              <td>
+                <div id="pstat-4">
+                  <label for="psn-4">Pool Name: <input id="psn-4" type="text" value="Torso"></label><br>
+                  <label for="psv-4">Pool HP: <br><input id="psv-4" type="number" value="0" step="1"></label>
+                </div>
+              </td>
+              <td>
+                <div id="pstat-5">
+                  <label for="psn-5">Pool Name: <input id="psn-5" type="text" value="Torso"></label><br>
+                  <label for="psv-5">Pool HP: <br><input id="psv-5" type="number" value="0" step="1"></label>
+                </div>
+              </td>
+              <td>
+                <div id="pstat-6">
+                  <label for="psn-6">Pool Name: <input id="psn-6" type="text" value="Torso"></label><br>
+                  <label for="psv-6">Pool HP: <br><input id="psv-6" type="number" value="0" step="1"></label>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
       </div>
+      <br>
     </div>
+    <div style="grid-column-start:span 2;grid-column-end:-1;grid-row:1;overflow:inherit;text-align:center;margin-top:1rem">
+      <br>
+      <!-- The Actual Stat Block -->
+      <div id="stat-block-wrapper">
+        <div id="stat-block" class="stat-block">
+          <hr class="orange-border" />
+          <div class="section-left">
+            <div class="creature-heading">
+              <h1 id="monster-name">Monster</h1>
+              <h3 id="tier-org">Tier and Organization</h3>
+              <h2 id="monster-type">Size, type, alignment</h2>
+            </div> <!-- creature heading -->
+            <svg height=".3125rem" width="100%" class="tapered-rule">
+              <polyline points="0,0 400,2.5 0,5"></polyline>
+            </svg>
+            <div class="top-stats">
+              <div class="property-line first">
+                <h4>Armor Class</h4>
+                <p id="armor-class"></p>
+              </div> <!-- property line -->
+              <div class="property-line">
+                <h4>Hit Points</h4>
+                <h4 id="paragon-tag">(Paragon)</h4>
+                <p id="hit-points"></p>
+              </div> <!-- property line -->
+              <div id="hp-block" style="padding-left: 0; text-indent: 0" class="property-line cen_td2">
+                <table>
+                  <tr>
+                    <td>
+                      <h4 id="pool-1"></h4>
+                    </td>
+                    <td>
+                      <h4 id="pool-2"></h4>
+                    </td>
+                    <td>
+                      <h4 id="pool-3"></h4>
+                    </td>
+                    <td>
+                      <h4 id="pool-4"></h4>
+                    </td>
+                    <td>
+                      <h4 id="pool-5"></h4>
+                    </td>
+                    <td>
+                      <h4 id="pool-6"></h4>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <p id="pval-1"></p>
+                    </td>
+                    <td>
+                      <p id="pval-2"></p>
+                    </td>
+                    <td>
+                      <p id="pval-3"></p>
+                    </td>
+                    <td>
+                      <p id="pval-4"></p>
+                    </td>
+                    <td>
+                      <p id="pval-5"></p>
+                    </td>
+                    <td>
+                      <p id="pval-6"></p>
+                    </td>
+                  </tr>
+                </table>
+              </div> <!-- property line -->
+              <div id="m-block" class="property-line">
+                <h4>Morale</h4>
+                <p id="morale"></p>
+              </div> <!-- property line -->
+              <div class="property-line last">
+                <h4>Speed</h4>
+                <p id="speed"></p>
+              </div> <!-- property line -->
+              <svg height=".3125rem" width="100%" class="tapered-rule">
+                <polyline points="0,0 400,2.5 0,5"></polyline>
+              </svg>
+              <div class="scores">
+                <div class="scores-strength">
+                  <h4>STR</h4>
+                  <p id="strpts"></p>
+                </div> <!-- scores strength -->
+                <div class="scores-dexterity">
+                  <h4>DEX</h4>
+                  <p id="dexpts"></p>
+                </div> <!-- scores dexterity -->
+                <div class="scores-constitution">
+                  <h4>CON</h4>
+                  <p id="conpts"></p>
+                </div> <!-- scores constitution -->
+                <div class="scores-intelligence">
+                  <h4>INT</h4>
+                  <p id="intpts"></p>
+                </div> <!-- scores intelligence -->
+                <div class="scores-wisdom">
+                  <h4>WIS</h4>
+                  <p id="wispts"></p>
+                </div> <!-- scores wisdom -->
+                <div class="scores-charisma">
+                  <h4>CHA</h4>
+                  <p id="chapts"></p>
+                </div> <!-- scores charisma -->
+              </div> <!-- scores -->
+              <svg height=".3125rem" width="100%" class="tapered-rule">
+                <polyline points="0,0 400,2.5 0,5"></polyline>
+              </svg>
+              <div id="properties-list"></div>
+              <div id="cr-block" class="property-line">
+                <h4>Challenge</h4>
+                <p id="cr-level"></p>
+              </div>
+              <div id="threat-block" class="property-line last">
+                <h4>Threat</h4>
+                <p id="threat-level"></p>
+              </div> <!-- property line -->
+            </div> <!-- top stats -->
+            <svg height=".3125rem" width="100%" class="tapered-rule">
+              <polyline points="0,0 400,2.5 0,5"></polyline>
+            </svg>
+            <div class="actions">
+              <div id="traits-list-left"></div>
+            </div> <!-- actions -->
+          </div> <!-- section left -->
+          <div class="section-right">
+            <div class="actions">
+              <div id="traits-list-right"></div>
+            </div> <!-- actions -->
+          </div> <!-- section right -->
+          <hr class="orange-border bottom" />
+        </div>
+      </div> <!-- stat block -->
+      <br>
+    </div>
+  </div>
 
 </body>
 <script>
-  document.getElementById("defaultOpen").click();
+  setTab();
   showMenu();
   anyChange();
   setNight();
+  checkColorScheme();
   getEncounterInfo();
 </script>
+
 </html>
