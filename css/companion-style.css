@@ -1,0 +1,47 @@
+.com-heading h3 {
+  display: inline;
+  margin: 0;
+  color: var(--stat-main);
+  font-size: .875rem;
+  line-height: 1.2rem;
+  font-weight: normal;
+  font-style: italic;
+}
+
+.c-block {
+    text-align: left;
+    font-size: .78125rem;
+    line-height: 1.2rem;
+    display: inline-block;
+    vertical-align: top;
+    width: 25rem;
+    background: var(--stat-bg);
+    color: var(--stat-null);
+    border: .25rem solid var(--stat-main);
+    background-size: cover;
+    background-position: center;
+    /* background-image: url('../dndimages/statblockparch.jpg'); */
+    padding: .625rem .625rem 1.25rem;
+    box-sizing: border-box;
+    font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
+}
+
+.c-block.wide {
+    width: 50rem;
+}
+
+.c-block.wide .section-left,
+.c-block.wide .section-right {
+    display: inline-block;
+    vertical-align: top;
+    width: 48%;
+    text-align: left;
+}
+
+.c-block.wide .section-left {
+    margin-right: 1.5%;
+}
+
+.c-block.wide .section-right {
+    margin-left: 1.5%;
+}
