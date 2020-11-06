@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-157574901-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'UA-157574901-2');
+  </script>
+  <meta charset="utf-8" />
+  <title>5e Angry Companion Manager</title>
+  <meta name="description" content="A D&amp;D 5e integrated monster tool for creating statblocks, managing compendiums, and building encounters using the Angry GM paradigm.">
+  <meta name="keywords" content="D&amp;D, Dungeons and Dragons, 5th Edition, 5e, Angry GM, Monster Manual, Statblock, Encounter">
+  <meta name="author" content="hokieboat">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.0">
+  <link rel="stylesheet" type="text/css" href="css/statblock-page-style.css?version=3.0">
+  <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=7.2">
+  <link rel="stylesheet" type="text/css" href="css/libre-baskerville.css">
+  <link rel="stylesheet" type="text/css" href="css/noto-sans.css">
+  <link rel="stylesheet" type="text/css" href="css/companion-style.css?version=0.1">
+  <!-- <link rel="stylesheet" type="text/css" href="css/material-components-web.min.css?version=7.0.0">
+    <script src="js/material-components-web.min.js?version=7.0.0"></script> -->
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/FileSaver.min.js"></script>
+  <script src="js/dom-to-image.min.js"></script>
+  <script src="js/svg4everybody.min.js"></script>
+  <script>
+    svg4everybody();
+  </script>
+  <script src="js/statblock-script.js?version=5.8.2"></script>
+  <script src="js/companion-script.js?version=0.1.0"></script>
+</head>
+
+<body class="gridcontainer" id="stat-block-body">
+  <div class="tabs">
+    <div class="tabflow">
+      <div class="tableft">
+        <div style="grid-column:1;"><button class="tablinks" onclick="saveTab('monster');location.href='/'">Monster<br>Generator</button></div>
+        <div style="grid-column:2;"><button class="tablinks" onclick="saveTab('bestiary');location.href='/'">Bestiary</button></div>
+        <div style="grid-column:3;"><button class="tablinks" onclick="saveTab('encounter');location.href='/'">Encounter<br>Builder</button></div>
+        <div style="grid-column:4;"><button class="tablinks" id="companionstab">Companions</button></div>
+      </div>
+      <div class="tabright">
+        <div class="tab-wrap" style="grid-column:1;">
+          <h1 style="">5e Angry Creature Manager</h1>
+          <p style="margin-top:-.5rem">Latest Update: 4 October 2020 <a href="faq.html"><strong>(see FAQ)</strong></a></p>
+        </div>
+        <div class="tab-wrap" style="grid-column:2;">
+          <div style="">
+            <a target="_blank" href="https://github.com/angry-monsters/angry-monsters.github.io"><strong>GitHub Repo</strong></a>
+            <div style="padding-top:.5rem"></div>
+            <a target="_self" href="." onclick="clearStorage()"><strong>Clear Data</strong></a>
+          </div>
+        </div>
+        <div class="tab-wrap" style="grid-column:3;">
+          <div class="dark-wrapper">
+            <label class="switch" for="night-toggle"><br>
+              <input type="checkbox" id="night-toggle" />
+              <div class="slider round"></div>
+            </label>
+            <em>dark mode</em>
+          </div>
+          <div style="padding-top:.5rem">
+            <a href='https://ko-fi.com/M4M81VQKK' target='_blank'><img width='85%' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="companions" class="container tabcontent tabcontainer">
+    <div id="mon-opts-div" style="grid-column-end:2;overflow:inherit;text-align:center">
+      <br>
+      <h2>Angry Companion Design</h2>
+      <p>Read the original article from <a target="_blank" href="https://theangrygm.com/">The Angry GM [UPDATE]</a></p>
+      <div class="menucontainer">
+
+        <button class="menu-btn" onclick="">NPC I/O</button>
+        <div class="menudrop">
+
+        </div>
+
+        <button class="menu-btn" onclick="">Main Info</button>
+        <div class="menudrop">
+          <label for="cname-input">Name: <br>
+            <input id="cname-input" type="text" value="Monster">
+          </label>
+
+          <label for="ctier-input">Tier: <br>
+            <select id="ctier-input" onchange="">
+              <option value="apprentice">Apprentice (1-2)</option>
+              <option value="journeyman">Journeyman (3-5)</option>
+              <option value="adventurer">Adventurer (6-9)</option>
+              <option value="veteran">Veteran (7-11)</option>
+              <option value="champion">Champion (12-14)</option>
+              <option value="epic">Epic (15-17)</option>
+              <option value="legendary">Legendary (18-20)</option>
+            </select>
+          </label>
+
+          <label for="csize-input">Size: <br>
+            <select id="csize-input">
+              <option value="tiny">Tiny</option>
+              <option value="small">Small</option>
+              <option value="medium" selected="selected">Medium</option>
+              <option value="large">Large</option>
+              <option value="huge">Huge</option>
+              <option value="gargantuan">Gargantuan</option>
+            </select>
+          </label>
+          <br><br>
+
+          <label for="cclass-input">Classification: <br>
+            <select id="cclass-input" onchange="ComFormFunctions.ShowHideOther('cother-class-input','cclass-input')">
+              <option value="hireling" selected="selected">Hireling</option>
+              <option value="pet">Pet</option>
+              <option value="thrall">Thrall</option>
+              <option value="*">Other</option>
+            </select>
+          </label>
+          <label for="cother-class-input"> <br>
+            <input id="cother-class-input" style="display: none;" type="text" value="generic NPC">
+          </label>
+          <br><br>
+
+          <label for="ctype-input">Type: <br>
+            <select id="ctype-input" onchange="ComFormFunctions.ShowHideOther('cother-type-input','ctype-input')">
+              <option value="aberration">Aberration</option>
+              <option value="beast">Beast</option>
+              <option value="celestial">Celestial</option>
+              <option value="construct">Construct</option>
+              <option value="dragon">Dragon</option>
+              <option value="elemental">Elemental</option>
+              <option value="fey">Fey</option>
+              <option value="fiend">Fiend</option>
+              <option value="giant">Giant</option>
+              <option value="humanoid" selected>Humanoid</option>
+              <option value="monstrosity">Monstrosity</option>
+              <option value="ooze">Ooze</option>
+              <option value="plant">Plant</option>
+              <option value="undead">Undead</option>
+              <option value="*">Other</option>
+            </select>
+          </label>
+          <label for="cother-type-input"> <br>
+            <input id="cother-type-input" style="display: none;" type="text" value="swarm of Tiny beasts">
+          </label>
+
+          <label for="ctag-input">Tag: <br>
+            <input id="ctag-input" type="text">
+          </label>
+        </div>
+
+        <button class="menu-btn" onclick="">Block Format</button>
+        <div class="menudrop">
+          <br><br>
+          <label for="1col-input"><input id="1col-input" type="radio" name="columns-input" value="1col" checked> One Column</label>
+          <label for="2col-input" style="margin-left: .5rem;"><input id="2col-input" type="radio" name="columns-input" value="2col"> Two Columns <em style="font-size:.8rem">(shift buttons balance columns)</em></label>
+        </div>
+
+        <button class="menu-btn" onclick="">Abilities, Saves, and Proficiences</button>
+        <div class="menudrop">
+
+        </div>
+
+        <button class="menu-btn" onclick="">Combat Statistics</button>
+        <div class="menudrop">
+
+        </div>
+
+        <button class="menu-btn" onclick="">Additional Dimensions</button>
+        <div class="menudrop" style="padding-top:0">
+
+          <button class="menu-btn" onclick="">Categories</button>
+          <div class="menudrop submenu-end">
+
+            <label for="newdim-input">Category Name: <br>
+              <input id="newdim-input" type="text" value="Interaction">
+            </label>
+
+            <button onclick="addNewDimension(npc);">Add New</button>
+
+          </div>
+          <br><br>
+
+          <label for="dim-options">Select Category: <br>
+            <select id="dim-options"></select>
+          </label>
+          <br><br>
+
+          <label for="shortname-input">Stat Name: <br>
+            <input id="shortname-input" type="text" value="Senses">
+          </label>
+
+          <label for="shortval-input" class="cen_td">Stat Value: <br>
+            <input id="shortval-input" type="text" value="5">
+          </label>
+
+          <button onclick="addStat(npc)">Add Stat</button>
+          <br><br>
+
+          <label for="cfeat-name-input">Feature Name: <br>
+            <input id="cfeat-name-input" type="text" value="">
+          </label>
+
+          <button onclick="addFeat(npc)">Add Feature </button>
+          <br>
+
+          <label for="cfeat-desc-input" style="width: 100%;">Description: <br>
+            <textarea id="cfeat-desc-input" style="height: 10rem;"></textarea>
+          </label>
+
+        </div>
+
+      </div>
+      <br>
+    </div>
+    <div style="grid-column-start:span 2;grid-column-end:-1;grid-row:1;overflow:inherit;text-align:center;margin-top:1rem">
+      <br>
+      <!-- The Actual (Companion) Stat Block -->
+      <div id="c-block-wrapper">
+        <div id="c-block" class="c-block">
+          <div class="section-left">
+            <div class="creature-heading">
+              <h1 id="">Companion</h1>
+              <h2 id="">Size, type, alignment</h2>
+            </div> <!-- creature heading -->
+            <svg height=".3125rem" width="100%" class="tapered-rule">
+              <polyline points="0,0 0,3 400,3 400,0"></polyline>
+            </svg>
+            <div class="com-heading">
+              <h3 id="">Abilities, Saves, and Proficiencies</h3>
+            </div>
+            <div class="scores">
+              <div class="scores-strength">
+                <h4>STR</h4>
+                <p id=""></p>
+              </div> <!-- scores strength -->
+              <div class="scores-dexterity">
+                <h4>DEX</h4>
+                <p id=""></p>
+              </div> <!-- scores dexterity -->
+              <div class="scores-constitution">
+                <h4>CON</h4>
+                <p id=""></p>
+              </div> <!-- scores constitution -->
+              <div class="scores-intelligence">
+                <h4>INT</h4>
+                <p id=""></p>
+              </div> <!-- scores intelligence -->
+              <div class="scores-wisdom">
+                <h4>WIS</h4>
+                <p id=""></p>
+              </div> <!-- scores wisdom -->
+              <div class="scores-charisma">
+                <h4>CHA</h4>
+                <p id=""></p>
+              </div>
+            </div>
+            <div class="property-line first">
+              <h4>Armor Class</h4>
+              <p id=""></p>
+            </div> <!-- property line -->
+            <div class="property-line">
+              <h4>Hit Points</h4>
+              <p id=""></p>
+            </div> <!-- property line -->
+            <div class="property-line last">
+              <h4>Speed</h4>
+              <p id=""></p>
+            </div> <!-- property line -->
+            <svg height=".3125rem" width="100%" class="tapered-rule">
+              <polyline points="0,0 0,3 400,3 400,0"></polyline>
+            </svg>
+            <div class="com-heading">
+              <h3 id="">Combat Statistics</h3>
+            </div>
+            <div class="property-line first">
+              <h4>Armor Class</h4>
+              <p id=""></p>
+            </div> <!-- property line -->
+            <div class="property-line">
+              <h4>Hit Points</h4>
+              <p id=""></p>
+            </div> <!-- property line -->
+            <div class="property-line last">
+              <h4>Speed</h4>
+              <p id=""></p>
+            </div>
+            <div class="com-heading" id="dimension-left"></div>
+          </div> <!-- section left -->
+          <div class="section-right">
+            <div class="com-heading" id="dimension-right"></div>
+          </div> <!-- section right -->
+        </div> <!-- stat block -->
+        <br>
+      </div>
+    </div>
+
+</body>
+<script>
+  openTab('companions');
+  setNight();
+  checkColorScheme();
+  showMenu();
+</script>
+
+</html>
