@@ -45,3 +45,62 @@
 .c-block.wide .section-right {
     margin-left: 1.5%;
 }
+
+.c-line h4,
+.c-line p {
+    display: inline;
+    margin: 0;
+    color: var(--stat-main);
+    font-size: .78125rem;
+    line-height: 1.2rem;
+}
+
+.c-line h4 {
+    color: var(--stat-acc);
+}
+
+.c-line em strong {
+    color: var(--stat-acc);
+}
+
+.c-line {
+    text-indent: -1rem;
+    padding-left: 1.1rem;
+    line-height: 1.4rem;
+    margin: 0;
+}
+
+.c-line.first {
+    margin-top: .5rem;
+}
+
+.c-line.last {
+    margin-bottom: .625rem;
+}
+
+.cstats {
+    text-align: center;
+    color: var(--stat-main);
+}
+
+.cstats>div {
+    display: inline-block;
+    vertical-align: middle;
+    width: 23.25%;
+    min-width: 2.5rem;
+    font-size: .75rem;
+    line-height: 1rem;
+}
+
+.cstats h4 {
+    margin: .625rem 0 .125rem;
+    font-size: .875rem;
+    line-height: 1.2rem;
+    text-transform: uppercase;
+    color: var(--stat-acc);
+}
+
+.cstats p {
+    margin: 0 0 .625rem;
+    line-height: 1.2rem;
+}

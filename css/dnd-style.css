@@ -23,11 +23,6 @@
 }
 
 [data-theme="dark"] {
-	--pri-hue: 38; /* primary color */
-
-	--stat-bg-hue: 38; /* statblock background hue */
-	--stat-main-hue: 10; /* statblock primary hue */
-
 	--surf-bg: hsl(var(--pri-hue),0%,8%);
 	--surf-high: hsl(var(--pri-hue),0%,12%);
 	--surf-higher: hsl(var(--pri-hue),0%,18%);
@@ -44,6 +39,37 @@
 	--stat-bord: hsl(var(--stat-bg-hue),80%,52%);
 	--stat-bg: hsl(var(--stat-bg-hue),90%,92%);
 	--stat-shad: hsl(var(--stat-bg-hue),24%,44%);
+}
+
+input[type=range] {
+	width: 34rem;
+	height: .6rem;
+	outline: none;
+	background: var(--surf-higher);
+	-webkit-appearance: none;
+	appearance: none;
+	border-radius: .3rem;
+	border-width: .0125rem;
+	border-style: solid;
+	border-color: var(--color-pri);
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+	height: 1rem;
+	width: 1.6rem;
+	background: var(--color-pri);
+  cursor: pointer;
+	border-radius: .5rem;
+}
+
+input[type=range]::-moz-range-thumb {
+  background: var(--color-pri);
+  cursor: pointer;
+	height: 1rem;
+	width: 1.6rem;
+	border-radius: .5rem;
 }
 
 .dark-wrapper {
@@ -238,7 +264,7 @@ body {
 
 .tableft {
 	display: grid;
-	grid-template-columns: minmax(8rem, 1fr) minmax(6rem, 1fr) minmax(8rem, 1fr) minmax(4rem, 1fr);
+	grid-template-columns: minmax(7rem, 1fr) minmax(6rem, 1fr) minmax(7rem, 1fr) minmax(6rem, 1fr);
 	grid-column-start: span 2;
 }
 
