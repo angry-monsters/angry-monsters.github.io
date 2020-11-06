@@ -1002,8 +1002,7 @@ var FormFunctions = {
   },
 
   ShowHideSeparatorInput: function() {
-    this.ShowHideHtmlElement("#left-separator-button", mon.doubleColumns);
-    this.ShowHideHtmlElement("#right-separator-button", mon.doubleColumns);
+    this.ShowHideHtmlElement("#separator-button", mon.doubleColumns);
   },
 
   ShowHideFormatHelper: function() {

@@ -39,6 +39,10 @@ var ComFormFunctions = {
   ShowHideOther: function(other, select) {
     FormFunctions.ShowHideHtmlElement(("#" + other), $("#" + select).val() == "*");
   },
+
+  ShowHideSeparatorInput: function() {
+    FormFunctions.ShowHideHtmlElement("#c-separator-button", npc.doubleColumns);
+  },
 };
 
 function addStat(npc_id) {
@@ -55,6 +59,12 @@ function addStat(npc_id) {
 
     updateCompBlock(0);
   }
+}
+
+function changeWidth() {
+  npc.doubleColumns = $("#c2col-input").prop("checked");
+  ComFormFunctions.ShowHideSeparatorInput();
+  updateCompBlock(0);
 }
 
 function updateCompBlock(moveSepPoint) {
