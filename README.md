@@ -3,6 +3,8 @@
 ## Compendium
 To contribute to the bestiary, go to the issues page, create a new compendium addition, and attach your file. To use, download the file and load into the monster manager.
 
+(project board?)
+
 ## New Feature Priorities from 8/21-9/21 survey (not in order):
 - TBD
 
@@ -12,3 +14,8 @@ To contribute to the bestiary, go to the issues page, create a new compendium ad
 
 ## Known Bugs
 - If CON Modifier is less than average HD, gives negative number of HD
+
+## Future Responsiveness
+- column spanning issue
+- auto height issue
+- navbar extra split?
