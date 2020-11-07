@@ -9,98 +9,102 @@
 }
 
 .c-block {
-    text-align: left;
-    font-size: .78125rem;
-    line-height: 1.2rem;
-    display: inline-block;
-    vertical-align: top;
-    width: 25rem;
-    background: var(--stat-bg);
-    color: var(--stat-null);
-    border: .25rem solid var(--stat-main);
-    background-size: cover;
-    background-position: center;
-    /* background-image: url('../dndimages/statblockparch.jpg'); */
-    padding: .625rem .625rem 1.25rem;
-    box-sizing: border-box;
-    font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
+  text-align: left;
+  font-size: .78125rem;
+  line-height: 1.2rem;
+  display: inline-block;
+  vertical-align: top;
+  width: 25rem;
+  background: var(--stat-bg);
+  color: var(--stat-null);
+  border: .25rem solid var(--stat-main);
+  background-size: cover;
+  background-position: center;
+  /* background-image: url('../dndimages/statblockparch.jpg'); */
+  padding: .625rem .625rem 1.25rem;
+  box-sizing: border-box;
+  font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
 }
 
 .c-block.wide {
-    width: 50rem;
+  width: 50rem;
 }
 
 .c-block.wide .section-left,
 .c-block.wide .section-right {
-    display: inline-block;
-    vertical-align: top;
-    width: 48%;
-    text-align: left;
+  display: inline-block;
+  vertical-align: top;
+  width: 48%;
+  text-align: left;
 }
 
 .c-block.wide .section-left {
-    margin-right: 1.5%;
+  margin-right: 1.5%;
 }
 
 .c-block.wide .section-right {
-    margin-left: 1.5%;
+  margin-left: 1.5%;
 }
 
 .c-line h4,
 .c-line p {
-    display: inline;
-    margin: 0;
-    color: var(--stat-main);
-    font-size: .78125rem;
-    line-height: 1.2rem;
+  display: inline;
+  margin: 0;
+  color: var(--stat-main);
+  font-size: .78125rem;
+  line-height: 1.2rem;
+}
+
+.c-line.black p {
+  color: var(--stat-null);
 }
 
 .c-line h4 {
-    color: var(--stat-acc);
+  color: var(--stat-acc);
 }
 
 .c-line em strong {
-    color: var(--stat-acc);
+  color: var(--stat-acc);
 }
 
 .c-line {
-    text-indent: -1rem;
-    padding-left: 1.1rem;
-    line-height: 1.4rem;
-    margin: 0;
+  text-indent: -1rem;
+  padding-left: 1.1rem;
+  line-height: 1.4rem;
+  margin: 0;
 }
 
 .c-line.first {
-    margin-top: .5rem;
+  margin-top: .5rem;
 }
 
 .c-line.last {
-    margin-bottom: .625rem;
+  margin-bottom: .625rem;
 }
 
 .cstats {
-    text-align: center;
-    color: var(--stat-main);
+  text-align: center;
+  color: var(--stat-main);
 }
 
 .cstats>div {
-    display: inline-block;
-    vertical-align: middle;
-    width: 23.25%;
-    min-width: 2.5rem;
-    font-size: .75rem;
-    line-height: 1rem;
+  display: inline-block;
+  vertical-align: middle;
+  width: 23.25%;
+  min-width: 2.5rem;
+  font-size: .75rem;
+  line-height: 1rem;
 }
 
 .cstats h4 {
-    margin: .625rem 0 .125rem;
-    font-size: .875rem;
-    line-height: 1.2rem;
-    text-transform: uppercase;
-    color: var(--stat-acc);
+  margin: .625rem 0 .125rem;
+  font-size: .875rem;
+  line-height: 1.2rem;
+  text-transform: uppercase;
+  color: var(--stat-acc);
 }
 
 .cstats p {
-    margin: 0 0 .625rem;
-    line-height: 1.2rem;
+  margin: 0 0 .625rem;
+  line-height: 1.2rem;
 }
