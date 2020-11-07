@@ -193,47 +193,59 @@
 
         </div>
 
-        <button class="menu-btn" onclick="">Additional Dimensions</button>
+        <button class="menu-btn" onclick="">Additional Sections</button>
         <div class="menudrop" style="padding-top:0">
 
-          <button class="menu-btn" onclick="">Categories</button>
+          <button class="menu-btn" onclick="">Dimensions</button>
           <div class="menudrop submenu-end">
 
-            <label for="newdim-input">Category Name: <br>
+            <label for="newdim-input">Dimension Name: <br>
               <input id="newdim-input" type="text" value="">
             </label>
 
             <button onclick="addNewDimension(npc);">Add New</button>
+            <br><br>
+            <div id="dims-input-section"><b>Dimensions:</b><br>
+              <ul id="dims-input-list" class="statblock-list"></ul>
+            </div>
 
           </div>
           <br><br>
 
           <label for="dim-options">Select Category: <br>
-            <select id="dim-options"></select>
+            <select id="dim-options" onchange="updateFSList(this.value)"></select>
           </label>
           <br><br>
 
-          <label for="shortname-input">Stat Name: <br>
-            <input id="shortname-input" type="text" value="">
+          <label for="stats-name-input">Stat Name: <br>
+            <input id="stats-name-input" type="text" value="">
           </label>
 
-          <label for="shortval-input" class="cen_td">Stat Value: <br>
-            <input id="shortval-input" type="text" value="">
+          <label for="stats-desc-input" class="cen_td">Stat Value: <br>
+            <input id="stats-desc-input" type="text" value="">
           </label>
 
           <button onclick="addStat(npc)">Add Stat</button>
           <br><br>
 
-          <label for="cfeat-name-input">Feature Name: <br>
-            <input id="cfeat-name-input" type="text" value="">
+          <label for="features-name-input">Feature Name: <br>
+            <input id="features-name-input" type="text" value="">
           </label>
 
           <button onclick="addFeat(npc)">Add Feature </button>
           <br>
 
-          <label for="cfeat-desc-input" style="width: 100%;">Description: <br>
-            <textarea id="cfeat-desc-input" style="height: 10rem;"></textarea>
+          <label for="features-desc-input" style="width: 100%;">Description: <br>
+            <textarea id="features-desc-input" style="height: 10rem;"></textarea>
           </label>
+          <br><br>
+
+          <div id="stats-input-section"><b>Stats:</b><br>
+            <ul id="stats-input-list" class="statblock-list"></ul>
+          </div>
+          <div id="features-input-section"><b>Features:</b><br>
+            <ul id="features-input-list" class="statblock-list"></ul>
+          </div>
 
         </div>
 
@@ -241,7 +253,7 @@
       <br>
     </div>
     <div style="grid-column-start:span 2;grid-column-end:-1;grid-row:1;overflow:inherit;text-align:center;margin-top:1rem">
-      <h2 style="color:var(--color-pri)">PRE-ALPHA MOSTLY NOT FUNCTIONAL</h2>
+      <h2 style="color:var(--color-pri)">ALPHA LIMITED FUNCTIONALITY</h2>
       <br>
       <!-- The Actual (Companion) Stat Block -->
       <div id="c-block-wrapper">
@@ -255,7 +267,7 @@
               <polyline points="0,0 0,3 400,3 400,0"></polyline>
             </svg>
             <div class="com-heading">
-              <h3 id="">Abilities, Saves, And Proficiencies</h3>
+              <h3 id="">Abilities, Saves, and Proficiencies</h3>
             </div>
             <div class="scores">
               <div class="scores-strength">
