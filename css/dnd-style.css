@@ -17,7 +17,7 @@
 	--stat-main: hsl(var(--stat-main-hue),80%,32%);
 	--stat-acc: hsl(var(--stat-main-hue),80%,26%);
 	--stat-null: hsl(var(--stat-main-hue),0%,0%);
-	--stat-bord: hsl(var(--stat-bg-hue),80%,52%);
+	--stat-bord: hsl(var(--stat-bg-hue),70%,50%);
 	--stat-bg: hsl(var(--stat-bg-hue),90%,92%);
 	--stat-shad: hsl(var(--stat-bg-hue),24%,44%);
 }
@@ -32,13 +32,6 @@
 	--color-acc: hsl(var(--pri-hue),80%,50%);
 	--color-text: hsla(var(--pri-hue),0%,100%,.87);
 	--color-text-emph: hsla(var(--pri-hue),80%,50%,.77);
-
-	--stat-main: hsl(var(--stat-main-hue),80%,32%);
-	--stat-acc: hsl(var(--stat-main-hue),80%,26%);
-	--stat-null: hsl(var(--stat-main-hue),0%,0%);
-	--stat-bord: hsl(var(--stat-bg-hue),80%,52%);
-	--stat-bg: hsl(var(--stat-bg-hue),90%,92%);
-	--stat-shad: hsl(var(--stat-bg-hue),24%,44%);
 }
 
 input[type=range] {
