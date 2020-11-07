@@ -36,7 +36,7 @@
     svg4everybody();
   </script>
   <script src="js/statblock-script.js?version=6.0.0"></script>
-  <script src="js/companion-script.js?version=1.1.0"></script>
+  <script src="js/companion-script.js?version=1.2.0"></script>
 </head>
 
 <body class="gridcontainer" id="stat-block-body">
@@ -85,7 +85,12 @@
 
         <button class="menu-btn" onclick="">NPC I/O</button>
         <div class="menudrop">
-
+          <button onclick="TrySaveFile4()">Save Statblock</button>
+          <button onclick="CompImage()">Save Image</button>
+          <br><br>
+          <button onclick="LoadFilePrompt4()">Load Statblock</button>
+          <button onclick="ClearCompanion()">New Companion</button>
+          <input id="file-upload4" type="file" onChange="TryLoadFile4();" hidden />
         </div>
 
         <button class="menu-btn" onclick="">Main Info</button>

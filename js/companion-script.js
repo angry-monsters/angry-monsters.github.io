@@ -49,7 +49,7 @@ function setInputs() {
     $("#ctype-input").val("*");
     $("#cother-type-input").val(npc.type);
   }
-  ComFormFunctions.ShowHideOther('cother-type-input','ctype-input');
+  ComFormFunctions.ShowHideOther('cother-type-input', 'ctype-input');
 
   if (cdata.classifications.includes(npc.classification))
     $("#cclass-input").val(npc.classification);
@@ -57,7 +57,9 @@ function setInputs() {
     $("#cclass-input").val("*");
     $("#cother-class-input").val(npc.classification);
   }
-  ComFormFunctions.ShowHideOther('cother-class-input','cclass-input');
+  ComFormFunctions.ShowHideOther('cother-class-input', 'cclass-input');
+
+  updateCompBlock(0);
 }
 
 var ComFormFunctions = {
@@ -145,7 +147,7 @@ function updateCompBlock(moveSepPoint) {
   $("#comp-name").html(npc.name);
   $("#comp-tagline").html(ComStrFunctions.WriteSubheader(npc));
 
-  localStorage.setItem("npc", JSON.stringify(npc));
+  CompData.SaveToLocalStorage;
 }
 
 var BlockFunctions = {
@@ -239,17 +241,78 @@ function addNewDimension(npc_id) {
 
 };
 
-$(function() {
-  let savedData = localStorage.getItem("npc");
-  if (savedData != undefined)
-    npc = JSON.parse(savedData);
+var TrySaveFile4 = () => {
+  CompData.SaveToFile();
+}
 
+var TryLoadFile4 = () => {
+  CompData.RetrieveFromFile();
+  $("#file-upload4").val("");
+}
+
+var LoadFilePrompt4 = () => {
+  $("#file-upload4").click();
+}
+
+function ClearCompanion() {
+  npc = {
+    dimensions: [],
+    separationPoint: 1,
+    doubleColumns: false,
+    name: "Companion",
+    size: "medium",
+    type: "humanoid",
+    tag: "",
+    tier: "apprentice",
+    classification: "hireling",
+  };
+  setInputs();
+}
+
+function CompImage() {
+  domtoimage.toBlob(document.getElementById("c-block"))
+    .then(function(blob) {
+      window.saveAs(blob, npc.name.toLowerCase() + ".png");
+    });
+}
+
+var CompData = {
+  // Saving
+  SaveToLocalStorage: () => localStorage.setItem("npc", JSON.stringify(npc)),
+
+  SaveToFile: () => saveAs(new Blob([JSON.stringify(npc)], {
+    type: "text/plain;charset=utf-8"
+  }), npc.name.toLowerCase() + ".companion"),
+
+  // Retrieving
+  RetrieveFromLocalStorage: function() {
+    let savedData = localStorage.getItem("npc");
+    if (savedData != undefined)
+      npc = JSON.parse(savedData);
+  },
+
+  RetrieveFromFile: function() {
+    let file = $("#file-upload4").prop("files")[0],
+      reader = new FileReader();
+
+    reader.onload = function(e) {
+      let npc_add = JSON.parse(reader.result);
+      if (npc_add.length > 0) npc = npc_add[0];
+      else npc = npc_add;
+      setInputs();
+    };
+
+    reader.readAsText(file);
+  },
+}
+
+$(function() {
   $.getJSON("js/JSON/companiondata.json?version=1.0", function(json2) {
     cdata = json2;
     $.getJSON("js/JSON/statblockdata.json?version=5.0", function(json) {
       data = json;
+      CompData.RetrieveFromLocalStorage();
       setInputs();
     });
   });
-  updateCompBlock(0);
 });
