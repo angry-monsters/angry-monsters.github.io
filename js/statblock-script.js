@@ -2386,7 +2386,7 @@ var StringFunctions = {
   },
 
   // Add italics, indents, and newlines
-  FormatString: function(string, isBlock) {
+  FormatString: function(string, isBlock, isFeat = false) {
     if (typeof string != "string")
       return string;
 
@@ -2408,10 +2408,26 @@ var StringFunctions = {
       }
     }
 
+    if (!isBlock && isFeat) {
+      let execArr, newlineArr = [],
+        regExp = new RegExp("(\r\n|\r|\n)+", "g");
+      while ((execArr = regExp.exec(string)) !== null)
+        newlineArr.push(execArr);
+      let index = newlineArr.length - 1;
+      while (index >= 0) {
+        let newlineString = newlineArr[index];
+
+        string = this.StringSplice(string, newlineString.index, newlineString[0].length,
+          "</div>" + (newlineString[0].length > 1 ? "<br>" : "") + "<div>");
+
+        index--;
+      }
+    }
+
     // Italics and bold
     string = this.FormatStringHelper(string, "_", "<em>", "</em>")
     string = this.FormatStringHelper(string, "**", "<strong>", "</strong>")
-    string = this.FormatStringHelper(string, "^^", "<br><strong><em>", "</em></strong>")
+    string = this.FormatStringHelper(string, "^^", "<strong><em>", "</em></strong>")
     return string;
   },
 
