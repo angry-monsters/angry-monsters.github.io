@@ -24,7 +24,7 @@
   <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.0">
   <link rel="stylesheet" type="text/css" href="css/libre-baskerville.css">
   <link rel="stylesheet" type="text/css" href="css/noto-sans.css">
-  <link rel="stylesheet" type="text/css" href="css/companion-style.css?version=1.0">
+  <link rel="stylesheet" type="text/css" href="css/companion-style.css?version=1.1">
   <!-- <link rel="stylesheet" type="text/css" href="css/material-components-web.min.css?version=7.0.0">
     <script src="js/material-components-web.min.js?version=7.0.0"></script> -->
   <script src="js/jquery-3.4.1.min.js"></script>
@@ -36,7 +36,7 @@
     svg4everybody();
   </script>
   <script src="js/statblock-script.js?version=6.0.0"></script>
-  <script src="js/companion-script.js?version=1.0.0"></script>
+  <script src="js/companion-script.js?version=1.1.0"></script>
 </head>
 
 <body class="gridcontainer" id="stat-block-body">
@@ -119,7 +119,7 @@
           <br><br>
 
           <label for="cclass-input">Classification: <br>
-            <select id="cclass-input" onchange="getNPC();ComFormFunctions.ShowHideOther('cother-class-input','cclass-input')">
+            <select id="cclass-input" onchange="getNPC();ComFormFunctions.ShowHideOther('cother-class-input',this.id)">
               <option value="hireling" selected="selected">Hireling</option>
               <option value="pet">Pet</option>
               <option value="thrall">Thrall</option>
@@ -132,7 +132,7 @@
           <br><br>
 
           <label for="ctype-input">Type: <br>
-            <select id="ctype-input" onchange="getNPC();ComFormFunctions.ShowHideOther('cother-type-input','ctype-input')">
+            <select id="ctype-input" onchange="getNPC();ComFormFunctions.ShowHideOther('cother-type-input',this.id)">
               <option value="aberration">Aberration</option>
               <option value="beast">Beast</option>
               <option value="celestial">Celestial</option>
@@ -161,6 +161,11 @@
 
         <button class="menu-btn" onclick="">Block Format</button>
         <div class="menudrop">
+          <label for="dim-hide">Hide Dimension: <br>
+            <select id="dim-hide" onchange="ComFormFunctions.ShowHideSection(this.value)">
+              <option value='*' selected>No Hidden Dimensions</option>
+            </select>
+          </label>
           <br><br>
           <label for="c1col-input"><input onchange="changeWidth()" id="c1col-input" type="radio" name="columns-input" value="1col" checked> One Column</label>
           <label for="c2col-input" style="margin-left: .5rem;"><input onchange="changeWidth()" id="c2col-input" type="radio" name="columns-input" value="2col"> Two Columns <em style="font-size:0.8rem;">(use buttons to balance columns)</em></label>

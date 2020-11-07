@@ -10,6 +10,8 @@ var npc = {
   classification: "hireling",
 };
 
+var cdata;
+
 function getNPC() {
   npc.name = $("#cname-input").val().trim();
   npc.size = $("#csize-input").val().toLowerCase();
@@ -32,12 +34,41 @@ var ComStrFunctions = {
 }
 
 function setInputs() {
+  $("#c1col-input").prop("checked", !npc.doubleColumns);
+  $("#c2col-input").prop("checked", npc.doubleColumns);
+  ComFormFunctions.ShowHideSeparatorInput();
 
+  $("#cname-input").val(npc.name);
+  $("#csize-input").val(npc.size);
+  $("#ctier-input").val(npc.tier);
+  $("#ctag-input").val(npc.tag);
+
+  if (data.types.includes(npc.type))
+    $("#ctype-input").val(npc.type);
+  else {
+    $("#ctype-input").val("*");
+    $("#cother-type-input").val(npc.type);
+  }
+  ComFormFunctions.ShowHideOther('cother-type-input','ctype-input');
+
+  if (cdata.classifications.includes(npc.classification))
+    $("#cclass-input").val(npc.classification);
+  else {
+    $("#cclass-input").val("*");
+    $("#cother-class-input").val(npc.classification);
+  }
+  ComFormFunctions.ShowHideOther('cother-class-input','cclass-input');
 }
 
 var ComFormFunctions = {
-  ShowHideOther: function(other, select) {
-    FormFunctions.ShowHideHtmlElement(("#" + other), $("#" + select).val() == "*");
+  ShowHideOther: function(other, select, checker = "*") {
+    FormFunctions.ShowHideHtmlElement(("#" + other), $("#" + select).val() === checker);
+  },
+
+  ShowHideSection: function(select) {
+    for (let i = 0; i < npc.dimensions.length; i++) {
+      FormFunctions.ShowHideHtmlElement(("#dim-" + npc.dimensions[i].name), select !== npc.dimensions[i].name);
+    }
   },
 
   ShowHideSeparatorInput: function() {
@@ -48,17 +79,34 @@ var ComFormFunctions = {
 function addStat(npc_id) {
   let statName = $("#shortname-input").val().toLowerCase(),
     statVal = $("#shortval-input").val(),
-    catIdx = $("#dim-options").val() * 1;
+    catIdx = getFindIdx(npc_id.dimensions, "name", $("#dim-options").val());
   let shortStats = npc_id.dimensions[catIdx].stats;
 
   if (statVal && statName) {
-    shortStats.splice(0, 0, {
-      "name": statName,
-      "value": statVal,
-    });
+    let addIdx = getFindIdx(shortStats, "name", statName) > -1 ? getFindIdx(shortStats, "name", statName) : null;
+    if (addIdx || addIdx === 0) {
+      shortStats.splice(addIdx, 1, {
+        "name": statName,
+        "value": statVal,
+      });
+    } else {
+      shortStats.push({
+        "name": statName,
+        "value": statVal,
+      });
+    }
 
     updateCompBlock(0);
+
+    $("#shortname-input").val("");
+    $("#shortval-input").val("");
   }
+}
+
+function getFindIdx(Arr, Prop, Val) {
+  return Arr.findIndex(function(Arr2) {
+    return Arr2[Prop] === Val;
+  })
 }
 
 function changeWidth() {
@@ -77,13 +125,19 @@ function updateCompBlock(moveSepPoint) {
   let blockWidth = $("#c-block");
   npc.doubleColumns ? blockWidth.addClass('wide') : blockWidth.removeClass('wide');
 
-  let leftDimsArr = [],
+  let dropdownBuffer = [],
+    leftDimsArr = [],
     rightDimsArr = [];
 
   for (let i = 0; i < npc.dimensions.length; i++) {
     let dimTxt = BlockFunctions.DrawDimension(npc, i);
     (i < npc.separationPoint ? leftDimsArr : rightDimsArr).push(dimTxt);
+    dropdownBuffer.push("<option value=", npc.dimensions[i].name, ">", StringFunctions.WordCapitalize(npc.dimensions[i].name), "</option>");
   }
+
+  $("#dim-options").html(dropdownBuffer.join(""));
+  dropdownBuffer.splice(0, 0, "<option value='*'>No Hidden Dimensions</option>");
+  $("#dim-hide").html(dropdownBuffer.join(""));
 
   $("#dimension-left").html(leftDimsArr.join(""));
   $("#dimension-right").html(rightDimsArr.join(""));
@@ -96,8 +150,9 @@ function updateCompBlock(moveSepPoint) {
 
 var BlockFunctions = {
   DrawDimension: function(npc_id, idx) {
+    let dimIDn = "<div id='dim-" + npc_id.dimensions[idx].name + "'>";
     let dataSet = npc_id.dimensions[idx],
-      displayArr = [];
+      displayArr = [dimIDn];
 
     displayArr.push("<svg height='.3125rem' width='100%' class='tapered-rule'><polyline points='0,0 0,3 400,3 400,0'></polyline></svg>");
     displayArr.push("<h3>" + StringFunctions.WordCapitalize(dataSet.name) + "</h3>")
@@ -112,7 +167,7 @@ var BlockFunctions = {
       displayArr.push(this.MakeFeatHTML(dataSet.features[i], firstC, (i === dataSet.features.length - 1)));
     }
 
-    return displayArr.join("");
+    return displayArr.join("") + "</div>";
 
   },
 
@@ -126,7 +181,7 @@ var BlockFunctions = {
 
   MakeFeatHTML: function(features, firstLine, lastLine) {
     if (features.length == 0) return "";
-    let htmlClass = "c-line";
+    let htmlClass = "c-line black";
     htmlClass += lastLine ? " last" : "";
     htmlClass += firstLine ? " first" : "";
     return "<div class=\"" + htmlClass + "\"><div><h4>" + StringFunctions.WordCapitalize(features.name) + "</h4> <br> <p>" + StringFunctions.FormatString(features.description, false) + "</p></div></div>"
@@ -136,45 +191,65 @@ var BlockFunctions = {
 function addFeat(npc_id) {
   let featName = $("#cfeat-name-input").val().toLowerCase(),
     featDesc = $("#cfeat-desc-input").val(),
-    catIdx = $("#dim-options").val() * 1;
+    catIdx = getFindIdx(npc_id.dimensions, "name", $("#dim-options").val());
   let features = npc_id.dimensions[catIdx].features;
 
   if (featDesc && featName) {
-    features.splice(0, 0, {
-      "name": featName,
-      "description": featDesc,
-    });
+    let addIdx = getFindIdx(features, "name", featName) > -1 ? getFindIdx(features, "name", featName) : null;
+    if (addIdx || addIdx === 0) {
+      features.splice(addIdx, 1, {
+        "name": featName,
+        "description": featDesc,
+      });
+    } else {
+      features.push({
+        "name": featName,
+        "description": featDesc,
+      });
+    }
 
     updateCompBlock(0);
+
+    $("#cfeat-name-input").val("");
+    $("#cfeat-desc-input").val("");
   }
 
 }
 
 function addNewDimension(npc_id) {
   let newName = $("#newdim-input").val().toLowerCase(),
-    add = true,
-    dropdownBuffer = [];
+    add = true;
 
-  for (let i = 0; i < npc_id.dimensions.length; i++) {
-    if (npc_id.dimensions[i].name === newName) {
-      alert("The '" + StringFunctions.WordCapitalize(newName) + "' dimension already exists");
-      add = false;
-    };
-    dropdownBuffer.push("<option value=", i, ">", StringFunctions.WordCapitalize(npc_id.dimensions[i].name), "</option>");
-  }
+  if (getFindIdx(npc_id.dimensions, "name", newName) > -1) {
+    alert("The '" + StringFunctions.WordCapitalize(newName) + "' dimension already exists");
+    add = false;
+  };
 
   if (add) {
-    dropdownBuffer.push("<option value=", npc_id.dimensions.length, ">", StringFunctions.WordCapitalize(newName), "</option>");
-    $("#dim-options").html(dropdownBuffer.join(""));
-
     npc_id.dimensions.push({
       "name": newName,
       "stats": [],
       "features": [],
     });
 
+    $("#newdim-input").val("");
+
+    updateCompBlock(0);
   }
 
-  updateCompBlock(0);
-
 };
+
+$(function() {
+  let savedData = localStorage.getItem("npc");
+  if (savedData != undefined)
+    npc = JSON.parse(savedData);
+
+  $.getJSON("js/JSON/companiondata.json?version=1.0", function(json2) {
+    cdata = json2;
+    $.getJSON("js/JSON/statblockdata.json?version=5.0", function(json) {
+      data = json;
+      setInputs();
+    });
+  });
+  updateCompBlock(0);
+});
