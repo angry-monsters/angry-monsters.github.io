@@ -17,8 +17,8 @@
 	--stat-main: hsl(var(--stat-main-hue),80%,32%);
 	--stat-acc: hsl(var(--stat-main-hue),80%,26%);
 	--stat-null: hsl(var(--stat-main-hue),0%,0%);
-	--stat-bord: hsl(var(--stat-bg-hue),70%,50%);
-	--stat-bg: hsl(var(--stat-bg-hue),90%,92%);
+	--stat-bord: hsl(var(--stat-bg-hue),90%,50%);
+	--stat-bg: hsl(var(--stat-bg-hue),72%,92%);
 	--stat-shad: hsl(var(--stat-bg-hue),24%,44%);
 }
 
