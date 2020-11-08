@@ -305,6 +305,7 @@
 #print-block .enctr-block,
 #print-block .c-block {
     background: none;
+    outline: 0.2rem solid var(--stat-null);
 }
 
 #print-block .orange-border,
