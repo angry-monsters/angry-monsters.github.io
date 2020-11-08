@@ -1,11 +1,11 @@
 .com-heading h3 {
   display: inline;
   margin: 0;
-  color: var(--stat-main);
-  font-size: .875rem;
+  color: var(--stat-acc);
+  font-size: 1rem;
   line-height: 1.2rem;
   font-weight: normal;
-  font-style: italic;
+  font-style: normal;
 }
 
 .c-block {
@@ -15,9 +15,9 @@
   display: inline-block;
   vertical-align: top;
   width: 25rem;
-  background: var(--stat-bg);
+  background-color: var(--stat-bg);
   color: var(--stat-null);
-  border: .25rem solid var(--stat-main);
+  border: .25rem solid var(--stat-acc);
   background-size: cover;
   background-position: center;
   /* background-image: url('../dndimages/statblockparch.jpg'); */
@@ -50,21 +50,20 @@
 .c-line p {
   display: inline;
   margin: 0;
-  color: var(--stat-main);
   font-size: .78125rem;
   line-height: 1.2rem;
 }
 
-.c-line.black p {
+.c-line p {
   color: var(--stat-null);
 }
 
 .c-line h4 {
-  color: var(--stat-acc);
+  color: var(--stat-main);
 }
 
-.c-line em strong {
-  color: var(--stat-acc);
+.c-indent strong em {
+  color: var(--stat-main);
 }
 
 .c-line {
@@ -82,9 +81,18 @@
   margin-bottom: .625rem;
 }
 
+.c-indent {
+  display: inline;
+  text-indent: 0;
+  margin: 0;
+  color: var(--stat-null);
+  font-size: .78125rem;
+  line-height: 1.2rem;
+}
+
 .cstats {
   text-align: center;
-  color: var(--stat-main);
+  color: var(--stat-acc);
 }
 
 .cstats>div {
@@ -101,10 +109,28 @@
   font-size: .875rem;
   line-height: 1.2rem;
   text-transform: uppercase;
-  color: var(--stat-acc);
+  color: var(--stat-main);
 }
 
 .cstats p {
   margin: 0 0 .625rem;
   line-height: 1.2rem;
+}
+
+#c-block .tapered-rule {
+    display: block;
+    width: 100%;
+    height: .3125rem;
+    border: none;
+    color: var(--stat-bord);
+    fill: var(--stat-bord);
+    margin-bottom: .2rem;
+}
+
+#c-block .creature-heading h1 {
+  color: var(--stat-acc);
+}
+
+#c-block .scores h4 {
+  color: var(--stat-main);
 }
