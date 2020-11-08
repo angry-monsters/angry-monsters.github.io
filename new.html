@@ -19,12 +19,12 @@
   <meta name="author" content="hokieboat">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.0">
+  <link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.1">
   <link rel="stylesheet" type="text/css" href="css/statblock-page-style.css?version=3.0">
-  <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.0">
+  <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.3">
   <link rel="stylesheet" type="text/css" href="css/libre-baskerville.css">
   <link rel="stylesheet" type="text/css" href="css/noto-sans.css">
-  <link rel="stylesheet" type="text/css" href="css/companion-style.css?version=1.1">
+  <link rel="stylesheet" type="text/css" href="css/companion-style.css?version=2.0">
   <!-- <link rel="stylesheet" type="text/css" href="css/material-components-web.min.css?version=7.0.0">
     <script src="js/material-components-web.min.js?version=7.0.0"></script> -->
   <script src="js/jquery-3.4.1.min.js"></script>
@@ -35,8 +35,8 @@
   <script>
     svg4everybody();
   </script>
-  <script src="js/statblock-script.js?version=6.0.0"></script>
-  <script src="js/companion-script.js?version=1.2.0"></script>
+  <script src="js/statblock-script.js?version=6.1.0"></script>
+  <script src="js/companion-script.js?version=1.3.0"></script>
 </head>
 
 <body class="gridcontainer" id="stat-block-body">
@@ -85,12 +85,13 @@
 
         <button class="menu-btn" onclick="">NPC I/O</button>
         <div class="menudrop">
-          <button onclick="TrySaveFile4()">Save Statblock</button>
-          <button onclick="CompImage()">Save Image</button>
-          <br><br>
           <button onclick="LoadFilePrompt4()">Load Statblock</button>
           <button onclick="ClearCompanion()">New Companion</button>
           <input id="file-upload4" type="file" onChange="TryLoadFile4();" hidden />
+          <br><br>
+          <button onclick="TrySaveFile4()">Save Statblock</button>
+          <button onclick="CompImage()">Save Image</button>
+          <button onclick="TryPrint('c')">Printable Block</button>
         </div>
 
         <button class="menu-btn" onclick="">Main Info</button>
@@ -272,6 +273,7 @@
       <!-- The Actual (Companion) Stat Block -->
       <div id="c-block-wrapper">
         <div id="c-block" class="c-block">
+          <hr class="blue-border" />
           <div class="section-left">
             <div class="creature-heading">
               <h1 id="comp-name">Companion</h1>
@@ -358,9 +360,10 @@
           <div class="section-right">
             <div class="com-heading" id="dimension-right"></div>
           </div> <!-- section right -->
+          <hr class="blue-border bottom" />
         </div> <!-- stat block -->
-        <br>
       </div>
+      <br>
     </div>
 
 </body>

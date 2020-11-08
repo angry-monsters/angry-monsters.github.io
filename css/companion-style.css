@@ -17,7 +17,6 @@
   width: 25rem;
   background-color: var(--stat-bg);
   color: var(--stat-null);
-  border: .25rem solid var(--stat-acc);
   background-size: cover;
   background-position: center;
   background-image: url('../dndimages/statblockparch.jpg');
@@ -25,6 +24,24 @@
   padding: .625rem .625rem 1.25rem;
   box-sizing: border-box;
   font-family: 'Noto Sans', 'Myriad Pro', Calibri, Helvetica, Arial, sans-serif;
+}
+
+.blue-border {
+    display: block;
+    background-color: var(--stat-acc);
+    background-image: url('../dndimages/statblockbar.jpg');
+    background-blend-mode: luminosity;
+    background-size: cover;
+    background-position: center;
+    border: .0625rem solid var(--stat-null);
+    height: .3125rem;
+    padding: 0 .625rem 0;
+    margin: -.625rem -.625rem 0;
+    box-sizing: initial;
+}
+
+.blue-border.bottom {
+    margin: .9375rem -.625rem -1.25rem;
 }
 
 .c-plain {

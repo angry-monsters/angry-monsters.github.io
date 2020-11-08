@@ -302,10 +302,12 @@
 }
 
 #print-block .stat-block,
-#print-block .enctr-block {
+#print-block .enctr-block,
+#print-block .c-block {
     background: none;
 }
 
-#print-block .orange-border {
+#print-block .orange-border,
+#print-block .blue-border {
     display: none;
 }
