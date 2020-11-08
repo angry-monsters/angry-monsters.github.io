@@ -126,6 +126,8 @@
           <label for="cclass-input">Classification: <br>
             <select id="cclass-input" onchange="getNPC();ComFormFunctions.ShowHideOther('cother-class-input',this.id)">
               <option value="hireling" selected="selected">Hireling</option>
+              <option value="ally">Ally</option>
+              <option value="follower">Follower</option>
               <option value="pet">Pet</option>
               <option value="thrall">Thrall</option>
               <option value="*">Other</option>
@@ -172,14 +174,26 @@
             </select>
           </label>
           <br><br>
-          <label for="c1col-input"><input onchange="changeWidth()" id="c1col-input" type="radio" name="columns-input" value="1col" checked> One Column</label>
-          <label for="c2col-input" style="margin-left: .5rem;"><input onchange="changeWidth()" id="c2col-input" type="radio" name="columns-input" value="2col"> Two Columns <em style="font-size:0.8rem;">(use buttons to balance columns)</em></label>
-          <div style="" id="c-separator-button" class="shift-button-wrapper">
-            <button id="cleft-separator-button" type="button" onclick="updateCompBlock(1)"><em>&lt;&lt; shift left</em></button>
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            <button id="cright-separator-button" type="button" onclick="updateCompBlock(-1)"><em>shift right &gt;&gt;</em></button>
+
+          <div class="togWrap">
+            <label class="togInput" for="parch-toggle">
+              <input type="checkbox" onchange="ComFormFunctions.ShowHideParch()" id="parch-toggle" checked />
+              <div class="toggler round"></div>
+            </label>
+            <span>&nbsp;&nbsp;Parchment Texture</span>
+          </div>
+          <br>
+
+          <div class="togWrap">
+            <label class="togInput" for="col-toggle">
+              <input type="checkbox" onchange="changeWidth()" id="col-toggle" />
+              <div class="toggler round"></div>
+            </label>
+            <span>&nbsp;&nbsp;Two Columns&nbsp;&nbsp;</span>
+            <div style="display: inline-block; height: 1.5rem" id="c-separator-button" class="">
+              <button id="cleft-separator-button" type="button" onclick="updateCompBlock(1)">&lt;&lt; shift left</button>
+              <button id="cright-separator-button" type="button" onclick="updateCompBlock(-1)">shift right &gt;&gt;</button>
+            </div>
           </div>
         </div>
 

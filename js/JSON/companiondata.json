@@ -1,6 +1,8 @@
 {
   "classifications": [
     "hireling",
+    "ally",
+    "follower",
     "pet",
     "thrall"
   ]

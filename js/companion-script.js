@@ -34,8 +34,7 @@ var ComStrFunctions = {
 }
 
 function setInputs() {
-  $("#c1col-input").prop("checked", !npc.doubleColumns);
-  $("#c2col-input").prop("checked", npc.doubleColumns);
+  $("#col-toggle").prop("checked", npc.doubleColumns);
   ComFormFunctions.ShowHideSeparatorInput();
 
   $("#cname-input").val(npc.name);
@@ -71,6 +70,10 @@ var ComFormFunctions = {
     for (let i = 0; i < npc.dimensions.length; i++) {
       FormFunctions.ShowHideHtmlElement(("#dim-" + npc.dimensions[i].name), select !== npc.dimensions[i].name);
     }
+  },
+
+  ShowHideParch: function() {
+    $("#c-block").toggleClass("c-plain", !$("#parch-toggle").prop("checked"));
   },
 
   ShowHideSeparatorInput: function() {
@@ -161,7 +164,7 @@ function getFindIdx(Arr, Prop, Val) {
 }
 
 function changeWidth() {
-  npc.doubleColumns = $("#c2col-input").prop("checked");
+  npc.doubleColumns = $("#col-toggle").prop("checked");
   ComFormFunctions.ShowHideSeparatorInput();
   updateCompBlock(0);
 }
@@ -208,6 +211,7 @@ function updateCompBlock(moveSepPoint) {
 
   updateFSList(dropV1);
   ComFormFunctions.MakeDisplayList(null, "dims", false, true);
+  ComFormFunctions.ShowHideParch();
 }
 
 function updateFSList(dropV1) {
