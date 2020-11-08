@@ -76,38 +76,87 @@ var ComFormFunctions = {
   ShowHideSeparatorInput: function() {
     FormFunctions.ShowHideHtmlElement("#c-separator-button", npc.doubleColumns);
   },
+
+  MakeDisplayList: function(arrIdx, arrName, isBlock = false, isDim = false) {
+    let arr = (isDim ? npc.dimensions : npc.dimensions[arrIdx][arrName]),
+    displayArr = [],
+      content = "",
+      arrElement = "#" + arrName + "-input-list";
+    for (let index = 0; index < arr.length; index++) {
+      let element = arr[index],
+      content = "<b>" + StringFunctions.FormatString(element.name, false) + (element.hasOwnProperty("desc") ?
+          ":</b> " + StringFunctions.FormatString(element.desc, isBlock) : "</b>");
+
+      let functionArgs = arrIdx + " ,\"" + arrName + "\", " + index + ", " + isBlock + ", " + isDim,
+        imageHTML = "<svg class='statblock-image' onclick='ComFormFunctions.RemoveDisplayListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use></svg>";
+      if (isBlock)
+        imageHTML += " <svg class='statblock-image' onclick='ComFormFunctions.EditDisplayListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#edit-icon'></use></svg>";
+        imageHTML += " <svg class='statblock-image' onclick='ComFormFunctions.SwapDisplayListItem(" + functionArgs + ", -1)'><use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use></svg>" +
+        " <svg class='statblock-image' onclick='ComFormFunctions.SwapDisplayListItem(" + functionArgs + ", 1)'><use xlink:href='dndimages/icons.svg?version=1.0#down-icon'></use></svg>";
+      displayArr.push("<li> " + imageHTML + " " + content + "</li>");
+    }
+    $(arrElement).html(displayArr.join(""));
+
+    $(arrElement).parent()[arr.length == 0 ? "hide" : "show"]();
+  },
+
+  RemoveDisplayListItem: function(arrIdx, arrName, index, isBlock, isDim) {
+    let arr = (isDim ? npc.dimensions : npc.dimensions[arrIdx][arrName]);
+    arr.splice(index, 1);
+    if (isDim) $("#dim-options").val("");
+    updateCompBlock(0);
+    this.MakeDisplayList(arrIdx, arrName, isBlock, isDim);
+  },
+
+  EditDisplayListItem: function(arrIdx, arrName, index, isBlock, isDim) {
+    let arr = npc.dimensions[arrIdx][arrName][index];
+    $("#"+arrName+"-name-input").val(arr.name);
+    $("#"+arrName+"-desc-input").val(arr.desc);
+  },
+
+  SwapDisplayListItem: function(arrIdx, arrName, index, isBlock, isDim, swap) {
+    let arr = (isDim ? npc.dimensions : npc.dimensions[arrIdx][arrName]);
+    if (index + swap < 0 || index + swap >= arr.length) return;
+    let temp = arr[index + swap];
+    arr[index + swap] = arr[index];
+    arr[index] = temp;
+    updateCompBlock(0);
+    this.MakeDisplayList(arrIdx, arrName, isBlock, isDim);
+  },
 };
 
 function addStat(npc_id) {
-  let statName = $("#shortname-input").val().toLowerCase(),
-    statVal = $("#shortval-input").val(),
-    catIdx = getFindIdx(npc_id.dimensions, "name", $("#dim-options").val());
-  let shortStats = npc_id.dimensions[catIdx].stats;
+  if ($("#dim-options").val()) {
+    let statName = $("#stats-name-input").val(),
+      statVal = $("#stats-desc-input").val(),
+      catIdx = getFindIdx(npc_id.dimensions, "name", $("#dim-options").val());
+    let shortStats = npc_id.dimensions[catIdx].stats;
 
-  if (statVal && statName) {
-    let addIdx = getFindIdx(shortStats, "name", statName) > -1 ? getFindIdx(shortStats, "name", statName) : null;
-    if (addIdx || addIdx === 0) {
-      shortStats.splice(addIdx, 1, {
-        "name": statName,
-        "value": statVal,
-      });
-    } else {
-      shortStats.push({
-        "name": statName,
-        "value": statVal,
-      });
+    if (statVal && statName) {
+      let addIdx = getFindIdx(shortStats, "name", statName) > -1 ? getFindIdx(shortStats, "name", statName) : null;
+      if (addIdx || addIdx === 0) {
+        shortStats.splice(addIdx, 1, {
+          "name": statName,
+          "desc": statVal,
+        });
+      } else {
+        shortStats.push({
+          "name": statName,
+          "desc": statVal,
+        });
+      }
+
+      updateCompBlock(0);
+
+      $("#stats-name-input").val("");
+      $("#stats-desc-input").val("");
     }
-
-    updateCompBlock(0);
-
-    $("#shortname-input").val("");
-    $("#shortval-input").val("");
   }
 }
 
 function getFindIdx(Arr, Prop, Val) {
   return Arr.findIndex(function(Arr2) {
-    return Arr2[Prop] === Val;
+    return Arr2[Prop].toLowerCase() === Val.toLowerCase();
   })
 }
 
@@ -134,12 +183,20 @@ function updateCompBlock(moveSepPoint) {
   for (let i = 0; i < npc.dimensions.length; i++) {
     let dimTxt = BlockFunctions.DrawDimension(npc, i);
     (i < npc.separationPoint ? leftDimsArr : rightDimsArr).push(dimTxt);
-    dropdownBuffer.push("<option value=", npc.dimensions[i].name, ">", StringFunctions.WordCapitalize(npc.dimensions[i].name), "</option>");
+    dropdownBuffer.push("<option value='" + npc.dimensions[i].name + "'>" + npc.dimensions[i].name + "</option>");
   }
-
+  let dropV1 = $("#dim-options").val();
   $("#dim-options").html(dropdownBuffer.join(""));
+  if (dropV1) {
+    $("#dim-options").val(dropV1)
+  } else {
+    dropV1 = $("#dim-options").val();
+  };
+
   dropdownBuffer.splice(0, 0, "<option value='*'>No Hidden Dimensions</option>");
+  let dropV2 = $("#dim-hide").val();
   $("#dim-hide").html(dropdownBuffer.join(""));
+  if (dropV2) $("#dim-hide").val(dropV2);
 
   $("#dimension-left").html(leftDimsArr.join(""));
   $("#dimension-right").html(rightDimsArr.join(""));
@@ -147,7 +204,18 @@ function updateCompBlock(moveSepPoint) {
   $("#comp-name").html(npc.name);
   $("#comp-tagline").html(ComStrFunctions.WriteSubheader(npc));
 
-  CompData.SaveToLocalStorage;
+  CompData.SaveToLocalStorage();
+
+  updateFSList(dropV1);
+  ComFormFunctions.MakeDisplayList(null, "dims", false, true);
+}
+
+function updateFSList(dropV1) {
+  if (dropV1) {
+    let catIdx = getFindIdx(npc.dimensions, "name", dropV1);
+    ComFormFunctions.MakeDisplayList(catIdx, "stats", true);
+    ComFormFunctions.MakeDisplayList(catIdx, "features", true);
+  }
 }
 
 var BlockFunctions = {
@@ -157,7 +225,7 @@ var BlockFunctions = {
       displayArr = [dimIDn];
 
     displayArr.push("<svg height='.3125rem' width='100%' class='tapered-rule'><polyline points='0,0 0,3 400,3 400,0'></polyline></svg>");
-    displayArr.push("<h3>" + StringFunctions.WordCapitalize(dataSet.name) + "</h3>")
+    displayArr.push("<h3>" + dataSet.name + "</h3>")
 
     for (let i = 0; i < dataSet.stats.length; i++) {
       let lastC = ((i === dataSet.stats.length - 1) && (dataSet.features.length < 1));
@@ -178,52 +246,53 @@ var BlockFunctions = {
     let htmlClass = "c-line";
     htmlClass += lastLine ? " last" : "";
     htmlClass += firstLine ? " first" : "";
-    return "<div class=\"" + htmlClass + "\"><div><h4>" + StringFunctions.WordCapitalize(stats.name) + "</h4> <p>" + StringFunctions.FormatString(stats.value, false) + "</p></div></div>"
+    return "<div class=\"" + htmlClass + "\"><h4>" + StringFunctions.WordCapitalize(stats.name) + "</h4> <p>" + StringFunctions.FormatString(stats.desc, false) + "</p></div>"
   },
 
   MakeFeatHTML: function(features, firstLine, lastLine) {
     if (features.length == 0) return "";
-    let htmlClass = "c-line black";
+    let htmlClass = "c-line";
     htmlClass += lastLine ? " last" : "";
     htmlClass += firstLine ? " first" : "";
-    return "<div class=\"" + htmlClass + "\"><div><h4>" + StringFunctions.WordCapitalize(features.name) + "</h4> <br> <p>" + StringFunctions.FormatString(features.description, false) + "</p></div></div>"
+    return "<div class=\"" + htmlClass + "\"><h4>" + StringFunctions.WordCapitalize(features.name) + "</h4><div class='c-indent'><div>" + StringFunctions.FormatString(features.desc, false, true) + "</div></div></div>"
   },
 }
 
 function addFeat(npc_id) {
-  let featName = $("#cfeat-name-input").val().toLowerCase(),
-    featDesc = $("#cfeat-desc-input").val(),
-    catIdx = getFindIdx(npc_id.dimensions, "name", $("#dim-options").val());
-  let features = npc_id.dimensions[catIdx].features;
+  if ($("#dim-options").val()) {
+    let featName = $("#features-name-input").val(),
+      featDesc = $("#features-desc-input").val(),
+      catIdx = getFindIdx(npc_id.dimensions, "name", $("#dim-options").val());
+    let features = npc_id.dimensions[catIdx].features;
 
-  if (featDesc && featName) {
-    let addIdx = getFindIdx(features, "name", featName) > -1 ? getFindIdx(features, "name", featName) : null;
-    if (addIdx || addIdx === 0) {
-      features.splice(addIdx, 1, {
-        "name": featName,
-        "description": featDesc,
-      });
-    } else {
-      features.push({
-        "name": featName,
-        "description": featDesc,
-      });
+    if (featDesc && featName) {
+      let addIdx = getFindIdx(features, "name", featName) > -1 ? getFindIdx(features, "name", featName) : null;
+      if (addIdx || addIdx === 0) {
+        features.splice(addIdx, 1, {
+          "name": featName,
+          "desc": featDesc,
+        });
+      } else {
+        features.push({
+          "name": featName,
+          "desc": featDesc,
+        });
+      }
+
+      updateCompBlock(0);
+
+      $("#features-name-input").val("");
+      $("#features-desc-input").val("");
     }
-
-    updateCompBlock(0);
-
-    $("#cfeat-name-input").val("");
-    $("#cfeat-desc-input").val("");
   }
-
 }
 
 function addNewDimension(npc_id) {
-  let newName = $("#newdim-input").val().toLowerCase(),
+  let newName = $("#newdim-input").val(),
     add = true;
 
   if (getFindIdx(npc_id.dimensions, "name", newName) > -1) {
-    alert("The '" + StringFunctions.WordCapitalize(newName) + "' dimension already exists");
+    alert("The '" + newName + "' dimension already exists");
     add = false;
   };
 
