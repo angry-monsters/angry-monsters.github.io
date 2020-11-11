@@ -8,6 +8,13 @@ var npc = {
   tag: "",
   tier: "apprentice",
   classification: "hireling",
+  strPoints: 1,
+  dexPoints: 1,
+  conPoints: 1,
+  intPoints: 1,
+  wisPoints: 1,
+  chaPoints: 1,
+  savingThrow: "*",
 };
 
 var cdata;
@@ -23,6 +30,14 @@ function getNPC() {
     npc.classification = $("#cother-class-input").val();
   npc.tier = $("#ctier-input").val();
   npc.tag = $("#ctag-input").val().trim();
+
+  npc.strPoints = $("#str-c").val()*1;
+  npc.dexPoints = $("#dex-c").val()*1;
+  npc.conPoints = $("#con-c").val()*1;
+  npc.intPoints = $("#int-c").val()*1;
+  npc.wisPoints = $("#wis-c").val()*1;
+  npc.chaPoints = $("#cha-c").val()*1;
+  npc.savingThrow = $("#csave-input").val();
 
   updateCompBlock(0);
 }
@@ -57,6 +72,14 @@ function setInputs() {
     $("#cother-class-input").val(npc.classification);
   }
   ComFormFunctions.ShowHideOther('cother-class-input', 'cclass-input');
+
+   $("#str-c").val(npc.strPoints);
+   $("#dex-c").val(npc.dexPoints);
+   $("#con-c").val(npc.conPoints);
+   $("#int-c").val(npc.intPoints);
+   $("#wis-c").val(npc.wisPoints);
+   $("#cha-c").val(npc.chaPoints);
+   $("#csave-input").val(npc.savingThrow);
 
   updateCompBlock(0);
 }
@@ -208,6 +231,20 @@ function updateCompBlock(moveSepPoint) {
   $("#comp-name").html(npc.name);
   $("#comp-tagline").html(ComStrFunctions.WriteSubheader(npc));
 
+  let setPtsC = (id, pts) =>
+    $(id).html(StringFunctions.BonusFormat(pts));
+  setPtsC("#strptsc", npc.strPoints);
+  setPtsC("#dexptsc", npc.dexPoints);
+  setPtsC("#conptsc", npc.conPoints);
+  setPtsC("#intptsc", npc.intPoints);
+  setPtsC("#wisptsc", npc.wisPoints);
+  setPtsC("#chaptsc", npc.chaPoints);
+
+  if (npc.savingThrow !== "*") {
+    let oldPts = npc[npc.savingThrow + "Points"];
+    $("#"+npc.savingThrow + "ptsc").html(StringFunctions.BonusFormat(oldPts) + "|" + StringFunctions.BonusFormat((oldPts + data.tiers[npc.tier].prof)));
+  }
+
   CompData.SaveToLocalStorage();
 
   updateFSList(dropV1);
@@ -339,6 +376,13 @@ function ClearCompanion() {
     tag: "",
     tier: "apprentice",
     classification: "hireling",
+    strPoints: 1,
+    dexPoints: 1,
+    conPoints: 1,
+    intPoints: 1,
+    wisPoints: 1,
+    chaPoints: 1,
+    savingThrow: "*",
   };
   setInputs();
 }

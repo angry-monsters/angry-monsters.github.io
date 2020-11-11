@@ -198,12 +198,43 @@
           </div>
         </div>
 
-        <button class="menu-btn" onclick="">Abilities, Saves, and Proficiences</button>
-        <div class="menudrop">
+        <button class="menu-btn" onclick="">Ability Modifiers and Saves</button>
+        <div class="menudrop" style="padding-left:0">
+          <label  style="padding-left:1.5rem" for="csave-input">Saving Throw: <br>
+            <select id="csave-input" onchange="getNPC()">
+              <option value="*" selected="selected">No Save</option>
+              <option value="str">Strength</option>
+              <option value="dex">Dexterity</option>
+              <option value="con">Constitution</option>
+              <option value="int">Intelligence</option>
+              <option value="wis">Wisdom</option>
+              <option value="cha">Charisma</option>
+            </select>
+          </label>
+          <br><br>
 
+          <table id="npc-stats-form" class="cen_td2">
+            <tr>
+              <td><label for="str-c">STR: <br><input type="number" id="str-c" min="-5" max="9" value="1" onchange="getNPC()"></label></td>
+              <td><label for="dex-c">DEX: <br><input type="number" id="dex-c" min="-5" max="9" value="1" onchange="getNPC()"></label></td>
+              <td><label for="con-c">CON: <br><input type="number" id="con-c" min="-5" max="9" value="1" onchange="getNPC()"></label></td>
+              <td><label for="int-c">INT: <br><input type="number" id="int-c" min="-5" max="9" value="1" onchange="getNPC()"></label></td>
+              <td><label for="wis-c">WIS: <br><input type="number" id="wis-c" min="-5" max="9" value="1" onchange="getNPC()"></label></td>
+              <td><label for="cha-c">CHA: <br><input type="number" id="cha-c" min="-5" max="9" value="1" onchange="getNPC()"></label></td>
+            </tr>
+          </table>
         </div>
 
-        <button class="menu-btn" onclick="">Combat Statistics</button>
+        <button class="menu-btn" onclick="">Proficiences</button>
+        <div class="menudrop">
+
+          <button class="menu-btn" onclick="">Ability Mods</button>
+          <div class="menudrop submenu-end">
+
+          </div>
+        </div>
+
+        <button class="menu-btn" onclick="">Base Combat Statistics</button>
         <div class="menudrop">
 
         </div>
@@ -288,27 +319,27 @@
             <div class="scores">
               <div class="scores-strength">
                 <h4>STR</h4>
-                <p id=""></p>
+                <p id="strptsc"></p>
               </div> <!-- scores strength -->
               <div class="scores-dexterity">
                 <h4>DEX</h4>
-                <p id=""></p>
+                <p id="dexptsc"></p>
               </div> <!-- scores dexterity -->
               <div class="scores-constitution">
                 <h4>CON</h4>
-                <p id=""></p>
+                <p id="conptsc"></p>
               </div> <!-- scores constitution -->
               <div class="scores-intelligence">
                 <h4>INT</h4>
-                <p id=""></p>
+                <p id="intptsc"></p>
               </div> <!-- scores intelligence -->
               <div class="scores-wisdom">
                 <h4>WIS</h4>
-                <p id=""></p>
+                <p id="wisptsc"></p>
               </div> <!-- scores wisdom -->
               <div class="scores-charisma">
                 <h4>CHA</h4>
-                <p id=""></p>
+                <p id="chaptsc"></p>
               </div>
             </div>
             <div class="c-line first">
