@@ -29,3 +29,4 @@ tooltips on hover
 shortened name
 random generator
 5emm features?
+select2 and mulitselect dropdowns
