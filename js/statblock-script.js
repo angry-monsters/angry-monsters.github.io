@@ -2283,7 +2283,7 @@ var StringFunctions = {
     return speedsDisplayArr.join(", ")
   },
 
-  GetSenses: function(mon_id) {
+  GetSenses: function(mon_id, npcType = false) {
     let sensesDisplayArr = [];
     if (mon_id.blindsight > 0) sensesDisplayArr.push("blindsight " + mon_id.blindsight + " ft." + (mon_id.blind ? " (blind beyond this radius)" : ""));
     if (mon_id.darkvision > 0) sensesDisplayArr.push("darkvision " + mon_id.darkvision + " ft.");
@@ -2295,7 +2295,7 @@ var StringFunctions = {
       pp = 10 + MathFunctions.PointsToBonus(mon_id.wisPoints);
     if (ppData != null)
       pp += data.tiers[mon_id.tier].prof * (ppData.hasOwnProperty("note") ? 2 : 1);
-    sensesDisplayArr.push("passive Perception " + pp);
+    if (!npcType) sensesDisplayArr.push("passive Perception " + pp);
     return sensesDisplayArr.join(", ");
   },
 

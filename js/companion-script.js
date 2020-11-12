@@ -15,6 +15,13 @@ var npc = {
   wisPoints: 1,
   chaPoints: 1,
   savingThrow: "*",
+  blindsight: 0,
+  blind: false,
+  darkvision: 0,
+  tremorsense: 0,
+  truesight: 0,
+  telepathy: 0,
+  skills: [],
 };
 
 var cdata;
@@ -31,13 +38,19 @@ function getNPC() {
   npc.tier = $("#ctier-input").val();
   npc.tag = $("#ctag-input").val().trim();
 
-  npc.strPoints = $("#str-c").val()*1;
-  npc.dexPoints = $("#dex-c").val()*1;
-  npc.conPoints = $("#con-c").val()*1;
-  npc.intPoints = $("#int-c").val()*1;
-  npc.wisPoints = $("#wis-c").val()*1;
-  npc.chaPoints = $("#cha-c").val()*1;
+  npc.strPoints = $("#str-c").val() * 1;
+  npc.dexPoints = $("#dex-c").val() * 1;
+  npc.conPoints = $("#con-c").val() * 1;
+  npc.intPoints = $("#int-c").val() * 1;
+  npc.wisPoints = $("#wis-c").val() * 1;
+  npc.chaPoints = $("#cha-c").val() * 1;
   npc.savingThrow = $("#csave-input").val();
+
+  npc.blindsight = $("#blindsight-inputc").val() * 1;
+  npc.blind = $("#blindness-inputc").prop("checked");
+  npc.darkvision = $("#darkvision-inputc").val() * 1;
+  npc.tremorsense = $("#tremorsense-inputc").val() * 1;
+  npc.truesight = $("#truesight-inputc").val() * 1;
 
   updateCompBlock(0);
 }
@@ -45,6 +58,14 @@ function getNPC() {
 var ComStrFunctions = {
   WriteSubheader: function(npc_id) {
     return StringFunctions.StringCapitalize(npc_id.size) + " " + npc_id.type + (npc_id.tag != "" ? " (" + npc_id.tag + ")" : "") + ", " + npc_id.tier + " tier " + npc_id.classification;
+  },
+
+  GetPassive: function(npc_id, skillName, skillAbility) {
+    let ppData = ArrayFunctions.FindInList(npc_id.skills, skillName),
+      pp = 10 + npc_id[skillAbility + "Points"];
+    if (ppData != null)
+      pp += data.tiers[npc_id.tier].prof * (ppData.hasOwnProperty("note") ? 2 : 1);
+    return pp;
   },
 }
 
@@ -73,13 +94,20 @@ function setInputs() {
   }
   ComFormFunctions.ShowHideOther('cother-class-input', 'cclass-input');
 
-   $("#str-c").val(npc.strPoints);
-   $("#dex-c").val(npc.dexPoints);
-   $("#con-c").val(npc.conPoints);
-   $("#int-c").val(npc.intPoints);
-   $("#wis-c").val(npc.wisPoints);
-   $("#cha-c").val(npc.chaPoints);
-   $("#csave-input").val(npc.savingThrow);
+  $("#str-c").val(npc.strPoints);
+  $("#dex-c").val(npc.dexPoints);
+  $("#con-c").val(npc.conPoints);
+  $("#int-c").val(npc.intPoints);
+  $("#wis-c").val(npc.wisPoints);
+  $("#cha-c").val(npc.chaPoints);
+  $("#csave-input").val(npc.savingThrow);
+
+  $("#blindsight-inputc").val(npc.blindsight);
+  $("#blindness-inputc").prop("checked", npc.blind);
+  ComFormFunctions.ShowHideTrueFalse('blind-toggle', npc.blindsight > 0)
+  $("#darkvision-inputc").val(npc.darkvision);
+  $("#tremorsense-inputc").val(npc.tremorsense);
+  $("#truesight-inputc").val(npc.truesight);
 
   updateCompBlock(0);
 }
@@ -87,6 +115,10 @@ function setInputs() {
 var ComFormFunctions = {
   ShowHideOther: function(other, select, checker = "*") {
     FormFunctions.ShowHideHtmlElement(("#" + other), $("#" + select).val() === checker);
+  },
+
+  ShowHideTrueFalse: function(inputID, checkCond) {
+    FormFunctions.ShowHideHtmlElement(("#" + inputID), checkCond);
   },
 
   ShowHideSection: function(select) {
@@ -106,19 +138,19 @@ var ComFormFunctions = {
 
   MakeDisplayList: function(arrIdx, arrName, isBlock = false, isDim = false) {
     let arr = (isDim ? npc.dimensions : npc.dimensions[arrIdx][arrName]),
-    displayArr = [],
+      displayArr = [],
       content = "",
       arrElement = "#" + arrName + "-input-list";
     for (let index = 0; index < arr.length; index++) {
       let element = arr[index],
-      content = "<b>" + StringFunctions.FormatString(element.name, false) + (element.hasOwnProperty("desc") ?
+        content = "<b>" + StringFunctions.FormatString(element.name, false) + (element.hasOwnProperty("desc") ?
           ":</b> " + StringFunctions.FormatString(element.desc, isBlock) : "</b>");
 
       let functionArgs = arrIdx + " ,\"" + arrName + "\", " + index + ", " + isBlock + ", " + isDim,
         imageHTML = "<svg class='statblock-image' onclick='ComFormFunctions.RemoveDisplayListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use></svg>";
       if (isBlock)
         imageHTML += " <svg class='statblock-image' onclick='ComFormFunctions.EditDisplayListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#edit-icon'></use></svg>";
-        imageHTML += " <svg class='statblock-image' onclick='ComFormFunctions.SwapDisplayListItem(" + functionArgs + ", -1)'><use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use></svg>" +
+      imageHTML += " <svg class='statblock-image' onclick='ComFormFunctions.SwapDisplayListItem(" + functionArgs + ", -1)'><use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use></svg>" +
         " <svg class='statblock-image' onclick='ComFormFunctions.SwapDisplayListItem(" + functionArgs + ", 1)'><use xlink:href='dndimages/icons.svg?version=1.0#down-icon'></use></svg>";
       displayArr.push("<li> " + imageHTML + " " + content + "</li>");
     }
@@ -137,8 +169,8 @@ var ComFormFunctions = {
 
   EditDisplayListItem: function(arrIdx, arrName, index, isBlock, isDim) {
     let arr = npc.dimensions[arrIdx][arrName][index];
-    $("#"+arrName+"-name-input").val(arr.name);
-    $("#"+arrName+"-desc-input").val(arr.desc);
+    $("#" + arrName + "-name-input").val(arr.name);
+    $("#" + arrName + "-desc-input").val(arr.desc);
   },
 
   SwapDisplayListItem: function(arrIdx, arrName, index, isBlock, isDim, swap) {
@@ -242,8 +274,22 @@ function updateCompBlock(moveSepPoint) {
 
   if (npc.savingThrow !== "*") {
     let oldPts = npc[npc.savingThrow + "Points"];
-    $("#"+npc.savingThrow + "ptsc").html(StringFunctions.BonusFormat(oldPts) + "|" + StringFunctions.BonusFormat((oldPts + data.tiers[npc.tier].prof)));
+    $("#" + npc.savingThrow + "ptsc").html(StringFunctions.BonusFormat(oldPts) + "|" + StringFunctions.BonusFormat((oldPts + data.tiers[npc.tier].prof)));
   }
+
+  let absSavesProfsArr = [],
+  aspFirst = true;
+
+  if (npc.skills.length !== 0) {
+    aspFirst = false;
+  }
+  if (StringFunctions.GetSenses(npc, true) !== "") {
+    absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Senses',StringFunctions.GetSenses(npc, true),aspFirst,false));
+    aspFirst = false;
+  }
+  absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Passive Perception',ComStrFunctions.GetPassive(npc, "Perception", "wis"),aspFirst,true));
+
+  $("#dimension-sensesProfs").html(absSavesProfsArr.join(""));
 
   CompData.SaveToLocalStorage();
 
@@ -281,6 +327,13 @@ var BlockFunctions = {
 
     return displayArr.join("") + "</div>";
 
+  },
+
+  MakePieceHTML: function(pieceName, pieceText, firstLine, lastLine) {
+    let htmlClass = "c-line";
+    htmlClass += lastLine ? " last" : "";
+    htmlClass += firstLine ? " first" : "";
+    return "<div class=\"" + htmlClass + "\"><h4>" + pieceName + "</h4> <p>" + pieceText + "</p></div>"
   },
 
   MakeStatHTML: function(stats, firstLine, lastLine) {
@@ -383,6 +436,13 @@ function ClearCompanion() {
     wisPoints: 1,
     chaPoints: 1,
     savingThrow: "*",
+    blindsight: 0,
+    blind: false,
+    darkvision: 0,
+    tremorsense: 0,
+    truesight: 0,
+    telepathy: 0,
+    skills: [],
   };
   setInputs();
 }

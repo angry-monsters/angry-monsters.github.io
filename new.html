@@ -80,7 +80,7 @@
     <div id="mon-opts-div" style="grid-column-end:2;overflow:inherit;text-align:center">
       <br>
       <h2>Angry Companion Design</h2>
-      <p>Read the original article from <a target="_blank" href="https://www.patreon.com/posts/how-to-stat-and-43506517">The Angry GM</a></p>
+      <p>Read the original article from <a target="_blank" href="https://theangrygm.com/how-to-stat-friends-part-2/">The Angry GM</a></p>
       <div class="menucontainer">
 
         <button class="menu-btn" onclick="">NPC I/O</button>
@@ -200,7 +200,7 @@
 
         <button class="menu-btn" onclick="">Ability Modifiers and Saves</button>
         <div class="menudrop" style="padding-left:0">
-          <label  style="padding-left:1.5rem" for="csave-input">Saving Throw: <br>
+          <label style="padding-left:1.5rem" for="csave-input">Saving Throw: <br>
             <select id="csave-input" onchange="getNPC()">
               <option value="*" selected="selected">No Save</option>
               <option value="str">Strength</option>
@@ -225,13 +225,122 @@
           </table>
         </div>
 
-        <button class="menu-btn" onclick="">Proficiences</button>
-        <div class="menudrop">
+        <button class="menu-btn" onclick="">Proficiences and Senses</button>
+        <div class="menudrop" style="padding-top:0">
 
-          <button class="menu-btn" onclick="">Ability Mods</button>
-          <div class="menudrop submenu-end">
-
+          <button class="menu-btn" onclick="">Senses</button>
+          <div class="menudrop">
+            <table>
+              <tr>
+                <td style="padding-top:0;padding-bottom:0;vertical-align: middle;">
+                  <div class="togWrap">
+                    <label for="blindsight-inputc">Blindsight: <br><input type="number" id="blindsight-inputc" min="0" max="995" step="5" value="0" onchange="getNPC();ComFormFunctions.ShowHideTrueFalse('blind-toggle', this.value > 0)"> ft.</label>
+                    <span>&nbsp;&nbsp;&nbsp;</span>
+                    <div class="tab-wrap" id="blind-toggle">
+                      <span>Blind beyond?</span>
+                      <label class="togInput" for="blindness-inputc">
+                        <input type="checkbox" onchange="getNPC()" id="blindness-inputc" />
+                        <div class="toggler round"></div>
+                      </label>
+                    </div>
+                  </div>
+                </td>
+                <td style="text-align: center;vertical-align: middle;"><label for="darkvision-inputc">Darkvision: <br><input type="number" id="darkvision-inputc" onchange="getNPC()" min="0" max="995" step="5" value="0"> ft.</label></td>
+              </tr>
+            </table>
+            <br>
+            <table>
+              <tr>
+                <td style="vertical-align: middle;"><label for="tremorsense-inputc">Tremorsense: <br><input type="number" id="tremorsense-inputc" onchange="getNPC()" min="0" max="995" step="5" value="0"> ft.</label></td>
+                <td style="text-align: center;vertical-align: middle;"><label for="truesight-inputc">Truesight: <br><input type="number" id="truesight-inputc" onchange="getNPC()" min="0" max="995" step="5" value="0"> ft.</label></td>
+              </tr>
+            </table>
           </div>
+
+          <button class="menu-btn" onclick="">Lists</button>
+          <div class="menudrop submenu-end">
+            <table class="">
+              <tr>
+                <td colspan="1">
+                  Saving Throws:
+                  <div id="sthrows-input-section">
+                    <ul id="sthrows-input-list" class="statblock-list"></ul>
+                  </div>
+                </td>
+                <td colspan="2">
+                  Skills:
+                  <div id="skills-input-section">
+                    <ul id="skills-input-list" class="statblock-list"></ul>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3">
+                  Languages:
+                  <div id="languages-input-section">
+                    <ul id="languages-input-list" class="statblock-list"></ul>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <br><br>
+
+          <label for="skills-input">Skills:</label><br>
+          <select id="skills-input">
+            <option value="acrobatics">Acrobatics</option>
+            <option value="animal Handling">Animal Handling</option>
+            <option value="arcana">Arcana</option>
+            <option value="athletics">Athletics</option>
+            <option value="deception">Deception</option>
+            <option value="history">History</option>
+            <option value="insight">Insight</option>
+            <option value="intimidation">Intimidation</option>
+            <option value="investigation">Investigation</option>
+            <option value="medicine">Medicine</option>
+            <option value="nature">Nature</option>
+            <option value="perception">Perception</option>
+            <option value="performance">Performance</option>
+            <option value="persuasion">Persuasion</option>
+            <option value="religion">Religion</option>
+            <option value="sleight of Hand">Sleight of Hand</option>
+            <option value="stealth">Stealth</option>
+            <option value="survival">Survival</option>
+          </select>
+          <button type="button" onclick="InputFunctions.AddSkillInput()">Proficient</button>
+          <button type="button" onclick="InputFunctions.AddSkillInput(' (expert)')">Expert</button>
+          <br><br>
+          <label for="languages-input">Languages:<br>
+            <select id="languages-input" onchange="FormFunctions.ShowHideLanguageOther()">
+              <option value="All">All</option>
+              <option value="Abyssal">Abyssal</option>
+              <option value="Aquan">Aquan</option>
+              <option value="Auran">Auran</option>
+              <option value="Celestial">Celestial</option>
+              <option value="Common">Common</option>
+              <option value="Deep Speech">Deep Speech</option>
+              <option value="Draconic">Draconic</option>
+              <option value="Dwarvish">Dwarvish</option>
+              <option value="Elvish">Elvish</option>
+              <option value="Giant">Giant</option>
+              <option value="Gnomish">Gnomish</option>
+              <option value="Goblin">Goblin</option>
+              <option value="Halfling">Halfling</option>
+              <option value="Ignan">Ignan</option>
+              <option value="Infernal">Infernal</option>
+              <option value="Orc">Orc</option>
+              <option value="Primordial">Primordial</option>
+              <option value="Sylvan">Sylvan</option>
+              <option value="Terran">Terran</option>
+              <option value="Undercommon">Undercommon</option>
+              <option value="*">Other</option>
+            </select>
+          </label>
+          <button type="button" onclick="InputFunctions.AddLanguageInput()">Proficient</button>
+          <label for="telepathy-input" style="margin-left: .5rem;">Telepathy:<br><input type="number" id="telepathy-input" min="0" max="995" step="5" value="0"> ft.</label>
+          <br>
+          <input id="other-language-input" type="text" value="">
+
         </div>
 
         <button class="menu-btn" onclick="">Base Combat Statistics</button>
@@ -258,7 +367,7 @@
           </div>
           <br><br>
 
-          <label for="dim-options">Select Category: <br>
+          <label for="dim-options">Select Dimension: <br>
             <select id="dim-options" onchange="updateFSList(this.value)"></select>
           </label>
           <br><br>
@@ -342,18 +451,7 @@
                 <p id="chaptsc"></p>
               </div>
             </div>
-            <div class="c-line first">
-              <h4>Proficiencies</h4>
-              <p id=""></p>
-            </div> <!-- property line -->
-            <div class="c-line">
-              <h4>Senses</h4>
-              <p id=""></p>
-            </div> <!-- property line -->
-            <div class="c-line last">
-              <h4>Passive Perception</h4>
-              <p id=""></p>
-            </div> <!-- property line -->
+            <div class="" id="dimension-sensesProfs"></div>
             <svg height=".3125rem" width="100%" class="tapered-rule">
               <polyline points="0,0 0,3 400,3 400,0"></polyline>
             </svg>
