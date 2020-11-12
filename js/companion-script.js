@@ -277,17 +277,15 @@ function updateCompBlock(moveSepPoint) {
     $("#" + npc.savingThrow + "ptsc").html(StringFunctions.BonusFormat(oldPts) + "|" + StringFunctions.BonusFormat((oldPts + data.tiers[npc.tier].prof)));
   }
 
-  let absSavesProfsArr = [],
-  aspFirst = true;
+  let absSavesProfsArr = [];
 
   if (npc.skills.length !== 0) {
-    aspFirst = false;
+
   }
   if (StringFunctions.GetSenses(npc, true) !== "") {
-    absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Senses',StringFunctions.GetSenses(npc, true),aspFirst,false));
-    aspFirst = false;
+    absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Senses',StringFunctions.GetSenses(npc, true)));
   }
-  absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Passive Perception',ComStrFunctions.GetPassive(npc, "Perception", "wis"),aspFirst,true));
+  absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Passive Perception',ComStrFunctions.GetPassive(npc, "Perception", "wis"),true));
 
   $("#dimension-sensesProfs").html(absSavesProfsArr.join(""));
 
@@ -329,10 +327,9 @@ var BlockFunctions = {
 
   },
 
-  MakePieceHTML: function(pieceName, pieceText, firstLine, lastLine) {
+  MakePieceHTML: function(pieceName, pieceText, lastLine = false) {
     let htmlClass = "c-line";
     htmlClass += lastLine ? " last" : "";
-    htmlClass += firstLine ? " first" : "";
     return "<div class=\"" + htmlClass + "\"><h4>" + pieceName + "</h4> <p>" + pieceText + "</p></div>"
   },
 
