@@ -226,10 +226,10 @@
         </div>
 
         <button class="menu-btn" onclick="">Proficiences and Senses</button>
-        <div class="menudrop" style="padding-top:0">
+        <div class="menudrop" style="padding-top:0;padding-bottom:0">
 
           <button class="menu-btn" onclick="">Senses</button>
-          <div class="menudrop">
+          <div class="menudrop submenu-end">
             <table>
               <tr>
                 <td style="padding-top:0;padding-bottom:0;vertical-align: middle;">
@@ -256,38 +256,10 @@
               </tr>
             </table>
           </div>
-
-          <button class="menu-btn" onclick="">Lists</button>
-          <div class="menudrop submenu-end">
-            <table class="">
-              <tr>
-                <td colspan="1">
-                  Saving Throws:
-                  <div id="sthrows-input-section">
-                    <ul id="sthrows-input-list" class="statblock-list"></ul>
-                  </div>
-                </td>
-                <td colspan="2">
-                  Skills:
-                  <div id="skills-input-section">
-                    <ul id="skills-input-list" class="statblock-list"></ul>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td colspan="3">
-                  Languages:
-                  <div id="languages-input-section">
-                    <ul id="languages-input-list" class="statblock-list"></ul>
-                  </div>
-                </td>
-              </tr>
-            </table>
-          </div>
           <br><br>
 
-          <label for="skills-input">Skills:</label><br>
-          <select id="skills-input">
+          <label for="skills-inputc">Skills:</label><br>
+          <select id="skills-inputc">
             <option value="acrobatics">Acrobatics</option>
             <option value="animal Handling">Animal Handling</option>
             <option value="arcana">Arcana</option>
@@ -307,8 +279,8 @@
             <option value="stealth">Stealth</option>
             <option value="survival">Survival</option>
           </select>
-          <button type="button" onclick="InputFunctions.AddSkillInput()">Proficient</button>
-          <button type="button" onclick="InputFunctions.AddSkillInput(' (expert)')">Expert</button>
+          <button type="button" onclick="addSkillC()">Proficient</button>
+          <button type="button" onclick="addSkillC(' (expert)')">Expert</button>
           <br><br>
           <label for="languages-input">Languages:<br>
             <select id="languages-input" onchange="FormFunctions.ShowHideLanguageOther()">
@@ -340,6 +312,29 @@
           <label for="telepathy-input" style="margin-left: .5rem;">Telepathy:<br><input type="number" id="telepathy-input" min="0" max="995" step="5" value="0"> ft.</label>
           <br>
           <input id="other-language-input" type="text" value="">
+          <br><br>
+
+          <button class="menu-btn" onclick="">Lists</button>
+          <div class="menudrop">
+            <table class="">
+              <tr>
+                <td colspan="2">
+                  Skills:
+                  <div id="skills-input-section">
+                    <ul id="skillsc-input-list" class="statblock-list"></ul>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="3">
+                  Languages:
+                  <div id="languages-input-section">
+                    <ul id="languagesc-input-list" class="statblock-list"></ul>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
 
         </div>
 
@@ -349,7 +344,7 @@
         </div>
 
         <button class="menu-btn" onclick="">Additional Sections</button>
-        <div class="menudrop" style="padding-top:0">
+        <div class="menudrop" style="padding-top:0;padding-bottom:0">
 
           <button class="menu-btn" onclick="">Dimensions</button>
           <div class="menudrop submenu-end">
@@ -395,12 +390,15 @@
           </label>
           <br><br>
 
+          <button class="menu-btn" onclick="">Lists</button>
+          <div class="menudrop">
           <div id="stats-input-section"><b>Stats:</b><br>
             <ul id="stats-input-list" class="statblock-list"></ul>
           </div>
           <div id="features-input-section"><b>Features:</b><br>
             <ul id="features-input-list" class="statblock-list"></ul>
           </div>
+        </div>
 
         </div>
 

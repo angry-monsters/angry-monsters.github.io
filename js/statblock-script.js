@@ -1447,7 +1447,7 @@ var InputFunctions = {
 
   AddSkillInput: function(note) {
     // Insert Alphabetically
-    GetVariablesFunctions.AddSkill($("#skills-input").val(), note);
+    GetVariablesFunctions.AddSkill($("#skills-input").val(), note, mon);
 
     // Display
     FormFunctions.MakeDisplayList("skills", true);
@@ -1818,7 +1818,7 @@ var GetVariablesFunctions = {
         if (preset.skills[skillCheck]) {
           let expectedExpertise = MathFunctions.PointsToBonus(mon[currentSkill.stat + "Points"]) + Math.ceil(data.tiers[mon.tier].prof * 1.5),
             skillVal = preset.skills[skillCheck];
-          this.AddSkill(data.allSkills[index].name, (skillVal >= expectedExpertise ? " (ex)" : null));
+          this.AddSkill(data.allSkills[index].name, (skillVal >= expectedExpertise ? " (ex)" : null), mon);
         }
       }
     }
@@ -1933,7 +1933,7 @@ var GetVariablesFunctions = {
       mon.sthrows.push(sthrowData);
   },
 
-  AddSkill: function(skillName, note) {
+  AddSkill: function(skillName, note, mon_id) {
     let skillData = ArrayFunctions.FindInList(data.allSkills, skillName);
     if (skillData == null) return;
 
@@ -1943,7 +1943,7 @@ var GetVariablesFunctions = {
     };
     if (note)
       skill["note"] = note;
-    ArrayFunctions.ArrayInsert(mon.skills, skill, true);
+    ArrayFunctions.ArrayInsert(mon_id.skills, skill, true);
   },
 
   AddDamageType: function(damageName, type) {

@@ -67,6 +67,16 @@ var ComStrFunctions = {
       pp += data.tiers[npc_id.tier].prof * (ppData.hasOwnProperty("note") ? 2 : 1);
     return pp;
   },
+
+  GetSkills: function(npc_id) {
+    let skillsDisplayArr = [];
+    for (let index = 0; index < npc_id.skills.length; index++) {
+      let skillData = npc_id.skills[index];
+      skillsDisplayArr.push(StringFunctions.StringCapitalize(skillData.name) + " " +
+        StringFunctions.BonusFormat(npc_id[skillData.stat + "Points"] + data.tiers[npc_id.tier].prof * (skillData.hasOwnProperty("note") ? 2 : 1)));
+    }
+    return skillsDisplayArr.join(", ");
+  },
 }
 
 function setInputs() {
@@ -164,7 +174,6 @@ var ComFormFunctions = {
     arr.splice(index, 1);
     if (isDim) $("#dim-options").val("");
     updateCompBlock(0);
-    this.MakeDisplayList(arrIdx, arrName, isBlock, isDim);
   },
 
   EditDisplayListItem: function(arrIdx, arrName, index, isBlock, isDim) {
@@ -180,9 +189,42 @@ var ComFormFunctions = {
     arr[index + swap] = arr[index];
     arr[index] = temp;
     updateCompBlock(0);
-    this.MakeDisplayList(arrIdx, arrName, isBlock, isDim);
+  },
+
+  MakeNPCList: function(arrName, capitalize) {
+    let arr = npc[arrName],
+      displayArr = [],
+      content = "",
+      arrElement = "#" + arrName + "c-input-list";
+    for (let index = 0; index < arr.length; index++) {
+      let element = arr[index],
+        elementName = capitalize ? StringFunctions.StringCapitalize(element.name) : element.name,
+        note = element.hasOwnProperty("note") ? element.note : "";
+
+      content = "<b>" + StringFunctions.FormatString(elementName + note, false) + (element.hasOwnProperty("desc") ?
+        ":</b> " + StringFunctions.FormatString(element.desc, false) : "</b>");
+
+      let functionArgs = arrName + "\", " + index,
+        imageHTML = "<svg class='statblock-image' onclick='ComFormFunctions.RemoveNPCListItem(\"" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use></svg>";
+      displayArr.push("<li> " + imageHTML + " " + content + "</li>");
+    }
+    $(arrElement).html(displayArr.join(""));
+
+    $(arrElement).parent()[arr.length == 0 ? "hide" : "show"]();
+  },
+
+  RemoveNPCListItem: function(arrName, index) {
+    let arr = npc[arrName];
+    arr.splice(index, 1);
+    updateCompBlock(0);
   },
 };
+
+function addSkillC(note) {
+  GetVariablesFunctions.AddSkill($("#skills-inputc").val(), note, npc);
+
+  updateCompBlock(0);
+}
 
 function addStat(npc_id) {
   if ($("#dim-options").val()) {
@@ -280,7 +322,7 @@ function updateCompBlock(moveSepPoint) {
   let absSavesProfsArr = [];
 
   if (npc.skills.length !== 0) {
-
+    absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Proficiencies',ComStrFunctions.GetSkills(npc)));
   }
   if (StringFunctions.GetSenses(npc, true) !== "") {
     absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Senses',StringFunctions.GetSenses(npc, true)));
@@ -293,6 +335,7 @@ function updateCompBlock(moveSepPoint) {
 
   updateFSList(dropV1);
   ComFormFunctions.MakeDisplayList(null, "dims", false, true);
+  ComFormFunctions.MakeNPCList("skills", true);
   ComFormFunctions.ShowHideParch();
 }
 
