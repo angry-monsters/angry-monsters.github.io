@@ -353,10 +353,28 @@
         </div>
 
         <button class="menu-btn" onclick="">Interaction</button>
-        <div class="menudrop" style="padding-top:0">
+        <div class="menudrop" style="padding-top:0;padding-bottom:0">
+
+          <button class="menu-btn" onclick="">Alignment</button>
+          <div class="menudrop">
+            <label for="calign-input">Alignment:<br>
+              <select id="calign-input" onchange="getNPC()">
+                <option value="none" selected>None</option>
+                <option value="Lawful Good">Lawful Good</option>
+                <option value="Neutral Good">Neutral Good</option>
+                <option value="Chaotic Good">Chaotic Good</option>
+                <option value="Lawful Neutral">Lawful Neutral</option>
+                <option value="True Neutral">True Neutral</option>
+                <option value="Chaotic Neutral">Chaotic Neutral</option>
+                <option value="Lawful Evil">Lawful Evil</option>
+                <option value="Neutral Evil">Neutral Evil</option>
+                <option value="Chaotic Evil">Chaotic Evil</option>
+              </select>
+            </label>
+          </div>
 
           <button class="menu-btn" onclick="">Languages</button>
-          <div class="menudrop submenu-end">
+          <div class="menudrop">
             <label for="clanguages-input">Languages:<br>
               <select id="clanguages-input" onchange="ComFormFunctions.ShowHideOther('cother-language-input','clanguages-input')">
                 <option value="All" selected>All</option>
@@ -403,6 +421,56 @@
               </tr>
             </table>
           </div>
+
+          <button class="menu-btn" onclick="">Loyalty</button>
+          <div class="menudrop submenu-end">
+            <div class="togWrap">
+              <label for="cloyal-input">Loyalty:<br>
+                <select id="cloyal-input" onchange="getNPC();ComFormFunctions.ShowHideTrueFalse('loyalty-master-toggle', this.value !== 'none')">
+                  <option value="none" selected>None</option>
+                  <option value="1">1 (Disgruntled)</option>
+                  <option value="2">2 (Disgruntled)</option>
+                  <option value="3">3 (Disgruntled)</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7 (Devoted)</option>
+                  <option value="8">8 (Devoted)</option>
+                  <option value="9">9 (Devoted)</option>
+                  <option value="10">10 (Devoted)</option>
+                </select>
+              </label>
+              <span>&nbsp;&nbsp;&nbsp;</span>
+              <div class="tab-wrap" id="loyalty-master-toggle">
+                <span>Master only?</span>
+                <label class="togInput" for="loyal-master-inputc">
+                  <input type="checkbox" onchange="getNPC()" id="loyal-master-inputc" />
+                  <div class="toggler round"></div>
+                </label>
+              </div>
+            </div>
+          </div>
+          <br><br>
+
+          <label for="personality-name-input">Feature Name: <br>
+            <input id="personality-name-input" type="text" value="">
+          </label>
+
+          <button onclick="addFeat(npc)">Add Personality Feature </button>
+          <br>
+
+          <label for="personality-desc-input" style="width: 100%;">Description: <br>
+            <textarea id="personality-desc-input" style="height: 10rem;"></textarea>
+          </label>
+          <br><br>
+
+          <button class="menu-btn" onclick="">Lists</button>
+          <div class="menudrop">
+            <div id="personality-input-section"><b>Personality Features:</b><br>
+              <ul id="personality-input-list" class="statblock-list"></ul>
+            </div>
+          </div>
+
         </div>
 
         <button class="menu-btn" onclick="">Additional Sections</button>

@@ -28,6 +28,9 @@ var npc = {
   skills: [],
   languages: [],
   understandsBut: "",
+  loyalty: "none",
+  loyalMaster: false,
+  alignment: "none",
 };
 
 var cdata;
@@ -61,6 +64,10 @@ function getNPC() {
   npc.telepathy = $("#telepathy-inputc").val() * 1;
 
   npc.understandsBut = $("#cbut-input").val();
+
+  npc.loyalty = $("#cloyal-input").val();
+  npc.loyalMaster = $("#loyal-master-inputc").prop("checked");
+  npc.alignment = $("#calign-input").val();
 
   updateCompBlock(0);
 }
@@ -171,7 +178,7 @@ function setInputs() {
 
   $("#blindsight-inputc").val(npc.blindsight);
   $("#blindness-inputc").prop("checked", npc.blind);
-  ComFormFunctions.ShowHideTrueFalse('blind-toggle', npc.blindsight > 0)
+  ComFormFunctions.ShowHideTrueFalse('blind-toggle', npc.blindsight > 0);
   $("#darkvision-inputc").val(npc.darkvision);
   $("#tremorsense-inputc").val(npc.tremorsense);
   $("#truesight-inputc").val(npc.truesight);
@@ -179,6 +186,11 @@ function setInputs() {
   $("#telepathy-inputc").val(npc.telepathy);
 
   $("#cbut-input").val(npc.understandsBut);
+
+  $("#cloyal-input").val(npc.loyalty);
+  $("#loyal-master-inputc").prop("checked", npc.loyalMaster);
+  ComFormFunctions.ShowHideTrueFalse('loyalty-master-toggle', npc.loyalty !== "none");
+  $("#calign-input").val(npc.alignment);
 
   updateCompBlock(0);
 }
@@ -385,10 +397,24 @@ function updateCompBlock(moveSepPoint) {
   npc.dimensions[interactIdx].stats = [];
   npc.dimensions[interactIdx].features = [];
 
+  if (npc.alignment !== "none") {
+    npc.dimensions[interactIdx].stats.push({
+      name: "Alignment",
+      desc: npc.alignment
+    });
+  }
+
   if (npc.languages.length > 0) {
     npc.dimensions[interactIdx].stats.push({
       name: "Languages",
       desc: ComStrFunctions.GetLangs(npc)
+    });
+  }
+
+  if (npc.loyalty !== "none") {
+    npc.dimensions[interactIdx].stats.push({
+      name: "Loyalty",
+      desc: npc.loyalty + (npc.loyalMaster ? " (master)" : "")
     });
   }
 
@@ -606,6 +632,9 @@ function ClearCompanion() {
     skills: [],
     languages: [],
     understandsBut: "",
+    loyalty: "none",
+    loyalMaster: false,
+    alignment: "none",
   };
   setInputs();
 }
