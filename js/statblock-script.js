@@ -9,7 +9,8 @@ function switchTheme(e) {
 }
 
 function setTab() {
-  let tabName = localStorage.getItem('tabName') ? localStorage.getItem('tabName') : 'monster';
+  let tabName = localStorage.getItem('tabName');
+  if (!tabName || tabName === 'companions') tabName = 'monster';
   openTab(tabName);
 }
 
