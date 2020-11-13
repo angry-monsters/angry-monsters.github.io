@@ -31,6 +31,10 @@ var npc = {
   loyalty: "none",
   loyalMaster: false,
   alignment: "none",
+  ac: 10,
+  armor: "",
+  speed: 30,
+  hitDie: 6
 };
 
 var cdata;
@@ -68,6 +72,11 @@ function getNPC() {
   npc.loyalty = $("#cloyal-input").val();
   npc.loyalMaster = $("#loyal-master-inputc").prop("checked");
   npc.alignment = $("#calign-input").val();
+
+  npc.ac = $("#ac-inputc").val() * 1;
+  npc.armor = $("#acdesc-inputc").val();
+  npc.speed = $("#speed-inputc").val() * 1;
+  npc.hitDie = $("#chitdie-inputc").val() * 1;
 
   updateCompBlock(0);
 }
@@ -127,6 +136,16 @@ var ComStrFunctions = {
     if (npc_id.telepathy > 0) langsDisplayArr.push("telepathy " + npc_id.telepathy + " ft.");
 
     return langsDisplayArr.join(", ");
+  },
+
+  GetHealth: function(npc_id) {
+    let conBonus = npc_id.conPoints,
+      baseDie = npc_id.hitDie,
+      effLev = cdata.tiers[npc_id.tier].lev;
+
+    let perLev = Math.ceil((baseDie + 1) / 2) + conBonus;
+
+    return conBonus + baseDie + ((effLev - 1) * perLev);
   },
 }
 
@@ -191,6 +210,11 @@ function setInputs() {
   $("#loyal-master-inputc").prop("checked", npc.loyalMaster);
   ComFormFunctions.ShowHideTrueFalse('loyalty-master-toggle', npc.loyalty !== "none");
   $("#calign-input").val(npc.alignment);
+
+  $("#ac-inputc").val(npc.ac);
+  $("#acdesc-inputc").val(npc.armor);
+  $("#speed-inputc").val(npc.speed);
+  $("#chitdie-inputc").val(npc.hitDie);
 
   updateCompBlock(0);
 }
@@ -455,6 +479,20 @@ function updateCompBlock(moveSepPoint) {
   setPtsC("#wisptsc", npc.wisPoints);
   setPtsC("#chaptsc", npc.chaPoints);
 
+  setPtsC("#initc", npc.dexPoints);
+
+  $("#ac-numc").html(npc.ac);
+  $("#ac-descc").html(npc.armor);
+  $("#speedc").html(npc.speed + " ft.");
+
+  let hpMax = ComStrFunctions.GetHealth(npc);
+  let hpString = hpMax + "|" + Math.floor(hpMax / 2) + "|" + Math.floor(Math.floor(hpMax / 2) / 2);
+  let hpDie = cdata.tiers[npc.tier].lev + "d" + npc.hitDie + StringFunctions.BonusFormat(cdata.tiers[npc.tier].lev * npc.conPoints);
+
+  $("#healthc").html(hpString);
+  $("#healthc-diecode").html(hpDie);
+  $("#recover-c").html(Math.floor(0.75 * hpMax));
+
   if (npc.savingThrow !== "*") {
     let oldPts = npc[npc.savingThrow + "Points"];
     $("#" + npc.savingThrow + "ptsc").html(StringFunctions.BonusFormat(oldPts) + "|" + StringFunctions.BonusFormat((oldPts + data.tiers[npc.tier].prof)));
@@ -655,6 +693,10 @@ function ClearCompanion() {
     loyalty: "none",
     loyalMaster: false,
     alignment: "none",
+    ac: 10,
+    armor: "",
+    speed: 30,
+    hitDie: 6
   };
   setInputs();
 }
@@ -697,7 +739,7 @@ var CompData = {
 }
 
 $(function() {
-  $.getJSON("js/JSON/companiondata.json?version=1.0", function(json2) {
+  $.getJSON("js/JSON/companiondata.json?version=1.1", function(json2) {
     cdata = json2;
     $.getJSON("js/JSON/statblockdata.json?version=5.1", function(json) {
       data = json;

@@ -5,5 +5,28 @@
     "follower",
     "pet",
     "thrall"
-  ]
+  ],
+  "tiers": {
+    "apprentice": {
+      "lev": 2
+    },
+    "journeyman": {
+      "lev": 4
+    },
+    "adventurer": {
+      "lev": 7
+    },
+    "veteran": {
+      "lev": 10
+    },
+    "champion": {
+      "lev": 13
+    },
+    "epic": {
+      "lev": 16
+    },
+    "legendary": {
+      "lev": 19
+    }
+  }
 }

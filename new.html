@@ -24,7 +24,7 @@
   <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.4">
   <link rel="stylesheet" type="text/css" href="css/libre-baskerville.css">
   <link rel="stylesheet" type="text/css" href="css/noto-sans.css">
-  <link rel="stylesheet" type="text/css" href="css/companion-style.css?version=2.1">
+  <link rel="stylesheet" type="text/css" href="css/companion-style.css?version=2.2">
   <!-- <link rel="stylesheet" type="text/css" href="css/material-components-web.min.css?version=7.0.0">
     <script src="js/material-components-web.min.js?version=7.0.0"></script> -->
   <script src="js/jquery-3.4.1.min.js"></script>
@@ -36,7 +36,7 @@
     svg4everybody();
   </script>
   <script src="js/statblock-script.js?version=6.2.0"></script>
-  <script src="js/companion-script.js?version=2.0.0"></script>
+  <script src="js/companion-script.js?version=2.1.0"></script>
 </head>
 
 <body class="gridcontainer" id="stat-block-body">
@@ -349,6 +349,28 @@
 
         <button class="menu-btn" onclick="">Base Combat Statistics</button>
         <div class="menudrop">
+          <label for="ac-inputc">AC: <br>
+            <input type="number" id="ac-inputc" min="1" max="30" step="1" value="10" onchange="getNPC()">
+          </label>
+
+          <label for="acdesc-inputc">Armor: <br>
+            <input id="acdesc-inputc" type="text" onchange="getNPC()">
+          </label>
+          <br><br>
+
+          <label for="speed-inputc">Speed: <br>
+            <input type="number" id="speed-inputc" min="0" max="120" step="5" value="30" onchange="getNPC()">
+          </label>
+          <br><br>
+
+          <label for="chitdie-inputc">Hit Die: <br>
+            <select id="chitdie-inputc" onchange="getNPC()">
+              <option value="4">Non-combatant (d4)</option>
+              <option value="6" selected>Back-line Combatant (d6)</option>
+              <option value="8">Mid-line Combatant (d8)</option>
+              <option value="10">Front-line Combatant (d10)</option>
+            </select>
+          </label>
 
         </div>
 
@@ -589,24 +611,36 @@
             <div class="cstats">
               <div class="">
                 <h4>AC</h4>
-                <p id=""></p>
-              </div> <!-- scores strength -->
+                <p id="ac-numc"></p>
+              </div>
               <div class="">
                 <h4>INIT</h4>
-                <p id=""></p>
-              </div> <!-- scores dexterity -->
+                <p id="initc"></p>
+              </div>
               <div class="">
                 <h4>SPD</h4>
-                <p id=""></p>
-              </div> <!-- scores constitution -->
+                <p id="speedc"></p>
+              </div>
               <div class="">
                 <h4>HP</h4>
-                <p id=""></p>
+                <p id="healthc"></p>
               </div>
             </div>
-            <div class="c-line first">
+            <div class="cstats">
+              <div style="vertical-align: top; margin-bottom: .625rem;">
+                <p id="ac-descc"></p>
+              </div>
+              <div class="">
+              </div>
+              <div class="">
+              </div>
+              <div style="vertical-align: top;">
+                <p id="healthc-diecode"></p>
+              </div>
+            </div>
+            <div class="c-line">
               <h4>Recovery</h4>
-              <p id=""></p>
+              <p id="recover-c"></p>
             </div> <!-- property line -->
             <div class="c-line last">
               <h4>Morale</h4>
