@@ -699,7 +699,7 @@ var CompData = {
 $(function() {
   $.getJSON("js/JSON/companiondata.json?version=1.0", function(json2) {
     cdata = json2;
-    $.getJSON("js/JSON/statblockdata.json?version=5.0", function(json) {
+    $.getJSON("js/JSON/statblockdata.json?version=5.1", function(json) {
       data = json;
       CompData.RetrieveFromLocalStorage();
       setInputs();

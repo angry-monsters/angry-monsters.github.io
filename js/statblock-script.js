@@ -365,7 +365,7 @@ var TryLoadFile3 = () => {
 // Print function
 function TryPrint(monster_page) {
   let printWindow = window.open();
-  printWindow.document.write('<html><head><meta charset="utf-8"/><title>Print</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.1"><link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.3"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"><link rel="stylesheet" type="text/css" href="css/companion-style.css?version=2.0"></head><body><div id="print-block" class="content">');
+  printWindow.document.write('<html><head><meta charset="utf-8"/><title>Print</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.1"><link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.4"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"><link rel="stylesheet" type="text/css" href="css/companion-style.css?version=2.1"></head><body><div id="print-block" class="content">');
   printWindow.document.write($("#" + monster_page + "-block-wrapper").html());
   printWindow.document.write('</div></body></html>');
   printWindow.document.close();
