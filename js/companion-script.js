@@ -219,21 +219,21 @@ var ComFormFunctions = {
     FormFunctions.ShowHideHtmlElement("#c-separator-button", npc.doubleColumns);
   },
 
-  MakeDisplayList: function(arrIdx, arrName, isBlock = false, isDim = false) {
+  MakeDisplayList: function(arrIdx, arrName, isBlock = false, isDim = false, outElem = arrName) {
     let arr = (isDim ? npc.dimensions : npc.dimensions[arrIdx][arrName]),
       displayArr = [],
       content = "",
-      arrElement = "#" + arrName + "-input-list";
+      arrElement = "#" + outElem + "-input-list";
     for (let index = 0; index < arr.length; index++) {
       let element = arr[index],
         content = "<b>" + StringFunctions.FormatString(element.name, false) + (element.hasOwnProperty("desc") ?
           ":</b> " + StringFunctions.FormatString(element.desc, isBlock) : "</b>");
 
-      let functionArgs = arrIdx + " ,\"" + arrName + "\", " + index + ", " + isBlock + ", " + isDim,
+      let functionArgs = arrIdx + " ,\"" + arrName + "\", " + index + ", " + isDim,
         imageHTML = "<svg class='statblock-image' onclick='ComFormFunctions.RemoveDisplayListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use></svg>";
-      if (isDim && element.name === "Interaction") imageHTML = "<svg class='statblock-image'></svg>";
+      if (isDim && element.name === "Interaction") imageHTML = "<svg class='statblock-image' style='cursor: default'></svg>";
       if (isBlock)
-        imageHTML += " <svg class='statblock-image' onclick='ComFormFunctions.EditDisplayListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#edit-icon'></use></svg>";
+        imageHTML += " <svg class='statblock-image' onclick='ComFormFunctions.EditDisplayListItem(" + functionArgs + ", \"" + outElem + "\")'><use xlink:href='dndimages/icons.svg?version=1.0#edit-icon'></use></svg>";
       imageHTML += " <svg class='statblock-image' onclick='ComFormFunctions.SwapDisplayListItem(" + functionArgs + ", -1)'><use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use></svg>" +
         " <svg class='statblock-image' onclick='ComFormFunctions.SwapDisplayListItem(" + functionArgs + ", 1)'><use xlink:href='dndimages/icons.svg?version=1.0#down-icon'></use></svg>";
       displayArr.push("<li> " + imageHTML + " " + content + "</li>");
@@ -243,20 +243,20 @@ var ComFormFunctions = {
     $(arrElement).parent()[arr.length == 0 ? "hide" : "show"]();
   },
 
-  RemoveDisplayListItem: function(arrIdx, arrName, index, isBlock, isDim) {
+  RemoveDisplayListItem: function(arrIdx, arrName, index, isDim) {
     let arr = (isDim ? npc.dimensions : npc.dimensions[arrIdx][arrName]);
     arr.splice(index, 1);
     if (isDim) $("#dim-options").val("");
     updateCompBlock(0);
   },
 
-  EditDisplayListItem: function(arrIdx, arrName, index, isBlock, isDim) {
+  EditDisplayListItem: function(arrIdx, arrName, index, isDim, outElem) {
     let arr = npc.dimensions[arrIdx][arrName][index];
-    $("#" + arrName + "-name-input").val(arr.name);
-    $("#" + arrName + "-desc-input").val(arr.desc);
+    $("#" + outElem + "-name-input").val(arr.name);
+    $("#" + outElem + "-desc-input").val(arr.desc);
   },
 
-  SwapDisplayListItem: function(arrIdx, arrName, index, isBlock, isDim, swap) {
+  SwapDisplayListItem: function(arrIdx, arrName, index, isDim, swap) {
     let arr = (isDim ? npc.dimensions : npc.dimensions[arrIdx][arrName]);
     if (index + swap < 0 || index + swap >= arr.length) return;
     let temp = arr[index + swap];
@@ -395,7 +395,6 @@ function updateCompBlock(moveSepPoint) {
 
   let interactIdx = getFindIdx(npc.dimensions, "name", "Interaction");
   npc.dimensions[interactIdx].stats = [];
-  npc.dimensions[interactIdx].features = [];
 
   if (npc.alignment !== "none") {
     npc.dimensions[interactIdx].stats.push({
@@ -477,6 +476,7 @@ function updateCompBlock(moveSepPoint) {
 
   updateFSList(dropV1);
   ComFormFunctions.MakeDisplayList(null, "dims", false, true);
+  ComFormFunctions.MakeDisplayList(interactIdx, "features", true, false, "personality");
   ComFormFunctions.MakeNPCList("skills", true, splitSkillTools(npc));
   ComFormFunctions.MakeNPCList("languages", true);
   ComFormFunctions.ShowHideParch();
@@ -536,32 +536,52 @@ var BlockFunctions = {
   },
 }
 
+function insertFeat(npc_id, selDim, featName, featDesc) {
+  let catIdx = getFindIdx(npc_id.dimensions, "name", selDim);
+  let features = npc_id.dimensions[catIdx].features;
+
+  let addIdx = getFindIdx(features, "name", featName) > -1 ? getFindIdx(features, "name", featName) : null;
+  if (addIdx || addIdx === 0) {
+    features.splice(addIdx, 1, {
+      "name": featName,
+      "desc": featDesc,
+    });
+  } else {
+    features.push({
+      "name": featName,
+      "desc": featDesc,
+    });
+  }
+
+  updateCompBlock(0);
+}
+
 function addFeat(npc_id) {
-  if ($("#dim-options").val()) {
+  let selDim = $("#dim-options").val();
+  if (selDim) {
     let featName = $("#features-name-input").val(),
-      featDesc = $("#features-desc-input").val(),
-      catIdx = getFindIdx(npc_id.dimensions, "name", $("#dim-options").val());
-    let features = npc_id.dimensions[catIdx].features;
+      featDesc = $("#features-desc-input").val();
 
     if (featDesc && featName) {
-      let addIdx = getFindIdx(features, "name", featName) > -1 ? getFindIdx(features, "name", featName) : null;
-      if (addIdx || addIdx === 0) {
-        features.splice(addIdx, 1, {
-          "name": featName,
-          "desc": featDesc,
-        });
-      } else {
-        features.push({
-          "name": featName,
-          "desc": featDesc,
-        });
-      }
 
-      updateCompBlock(0);
+      insertFeat(npc_id, selDim, featName, featDesc);
 
       $("#features-name-input").val("");
       $("#features-desc-input").val("");
     }
+  }
+}
+
+function addPersFeat(npc_id) {
+  let featName = $("#personality-name-input").val(),
+    featDesc = $("#personality-desc-input").val();
+
+  if (featDesc && featName) {
+
+    insertFeat(npc_id, "Interaction", featName, featDesc);
+
+    $("#personality-name-input").val("");
+    $("#personality-desc-input").val("");
   }
 }
 
