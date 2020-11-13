@@ -383,11 +383,15 @@
                 <option value="*">Other</option>
               </select>
             </label>
-            <button type="button" onclick="">Proficient</button>
-            <button type="button" onclick="">Understands</button>
-            <label for="telepathy-input" style="margin-left: .5rem;">Telepathy:<br><input type="number" onchange="getNPC()" id="telepathy-inputc" min="0" max="995" step="5" value="0"> ft.</label>
-            <input style="margin-top:.25rem" id="cother-language-input" onchange="getNPC()" type="text" value="">
-            <br><br>
+            <label for="telepathy-inputc" style="margin-left: .5rem;">Telepathy:<br><input type="number" onchange="getNPC()" id="telepathy-inputc" min="0" max="995" step="5" value="0"> ft.</label>
+            <input style="margin-top:.15rem; display: none;" id="cother-language-input" onchange="" type="text" value="">
+            <div style="margin-top:.15rem;">
+              <button type="button" onclick="addLangC()">Proficient</button>
+              <button type="button" onclick="addLangC(' (understands)')">Understands</button>
+              <span>&nbsp;but&nbsp;</span>
+              <label for="cbut-input"><input id="cbut-input" type="text" onchange="getNPC()"></label>
+            </div>
+            <br>
             <table>
               <tr>
                 <td colspan="2">

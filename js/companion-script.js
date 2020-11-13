@@ -26,6 +26,8 @@ var npc = {
   truesight: 0,
   telepathy: 0,
   skills: [],
+  languages: [],
+  understandsBut: "",
 };
 
 var cdata;
@@ -56,6 +58,10 @@ function getNPC() {
   npc.tremorsense = $("#tremorsense-inputc").val() * 1;
   npc.truesight = $("#truesight-inputc").val() * 1;
 
+  npc.telepathy = $("#telepathy-inputc").val() * 1;
+
+  npc.understandsBut = $("#cbut-input").val();
+
   updateCompBlock(0);
 }
 
@@ -80,6 +86,40 @@ var ComStrFunctions = {
         StringFunctions.BonusFormat(npc_id[skillData.stat + "Points"] + data.tiers[npc_id.tier].prof * (skillData.hasOwnProperty("note") ? 2 : 1)));
     }
     return skillsDisplayArr.join(", ");
+  },
+
+  GetLangs: function(npc_id) {
+    let langsDisplayArr = [],
+      langsDisplayArr2 = [];
+
+    for (let index = 0; index < npc_id.languages.length; index++) {
+      let langData = npc_id.languages[index];
+      if (langData.hasOwnProperty("note")) {
+        langsDisplayArr2.push(StringFunctions.StringCapitalize(langData.name));
+      } else {
+        langsDisplayArr.push(StringFunctions.StringCapitalize(langData.name));
+      }
+    }
+
+    if (langsDisplayArr2.length > 0) {
+      langsDisplayArr2.splice(0, 1, ("understands " + langsDisplayArr2[0]));
+
+      if (langsDisplayArr2.length > 1) {
+        let removeIdx = langsDisplayArr2.length - 2;
+        langsDisplayArr2.splice(removeIdx, 2, (langsDisplayArr2[removeIdx] + " and " + langsDisplayArr2[removeIdx + 1]));
+      }
+
+      if (npc_id.understandsBut !== "") {
+        let removeIdx = langsDisplayArr2.length - 1;
+        langsDisplayArr2.splice(removeIdx, 1, (langsDisplayArr2[removeIdx] + " but " + npc_id.understandsBut));
+      }
+
+      langsDisplayArr = langsDisplayArr.concat(langsDisplayArr2);
+    }
+
+    if (npc_id.telepathy > 0) langsDisplayArr.push("telepathy " + npc_id.telepathy + " ft.");
+
+    return langsDisplayArr.join(", ");
   },
 }
 
@@ -135,6 +175,10 @@ function setInputs() {
   $("#darkvision-inputc").val(npc.darkvision);
   $("#tremorsense-inputc").val(npc.tremorsense);
   $("#truesight-inputc").val(npc.truesight);
+
+  $("#telepathy-inputc").val(npc.telepathy);
+
+  $("#cbut-input").val(npc.understandsBut);
 
   updateCompBlock(0);
 }
@@ -265,6 +309,27 @@ function addToolC(note) {
   updateCompBlock(0);
 }
 
+function addLangC(note) {
+  let lang = $("#clanguages-input").val();
+  if (lang === "*")
+    lang = $("#cother-language-input").val().trim();
+  if (!lang.length) return;
+
+  if (npc.languages.length > 0) {
+    if (lang.toLowerCase() === "all" || npc.languages[0].name.toLowerCase() === "all")
+      npc.languages = [];
+  }
+
+  let newLang = {
+    "name": lang,
+  };
+  if (note) newLang["note"] = note;
+
+  ArrayFunctions.ArrayInsert(npc.languages, newLang, true);
+
+  updateCompBlock(0);
+}
+
 function addStat(npc_id) {
   if ($("#dim-options").val()) {
     let statName = $("#stats-name-input").val(),
@@ -315,6 +380,17 @@ function updateCompBlock(moveSepPoint) {
 
   let blockWidth = $("#c-block");
   npc.doubleColumns ? blockWidth.addClass('wide') : blockWidth.removeClass('wide');
+
+  let interactIdx = getFindIdx(npc.dimensions, "name", "Interaction");
+  npc.dimensions[interactIdx].stats = [];
+  npc.dimensions[interactIdx].features = [];
+
+  if (npc.languages.length > 0) {
+    npc.dimensions[interactIdx].stats.push({
+      name: "Languages",
+      desc: ComStrFunctions.GetLangs(npc)
+    });
+  }
 
   let dropdownBuffer = [],
     leftDimsArr = [],
@@ -376,6 +452,7 @@ function updateCompBlock(moveSepPoint) {
   updateFSList(dropV1);
   ComFormFunctions.MakeDisplayList(null, "dims", false, true);
   ComFormFunctions.MakeNPCList("skills", true, splitSkillTools(npc));
+  ComFormFunctions.MakeNPCList("languages", true);
   ComFormFunctions.ShowHideParch();
 }
 
@@ -527,6 +604,8 @@ function ClearCompanion() {
     truesight: 0,
     telepathy: 0,
     skills: [],
+    languages: [],
+    understandsBut: "",
   };
   setInputs();
 }
