@@ -365,7 +365,7 @@ var TryLoadFile3 = () => {
 // Print function
 function TryPrint(monster_page) {
   let printWindow = window.open();
-  printWindow.document.write('<html><head><meta charset="utf-8"/><title>Print</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.1"><link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.3"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"><link rel="stylesheet" type="text/css" href="css/companion-style.css?version=2.0"></head><body><div id="print-block" class="content">');
+  printWindow.document.write('<html><head><meta charset="utf-8"/><title>Print</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.1"><link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.4"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"><link rel="stylesheet" type="text/css" href="css/companion-style.css?version=2.1"></head><body><div id="print-block" class="content">');
   printWindow.document.write($("#" + monster_page + "-block-wrapper").html());
   printWindow.document.write('</div></body></html>');
   printWindow.document.close();
@@ -1447,7 +1447,7 @@ var InputFunctions = {
 
   AddSkillInput: function(note) {
     // Insert Alphabetically
-    GetVariablesFunctions.AddSkill($("#skills-input").val(), note);
+    GetVariablesFunctions.AddSkill($("#skills-input").val(), note, mon);
 
     // Display
     FormFunctions.MakeDisplayList("skills", true);
@@ -1818,7 +1818,7 @@ var GetVariablesFunctions = {
         if (preset.skills[skillCheck]) {
           let expectedExpertise = MathFunctions.PointsToBonus(mon[currentSkill.stat + "Points"]) + Math.ceil(data.tiers[mon.tier].prof * 1.5),
             skillVal = preset.skills[skillCheck];
-          this.AddSkill(data.allSkills[index].name, (skillVal >= expectedExpertise ? " (ex)" : null));
+          this.AddSkill(data.allSkills[index].name, (skillVal >= expectedExpertise ? " (ex)" : null), mon);
         }
       }
     }
@@ -1933,17 +1933,17 @@ var GetVariablesFunctions = {
       mon.sthrows.push(sthrowData);
   },
 
-  AddSkill: function(skillName, note) {
+  AddSkill: function(skillName, note, mon_id, overrideStat = null) {
     let skillData = ArrayFunctions.FindInList(data.allSkills, skillName);
-    if (skillData == null) return;
+    if (skillData == null && overrideStat == null) return;
 
     let skill = {
-      "name": skillData.name,
-      "stat": skillData.stat
+      "name": (overrideStat ? skillName : skillData.name),
+      "stat": (overrideStat ? overrideStat : skillData.stat)
     };
     if (note)
       skill["note"] = note;
-    ArrayFunctions.ArrayInsert(mon.skills, skill, true);
+    ArrayFunctions.ArrayInsert(mon_id.skills, skill, true);
   },
 
   AddDamageType: function(damageName, type) {
@@ -2283,7 +2283,7 @@ var StringFunctions = {
     return speedsDisplayArr.join(", ")
   },
 
-  GetSenses: function(mon_id) {
+  GetSenses: function(mon_id, npcType = false) {
     let sensesDisplayArr = [];
     if (mon_id.blindsight > 0) sensesDisplayArr.push("blindsight " + mon_id.blindsight + " ft." + (mon_id.blind ? " (blind beyond this radius)" : ""));
     if (mon_id.darkvision > 0) sensesDisplayArr.push("darkvision " + mon_id.darkvision + " ft.");
@@ -2295,7 +2295,7 @@ var StringFunctions = {
       pp = 10 + MathFunctions.PointsToBonus(mon_id.wisPoints);
     if (ppData != null)
       pp += data.tiers[mon_id.tier].prof * (ppData.hasOwnProperty("note") ? 2 : 1);
-    sensesDisplayArr.push("passive Perception " + pp);
+    if (!npcType) sensesDisplayArr.push("passive Perception " + pp);
     return sensesDisplayArr.join(", ");
   },
 
@@ -2537,9 +2537,9 @@ function changeColors(colorVar, hue) {
 }
 
 function checkColorScheme() {
-  let priHue = localStorage.getItem("--pri-hue") ? localStorage.getItem("--pri-hue") : getComputedStyle(document.documentElement,null).getPropertyValue("--pri-hue"),
-  mainHue = localStorage.getItem("--stat-main-hue") ? localStorage.getItem("--stat-main-hue") : getComputedStyle(document.documentElement,null).getPropertyValue("--stat-main-hue"),
-  bgHue = localStorage.getItem("--stat-bg-hue") ? localStorage.getItem("--stat-bg-hue") : getComputedStyle(document.documentElement,null).getPropertyValue("--stat-bg-hue");
+  let priHue = localStorage.getItem("--pri-hue") ? localStorage.getItem("--pri-hue") : getComputedStyle(document.documentElement, null).getPropertyValue("--pri-hue"),
+    mainHue = localStorage.getItem("--stat-main-hue") ? localStorage.getItem("--stat-main-hue") : getComputedStyle(document.documentElement, null).getPropertyValue("--stat-main-hue"),
+    bgHue = localStorage.getItem("--stat-bg-hue") ? localStorage.getItem("--stat-bg-hue") : getComputedStyle(document.documentElement, null).getPropertyValue("--stat-bg-hue");
 
   changeColors("--pri-hue", priHue);
   changeColors("--stat-main-hue", mainHue);
@@ -2547,7 +2547,7 @@ function checkColorScheme() {
 }
 
 function setColorBars() {
-  $("#wholeHue").val(localStorage.getItem("--pri-hue")*1);
-  $("#mainHue").val(localStorage.getItem("--stat-main-hue")*1);
-  $("#bgHue").val(localStorage.getItem("--stat-bg-hue")*1);
+  $("#wholeHue").val(localStorage.getItem("--pri-hue") * 1);
+  $("#mainHue").val(localStorage.getItem("--stat-main-hue") * 1);
+  $("#bgHue").val(localStorage.getItem("--stat-bg-hue") * 1);
 }

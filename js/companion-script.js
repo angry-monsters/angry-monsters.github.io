@@ -1,5 +1,9 @@
 var npc = {
-  dimensions: [],
+  dimensions: [{
+    name: "Interaction",
+    stats: [],
+    features: []
+  }],
   separationPoint: 1,
   doubleColumns: false,
   name: "Companion",
@@ -8,6 +12,25 @@ var npc = {
   tag: "",
   tier: "apprentice",
   classification: "hireling",
+  strPoints: 1,
+  dexPoints: 1,
+  conPoints: 1,
+  intPoints: 1,
+  wisPoints: 1,
+  chaPoints: 1,
+  savingThrow: "*",
+  blindsight: 0,
+  blind: false,
+  darkvision: 0,
+  tremorsense: 0,
+  truesight: 0,
+  telepathy: 0,
+  skills: [],
+  languages: [],
+  understandsBut: "",
+  loyalty: "none",
+  loyalMaster: false,
+  alignment: "none",
 };
 
 var cdata;
@@ -24,6 +47,28 @@ function getNPC() {
   npc.tier = $("#ctier-input").val();
   npc.tag = $("#ctag-input").val().trim();
 
+  npc.strPoints = $("#str-c").val() * 1;
+  npc.dexPoints = $("#dex-c").val() * 1;
+  npc.conPoints = $("#con-c").val() * 1;
+  npc.intPoints = $("#int-c").val() * 1;
+  npc.wisPoints = $("#wis-c").val() * 1;
+  npc.chaPoints = $("#cha-c").val() * 1;
+  npc.savingThrow = $("#csave-input").val();
+
+  npc.blindsight = $("#blindsight-inputc").val() * 1;
+  npc.blind = $("#blindness-inputc").prop("checked");
+  npc.darkvision = $("#darkvision-inputc").val() * 1;
+  npc.tremorsense = $("#tremorsense-inputc").val() * 1;
+  npc.truesight = $("#truesight-inputc").val() * 1;
+
+  npc.telepathy = $("#telepathy-inputc").val() * 1;
+
+  npc.understandsBut = $("#cbut-input").val();
+
+  npc.loyalty = $("#cloyal-input").val();
+  npc.loyalMaster = $("#loyal-master-inputc").prop("checked");
+  npc.alignment = $("#calign-input").val();
+
   updateCompBlock(0);
 }
 
@@ -31,6 +76,71 @@ var ComStrFunctions = {
   WriteSubheader: function(npc_id) {
     return StringFunctions.StringCapitalize(npc_id.size) + " " + npc_id.type + (npc_id.tag != "" ? " (" + npc_id.tag + ")" : "") + ", " + npc_id.tier + " tier " + npc_id.classification;
   },
+
+  GetPassive: function(npc_id, skillName, skillAbility) {
+    let ppData = ArrayFunctions.FindInList(npc_id.skills, skillName),
+      pp = 10 + npc_id[skillAbility + "Points"];
+    if (ppData != null)
+      pp += data.tiers[npc_id.tier].prof * (ppData.hasOwnProperty("note") ? 2 : 1);
+    return pp;
+  },
+
+  GetSkills: function(npc_id) {
+    let skillsDisplayArr = [];
+    for (let index = 0; index < npc_id.skills.length; index++) {
+      let skillData = npc_id.skills[index];
+      skillsDisplayArr.push(StringFunctions.StringCapitalize(skillData.name) + " " +
+        StringFunctions.BonusFormat(npc_id[skillData.stat + "Points"] + data.tiers[npc_id.tier].prof * (skillData.hasOwnProperty("note") ? 2 : 1)));
+    }
+    return skillsDisplayArr.join(", ");
+  },
+
+  GetLangs: function(npc_id) {
+    let langsDisplayArr = [],
+      langsDisplayArr2 = [];
+
+    for (let index = 0; index < npc_id.languages.length; index++) {
+      let langData = npc_id.languages[index];
+      if (langData.hasOwnProperty("note")) {
+        langsDisplayArr2.push(StringFunctions.StringCapitalize(langData.name));
+      } else {
+        langsDisplayArr.push(StringFunctions.StringCapitalize(langData.name));
+      }
+    }
+
+    if (langsDisplayArr2.length > 0) {
+      langsDisplayArr2.splice(0, 1, ("understands " + langsDisplayArr2[0]));
+
+      if (langsDisplayArr2.length > 1) {
+        let removeIdx = langsDisplayArr2.length - 2;
+        langsDisplayArr2.splice(removeIdx, 2, (langsDisplayArr2[removeIdx] + " and " + langsDisplayArr2[removeIdx + 1]));
+      }
+
+      if (npc_id.understandsBut !== "") {
+        let removeIdx = langsDisplayArr2.length - 1;
+        langsDisplayArr2.splice(removeIdx, 1, (langsDisplayArr2[removeIdx] + " but " + npc_id.understandsBut));
+      }
+
+      langsDisplayArr = langsDisplayArr.concat(langsDisplayArr2);
+    }
+
+    if (npc_id.telepathy > 0) langsDisplayArr.push("telepathy " + npc_id.telepathy + " ft.");
+
+    return langsDisplayArr.join(", ");
+  },
+}
+
+function splitSkillTools(npc_id) {
+  let finalR = {
+    name: "tools",
+    switch: []
+  };
+  for (let i = 0; i < npc_id.skills.length; i++) {
+    let profData = npc_id.skills[i],
+      isSkill = ArrayFunctions.FindInList(data.allSkills, profData.name);
+    finalR.switch.push((isSkill == null ? 2 : 0));
+  }
+  return finalR;
 }
 
 function setInputs() {
@@ -58,12 +168,40 @@ function setInputs() {
   }
   ComFormFunctions.ShowHideOther('cother-class-input', 'cclass-input');
 
+  $("#str-c").val(npc.strPoints);
+  $("#dex-c").val(npc.dexPoints);
+  $("#con-c").val(npc.conPoints);
+  $("#int-c").val(npc.intPoints);
+  $("#wis-c").val(npc.wisPoints);
+  $("#cha-c").val(npc.chaPoints);
+  $("#csave-input").val(npc.savingThrow);
+
+  $("#blindsight-inputc").val(npc.blindsight);
+  $("#blindness-inputc").prop("checked", npc.blind);
+  ComFormFunctions.ShowHideTrueFalse('blind-toggle', npc.blindsight > 0);
+  $("#darkvision-inputc").val(npc.darkvision);
+  $("#tremorsense-inputc").val(npc.tremorsense);
+  $("#truesight-inputc").val(npc.truesight);
+
+  $("#telepathy-inputc").val(npc.telepathy);
+
+  $("#cbut-input").val(npc.understandsBut);
+
+  $("#cloyal-input").val(npc.loyalty);
+  $("#loyal-master-inputc").prop("checked", npc.loyalMaster);
+  ComFormFunctions.ShowHideTrueFalse('loyalty-master-toggle', npc.loyalty !== "none");
+  $("#calign-input").val(npc.alignment);
+
   updateCompBlock(0);
 }
 
 var ComFormFunctions = {
   ShowHideOther: function(other, select, checker = "*") {
     FormFunctions.ShowHideHtmlElement(("#" + other), $("#" + select).val() === checker);
+  },
+
+  ShowHideTrueFalse: function(inputID, checkCond) {
+    FormFunctions.ShowHideHtmlElement(("#" + inputID), checkCond);
   },
 
   ShowHideSection: function(select) {
@@ -81,21 +219,22 @@ var ComFormFunctions = {
     FormFunctions.ShowHideHtmlElement("#c-separator-button", npc.doubleColumns);
   },
 
-  MakeDisplayList: function(arrIdx, arrName, isBlock = false, isDim = false) {
+  MakeDisplayList: function(arrIdx, arrName, isBlock = false, isDim = false, outElem = arrName) {
     let arr = (isDim ? npc.dimensions : npc.dimensions[arrIdx][arrName]),
-    displayArr = [],
+      displayArr = [],
       content = "",
-      arrElement = "#" + arrName + "-input-list";
+      arrElement = "#" + outElem + "-input-list";
     for (let index = 0; index < arr.length; index++) {
       let element = arr[index],
-      content = "<b>" + StringFunctions.FormatString(element.name, false) + (element.hasOwnProperty("desc") ?
+        content = "<b>" + StringFunctions.FormatString(element.name, false) + (element.hasOwnProperty("desc") ?
           ":</b> " + StringFunctions.FormatString(element.desc, isBlock) : "</b>");
 
-      let functionArgs = arrIdx + " ,\"" + arrName + "\", " + index + ", " + isBlock + ", " + isDim,
+      let functionArgs = arrIdx + " ,\"" + arrName + "\", " + index + ", " + isDim,
         imageHTML = "<svg class='statblock-image' onclick='ComFormFunctions.RemoveDisplayListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use></svg>";
+      if (isDim && element.name === "Interaction") imageHTML = "<svg class='statblock-image' style='cursor: default'></svg>";
       if (isBlock)
-        imageHTML += " <svg class='statblock-image' onclick='ComFormFunctions.EditDisplayListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#edit-icon'></use></svg>";
-        imageHTML += " <svg class='statblock-image' onclick='ComFormFunctions.SwapDisplayListItem(" + functionArgs + ", -1)'><use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use></svg>" +
+        imageHTML += " <svg class='statblock-image' onclick='ComFormFunctions.EditDisplayListItem(" + functionArgs + ", \"" + outElem + "\")'><use xlink:href='dndimages/icons.svg?version=1.0#edit-icon'></use></svg>";
+      imageHTML += " <svg class='statblock-image' onclick='ComFormFunctions.SwapDisplayListItem(" + functionArgs + ", -1)'><use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use></svg>" +
         " <svg class='statblock-image' onclick='ComFormFunctions.SwapDisplayListItem(" + functionArgs + ", 1)'><use xlink:href='dndimages/icons.svg?version=1.0#down-icon'></use></svg>";
       displayArr.push("<li> " + imageHTML + " " + content + "</li>");
     }
@@ -104,30 +243,104 @@ var ComFormFunctions = {
     $(arrElement).parent()[arr.length == 0 ? "hide" : "show"]();
   },
 
-  RemoveDisplayListItem: function(arrIdx, arrName, index, isBlock, isDim) {
+  RemoveDisplayListItem: function(arrIdx, arrName, index, isDim) {
     let arr = (isDim ? npc.dimensions : npc.dimensions[arrIdx][arrName]);
     arr.splice(index, 1);
     if (isDim) $("#dim-options").val("");
     updateCompBlock(0);
-    this.MakeDisplayList(arrIdx, arrName, isBlock, isDim);
   },
 
-  EditDisplayListItem: function(arrIdx, arrName, index, isBlock, isDim) {
+  EditDisplayListItem: function(arrIdx, arrName, index, isDim, outElem) {
     let arr = npc.dimensions[arrIdx][arrName][index];
-    $("#"+arrName+"-name-input").val(arr.name);
-    $("#"+arrName+"-desc-input").val(arr.desc);
+    $("#" + outElem + "-name-input").val(arr.name);
+    $("#" + outElem + "-desc-input").val(arr.desc);
   },
 
-  SwapDisplayListItem: function(arrIdx, arrName, index, isBlock, isDim, swap) {
+  SwapDisplayListItem: function(arrIdx, arrName, index, isDim, swap) {
     let arr = (isDim ? npc.dimensions : npc.dimensions[arrIdx][arrName]);
     if (index + swap < 0 || index + swap >= arr.length) return;
     let temp = arr[index + swap];
     arr[index + swap] = arr[index];
     arr[index] = temp;
     updateCompBlock(0);
-    this.MakeDisplayList(arrIdx, arrName, isBlock, isDim);
+  },
+
+  MakeNPCList: function(arrName, capitalize, altDisplayArr = null) {
+    let arr = npc[arrName],
+      displayArr = [],
+      content = "",
+      arrElement = "#" + arrName + "c-input-list",
+      displayArr2 = [];
+    for (let index = 0; index < arr.length; index++) {
+      let element = arr[index],
+        elementName = capitalize ? StringFunctions.StringCapitalize(element.name) : element.name,
+        note = element.hasOwnProperty("note") ? element.note : "",
+        switchVal = (altDisplayArr ? altDisplayArr.switch[index] : 0);
+
+
+      content = "<b>" + StringFunctions.FormatString(elementName + note, false) + (
+        switchVal > 1 ?
+        ":</b> " + StringFunctions.FormatString(element.stat, false) : "</b>");
+
+      let functionArgs = arrName + "\", " + index,
+        imageHTML = "<svg class='statblock-image' onclick='ComFormFunctions.RemoveNPCListItem(\"" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use></svg>";
+      if (
+        switchVal > 0) {
+        displayArr2.push("<li> " + imageHTML + " " + content + "</li>");
+      } else {
+        displayArr.push("<li> " + imageHTML + " " + content + "</li>");
+      }
+    }
+
+    if (altDisplayArr) {
+      arrElement2 = "#" + altDisplayArr.name + "c-input-list";
+      $(arrElement2).html(displayArr2.join(""));
+      $(arrElement2).parent()[displayArr2.length == 0 ? "hide" : "show"]();
+    }
+
+    $(arrElement).html(displayArr.join(""));
+    $(arrElement).parent()[displayArr.length == 0 ? "hide" : "show"]();
+  },
+
+  RemoveNPCListItem: function(arrName, index) {
+    let arr = npc[arrName];
+    arr.splice(index, 1);
+    updateCompBlock(0);
   },
 };
+
+function addSkillC(note) {
+  GetVariablesFunctions.AddSkill($("#skills-inputc").val(), note, npc);
+
+  updateCompBlock(0);
+}
+
+function addToolC(note) {
+  GetVariablesFunctions.AddSkill($("#tools-inputc").val(), note, npc, $("#toolsAS-inputc").val());
+
+  updateCompBlock(0);
+}
+
+function addLangC(note) {
+  let lang = $("#clanguages-input").val();
+  if (lang === "*")
+    lang = $("#cother-language-input").val().trim();
+  if (!lang.length) return;
+
+  if (npc.languages.length > 0) {
+    if (lang.toLowerCase() === "all" || npc.languages[0].name.toLowerCase() === "all")
+      npc.languages = [];
+  }
+
+  let newLang = {
+    "name": lang,
+  };
+  if (note) newLang["note"] = note;
+
+  ArrayFunctions.ArrayInsert(npc.languages, newLang, true);
+
+  updateCompBlock(0);
+}
 
 function addStat(npc_id) {
   if ($("#dim-options").val()) {
@@ -180,6 +393,30 @@ function updateCompBlock(moveSepPoint) {
   let blockWidth = $("#c-block");
   npc.doubleColumns ? blockWidth.addClass('wide') : blockWidth.removeClass('wide');
 
+  let interactIdx = getFindIdx(npc.dimensions, "name", "Interaction");
+  npc.dimensions[interactIdx].stats = [];
+
+  if (npc.alignment !== "none") {
+    npc.dimensions[interactIdx].stats.push({
+      name: "Alignment",
+      desc: npc.alignment
+    });
+  }
+
+  if (npc.languages.length > 0) {
+    npc.dimensions[interactIdx].stats.push({
+      name: "Languages",
+      desc: ComStrFunctions.GetLangs(npc)
+    });
+  }
+
+  if (npc.loyalty !== "none") {
+    npc.dimensions[interactIdx].stats.push({
+      name: "Loyalty",
+      desc: npc.loyalty + (npc.loyalMaster ? " (master)" : "")
+    });
+  }
+
   let dropdownBuffer = [],
     leftDimsArr = [],
     rightDimsArr = [];
@@ -187,7 +424,8 @@ function updateCompBlock(moveSepPoint) {
   for (let i = 0; i < npc.dimensions.length; i++) {
     let dimTxt = BlockFunctions.DrawDimension(npc, i);
     (i < npc.separationPoint ? leftDimsArr : rightDimsArr).push(dimTxt);
-    dropdownBuffer.push("<option value='" + npc.dimensions[i].name + "'>" + npc.dimensions[i].name + "</option>");
+    if (npc.dimensions[i].name !== "Interaction")
+      dropdownBuffer.push("<option value='" + npc.dimensions[i].name + "'>" + npc.dimensions[i].name + "</option>");
   }
   let dropV1 = $("#dim-options").val();
   $("#dim-options").html(dropdownBuffer.join(""));
@@ -208,10 +446,39 @@ function updateCompBlock(moveSepPoint) {
   $("#comp-name").html(npc.name);
   $("#comp-tagline").html(ComStrFunctions.WriteSubheader(npc));
 
+  let setPtsC = (id, pts) =>
+    $(id).html(StringFunctions.BonusFormat(pts));
+  setPtsC("#strptsc", npc.strPoints);
+  setPtsC("#dexptsc", npc.dexPoints);
+  setPtsC("#conptsc", npc.conPoints);
+  setPtsC("#intptsc", npc.intPoints);
+  setPtsC("#wisptsc", npc.wisPoints);
+  setPtsC("#chaptsc", npc.chaPoints);
+
+  if (npc.savingThrow !== "*") {
+    let oldPts = npc[npc.savingThrow + "Points"];
+    $("#" + npc.savingThrow + "ptsc").html(StringFunctions.BonusFormat(oldPts) + "|" + StringFunctions.BonusFormat((oldPts + data.tiers[npc.tier].prof)));
+  }
+
+  let absSavesProfsArr = [];
+
+  if (npc.skills.length !== 0) {
+    absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Proficiencies', ComStrFunctions.GetSkills(npc)));
+  }
+  if (StringFunctions.GetSenses(npc, true) !== "") {
+    absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Senses', StringFunctions.GetSenses(npc, true)));
+  }
+  absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Passive Perception', ComStrFunctions.GetPassive(npc, "Perception", "wis"), true));
+
+  $("#dimension-sensesProfs").html(absSavesProfsArr.join(""));
+
   CompData.SaveToLocalStorage();
 
   updateFSList(dropV1);
   ComFormFunctions.MakeDisplayList(null, "dims", false, true);
+  ComFormFunctions.MakeDisplayList(interactIdx, "features", true, false, "personality");
+  ComFormFunctions.MakeNPCList("skills", true, splitSkillTools(npc));
+  ComFormFunctions.MakeNPCList("languages", true);
   ComFormFunctions.ShowHideParch();
 }
 
@@ -246,6 +513,12 @@ var BlockFunctions = {
 
   },
 
+  MakePieceHTML: function(pieceName, pieceText, lastLine = false) {
+    let htmlClass = "c-line";
+    htmlClass += lastLine ? " last" : "";
+    return "<div class=\"" + htmlClass + "\"><h4>" + pieceName + "</h4> <p>" + pieceText + "</p></div>"
+  },
+
   MakeStatHTML: function(stats, firstLine, lastLine) {
     if (stats.length == 0) return "";
     let htmlClass = "c-line";
@@ -263,32 +536,52 @@ var BlockFunctions = {
   },
 }
 
+function insertFeat(npc_id, selDim, featName, featDesc) {
+  let catIdx = getFindIdx(npc_id.dimensions, "name", selDim);
+  let features = npc_id.dimensions[catIdx].features;
+
+  let addIdx = getFindIdx(features, "name", featName) > -1 ? getFindIdx(features, "name", featName) : null;
+  if (addIdx || addIdx === 0) {
+    features.splice(addIdx, 1, {
+      "name": featName,
+      "desc": featDesc,
+    });
+  } else {
+    features.push({
+      "name": featName,
+      "desc": featDesc,
+    });
+  }
+
+  updateCompBlock(0);
+}
+
 function addFeat(npc_id) {
-  if ($("#dim-options").val()) {
+  let selDim = $("#dim-options").val();
+  if (selDim) {
     let featName = $("#features-name-input").val(),
-      featDesc = $("#features-desc-input").val(),
-      catIdx = getFindIdx(npc_id.dimensions, "name", $("#dim-options").val());
-    let features = npc_id.dimensions[catIdx].features;
+      featDesc = $("#features-desc-input").val();
 
     if (featDesc && featName) {
-      let addIdx = getFindIdx(features, "name", featName) > -1 ? getFindIdx(features, "name", featName) : null;
-      if (addIdx || addIdx === 0) {
-        features.splice(addIdx, 1, {
-          "name": featName,
-          "desc": featDesc,
-        });
-      } else {
-        features.push({
-          "name": featName,
-          "desc": featDesc,
-        });
-      }
 
-      updateCompBlock(0);
+      insertFeat(npc_id, selDim, featName, featDesc);
 
       $("#features-name-input").val("");
       $("#features-desc-input").val("");
     }
+  }
+}
+
+function addPersFeat(npc_id) {
+  let featName = $("#personality-name-input").val(),
+    featDesc = $("#personality-desc-input").val();
+
+  if (featDesc && featName) {
+
+    insertFeat(npc_id, "Interaction", featName, featDesc);
+
+    $("#personality-name-input").val("");
+    $("#personality-desc-input").val("");
   }
 }
 
@@ -330,7 +623,11 @@ var LoadFilePrompt4 = () => {
 
 function ClearCompanion() {
   npc = {
-    dimensions: [],
+    dimensions: [{
+      name: "Interaction",
+      stats: [],
+      features: []
+    }],
     separationPoint: 1,
     doubleColumns: false,
     name: "Companion",
@@ -339,6 +636,25 @@ function ClearCompanion() {
     tag: "",
     tier: "apprentice",
     classification: "hireling",
+    strPoints: 1,
+    dexPoints: 1,
+    conPoints: 1,
+    intPoints: 1,
+    wisPoints: 1,
+    chaPoints: 1,
+    savingThrow: "*",
+    blindsight: 0,
+    blind: false,
+    darkvision: 0,
+    tremorsense: 0,
+    truesight: 0,
+    telepathy: 0,
+    skills: [],
+    languages: [],
+    understandsBut: "",
+    loyalty: "none",
+    loyalMaster: false,
+    alignment: "none",
   };
   setInputs();
 }
@@ -383,7 +699,7 @@ var CompData = {
 $(function() {
   $.getJSON("js/JSON/companiondata.json?version=1.0", function(json2) {
     cdata = json2;
-    $.getJSON("js/JSON/statblockdata.json?version=5.0", function(json) {
+    $.getJSON("js/JSON/statblockdata.json?version=5.1", function(json) {
       data = json;
       CompData.RetrieveFromLocalStorage();
       setInputs();

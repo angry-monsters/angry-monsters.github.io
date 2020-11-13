@@ -146,7 +146,7 @@
     border: none;
     color: var(--stat-bord);
     fill: var(--stat-bord);
-    margin-bottom: .2rem;
+    margin: .625rem 0 .2rem;
 }
 
 .c-block .creature-heading h1 {

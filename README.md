@@ -19,3 +19,15 @@ To contribute to the bestiary, go to the issues page, create a new compendium ad
 - column spanning issue
 - auto height issue
 - navbar extra split?
+
+
+
+tools to proficiencies (attribute association) auto-guess but with dropdown
+updates from tetracube: lair and regional actions, speaks but does not understand language
+tooltips on hover
+[mon] tag work for npcs
+shortened name
+random generator
+5emm features?
+select2 and mulitselect dropdowns
+two-note NPC w/ companions

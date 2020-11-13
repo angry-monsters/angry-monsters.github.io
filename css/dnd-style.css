@@ -491,6 +491,7 @@ a:hover {
 ul {
     text-align: left;
     padding-left: 1.5rem;
+		list-style-type: none;
 }
 
 button {
@@ -696,6 +697,7 @@ label {
 #character-columns ul {
     padding-left: .3125rem;
     margin-left: .3125rem;
+		list-style-type: none;
 }
 
 #character-columns td {

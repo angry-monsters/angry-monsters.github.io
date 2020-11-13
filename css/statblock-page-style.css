@@ -23,7 +23,7 @@
 .statblock-list {
     text-align: left;
     margin: .25rem .25rem .5rem;
-    padding-left: 1rem;
+    padding-left: 0rem;
 }
 
 #stat-block-wrapper {
