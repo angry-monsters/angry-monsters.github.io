@@ -125,7 +125,7 @@
           <br><br>
 
           <label for="cclass-input">Classification: <br>
-            <select id="cclass-input" onchange="getNPC();ComFormFunctions.ShowHideOther('cother-class-input',this.id)">
+            <select id="cclass-input" onchange="getNPC();ComFormFunctions.ShowHideOther('cother-class-input','cclass-input')">
               <option value="hireling" selected="selected">Hireling</option>
               <option value="ally">Ally</option>
               <option value="follower">Follower</option>
@@ -140,7 +140,7 @@
           <br><br>
 
           <label for="ctype-input">Type: <br>
-            <select id="ctype-input" onchange="getNPC();ComFormFunctions.ShowHideOther('cother-type-input',this.id)">
+            <select id="ctype-input" onchange="getNPC();ComFormFunctions.ShowHideOther('cother-type-input','ctype-input')">
               <option value="aberration">Aberration</option>
               <option value="beast">Beast</option>
               <option value="celestial">Celestial</option>
@@ -258,78 +258,87 @@
           </div>
           <br><br>
 
-          <label for="skills-inputc">Skills:</label><br>
-          <select id="skills-inputc">
-            <option value="acrobatics">Acrobatics</option>
-            <option value="animal Handling">Animal Handling</option>
-            <option value="arcana">Arcana</option>
-            <option value="athletics">Athletics</option>
-            <option value="deception">Deception</option>
-            <option value="history">History</option>
-            <option value="insight">Insight</option>
-            <option value="intimidation">Intimidation</option>
-            <option value="investigation">Investigation</option>
-            <option value="medicine">Medicine</option>
-            <option value="nature">Nature</option>
-            <option value="perception">Perception</option>
-            <option value="performance">Performance</option>
-            <option value="persuasion">Persuasion</option>
-            <option value="religion">Religion</option>
-            <option value="sleight of Hand">Sleight of Hand</option>
-            <option value="stealth">Stealth</option>
-            <option value="survival">Survival</option>
-          </select>
+          <label for="skills-inputc">Skills:<br>
+            <select id="skills-inputc">
+              <option value="acrobatics">Acrobatics</option>
+              <option value="animal Handling">Animal Handling</option>
+              <option value="arcana">Arcana</option>
+              <option value="athletics">Athletics</option>
+              <option value="deception">Deception</option>
+              <option value="history">History</option>
+              <option value="insight">Insight</option>
+              <option value="intimidation">Intimidation</option>
+              <option value="investigation">Investigation</option>
+              <option value="medicine">Medicine</option>
+              <option value="nature">Nature</option>
+              <option value="perception">Perception</option>
+              <option value="performance">Performance</option>
+              <option value="persuasion">Persuasion</option>
+              <option value="religion">Religion</option>
+              <option value="sleight of Hand">Sleight of Hand</option>
+              <option value="stealth">Stealth</option>
+              <option value="survival">Survival</option>
+            </select>
+          </label>
           <button type="button" onclick="addSkillC()">Proficient</button>
           <button type="button" onclick="addSkillC(' (expert)')">Expert</button>
           <br><br>
-          <label for="languages-input">Languages:<br>
-            <select id="languages-input" onchange="FormFunctions.ShowHideLanguageOther()">
-              <option value="All">All</option>
-              <option value="Abyssal">Abyssal</option>
-              <option value="Aquan">Aquan</option>
-              <option value="Auran">Auran</option>
-              <option value="Celestial">Celestial</option>
-              <option value="Common">Common</option>
-              <option value="Deep Speech">Deep Speech</option>
-              <option value="Draconic">Draconic</option>
-              <option value="Dwarvish">Dwarvish</option>
-              <option value="Elvish">Elvish</option>
-              <option value="Giant">Giant</option>
-              <option value="Gnomish">Gnomish</option>
-              <option value="Goblin">Goblin</option>
-              <option value="Halfling">Halfling</option>
-              <option value="Ignan">Ignan</option>
-              <option value="Infernal">Infernal</option>
-              <option value="Orc">Orc</option>
-              <option value="Primordial">Primordial</option>
-              <option value="Sylvan">Sylvan</option>
-              <option value="Terran">Terran</option>
-              <option value="Undercommon">Undercommon</option>
-              <option value="*">Other</option>
+
+          <label for="tools-inputc">Tools:<br>
+            <select id="tools-inputc">
+              <option value="Alchemist’s Tools">Alchemist’s Tools</option>
+              <option value="Calligrapher’s Tools">Calligrapher’s Tools</option>
+              <option value="Cartographer’s Tools">Cartographer’s Tools</option>
+              <option value="Cook’s Utensils">Cook’s Utensils</option>
+              <option value="Forgery Kit">Forgery Kit</option>
+              <option value="Herbalism Kit">Herbalism Kit</option>
+              <option value="Leatherworker’s Tools">Leatherworker’s Tools</option>
+              <option value="Navigator’s Tools">Navigator’s Tools</option>
+              <option value="Poisoner’s Kit">Poisoner’s Kit</option>
+              <option value="Smith’s Tools">Smith’s Tools</option>
+              <option value="Tinker’s Tools">Tinker’s Tools</option>
+              <option value="Woodcarver’s Tools">Woodcarver’s Tools</option>
+              <option value="Brewer’s Tools">Brewer’s Tools</option>
+              <option value="Carpenter’s Tools">Carpenter’s Tools</option>
+              <option value="Cobbler’s Tools">Cobbler’s Tools</option>
+              <option value="Disguise Kit">Disguise Kit</option>
+              <option value="Glassblower’s Tools">Glassblower’s Tools</option>
+              <option value="Jeweler’s Tools">Jeweler’s Tools</option>
+              <option value="Mason’s Tools">Mason’s Tools</option>
+              <option value="Painter’s Tools">Painter’s Tools</option>
+              <option value="Potter’s Tools">Potter’s Tools</option>
+              <option value="Thieve’s Tools">Thieve’s Tools</option>
+              <option value="Weaver’s Tools">Weaver’s Tools</option>
             </select>
           </label>
-          <button type="button" onclick="InputFunctions.AddLanguageInput()">Proficient</button>
-          <label for="telepathy-input" style="margin-left: .5rem;">Telepathy:<br><input type="number" id="telepathy-input" min="0" max="995" step="5" value="0"> ft.</label>
-          <br>
-          <input id="other-language-input" type="text" value="">
+          <label for="toolsAS-inputc"><em>(Ability)</em><br>
+            <select id="toolsAS-inputc">
+              <option value="str">Strength</option>
+              <option value="dex">Dexterity</option>
+              <option value="con">Constitution</option>
+              <option value="int">Intelligence</option>
+              <option value="wis">Wisdom</option>
+              <option value="cha">Charisma</option>
+            </select>
+          </label>
+          <button type="button" onclick="addToolC()">Proficient</button>
+          <button type="button" onclick="addToolC(' (expert)')">Expert</button>
           <br><br>
 
           <button class="menu-btn" onclick="">Lists</button>
           <div class="menudrop">
             <table class="">
               <tr>
-                <td colspan="2">
+                <td colspan="1">
                   Skills:
-                  <div id="skills-input-section">
+                  <div id="skillsc-input-section">
                     <ul id="skillsc-input-list" class="statblock-list"></ul>
                   </div>
                 </td>
-              </tr>
-              <tr>
-                <td colspan="3">
-                  Languages:
-                  <div id="languages-input-section">
-                    <ul id="languagesc-input-list" class="statblock-list"></ul>
+                <td colspan="1">
+                  Tools:
+                  <div id="toolsc-input-section">
+                    <ul id="toolsc-input-list" class="statblock-list"></ul>
                   </div>
                 </td>
               </tr>
@@ -341,6 +350,55 @@
         <button class="menu-btn" onclick="">Base Combat Statistics</button>
         <div class="menudrop">
 
+        </div>
+
+        <button class="menu-btn" onclick="">Interaction</button>
+        <div class="menudrop" style="padding-top:0">
+
+          <button class="menu-btn" onclick="">Languages</button>
+          <div class="menudrop submenu-end">
+            <label for="clanguages-input">Languages:<br>
+              <select id="clanguages-input" onchange="ComFormFunctions.ShowHideOther('cother-language-input','clanguages-input')">
+                <option value="All" selected>All</option>
+                <option value="Abyssal">Abyssal</option>
+                <option value="Aquan">Aquan</option>
+                <option value="Auran">Auran</option>
+                <option value="Celestial">Celestial</option>
+                <option value="Common">Common</option>
+                <option value="Deep Speech">Deep Speech</option>
+                <option value="Draconic">Draconic</option>
+                <option value="Dwarvish">Dwarvish</option>
+                <option value="Elvish">Elvish</option>
+                <option value="Giant">Giant</option>
+                <option value="Gnomish">Gnomish</option>
+                <option value="Goblin">Goblin</option>
+                <option value="Halfling">Halfling</option>
+                <option value="Ignan">Ignan</option>
+                <option value="Infernal">Infernal</option>
+                <option value="Orc">Orc</option>
+                <option value="Primordial">Primordial</option>
+                <option value="Sylvan">Sylvan</option>
+                <option value="Terran">Terran</option>
+                <option value="Undercommon">Undercommon</option>
+                <option value="*">Other</option>
+              </select>
+            </label>
+            <button type="button" onclick="">Proficient</button>
+            <button type="button" onclick="">Understands</button>
+            <label for="telepathy-input" style="margin-left: .5rem;">Telepathy:<br><input type="number" onchange="getNPC()" id="telepathy-inputc" min="0" max="995" step="5" value="0"> ft.</label>
+            <input style="margin-top:.25rem" id="cother-language-input" onchange="getNPC()" type="text" value="">
+            <br><br>
+            <table>
+              <tr>
+                <td colspan="2">
+                  Languages:
+                  <div id="languagesc-input-section">
+                    <ul id="languagesc-input-list" class="statblock-list"></ul>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
 
         <button class="menu-btn" onclick="">Additional Sections</button>
@@ -392,13 +450,13 @@
 
           <button class="menu-btn" onclick="">Lists</button>
           <div class="menudrop">
-          <div id="stats-input-section"><b>Stats:</b><br>
-            <ul id="stats-input-list" class="statblock-list"></ul>
+            <div id="stats-input-section"><b>Stats:</b><br>
+              <ul id="stats-input-list" class="statblock-list"></ul>
+            </div>
+            <div id="features-input-section"><b>Features:</b><br>
+              <ul id="features-input-list" class="statblock-list"></ul>
+            </div>
           </div>
-          <div id="features-input-section"><b>Features:</b><br>
-            <ul id="features-input-list" class="statblock-list"></ul>
-          </div>
-        </div>
 
         </div>
 

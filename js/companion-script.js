@@ -1,5 +1,9 @@
 var npc = {
-  dimensions: [],
+  dimensions: [{
+    name: "Interaction",
+    stats: [],
+    features: []
+  }],
   separationPoint: 1,
   doubleColumns: false,
   name: "Companion",
@@ -77,6 +81,19 @@ var ComStrFunctions = {
     }
     return skillsDisplayArr.join(", ");
   },
+}
+
+function splitSkillTools(npc_id) {
+  let finalR = {
+    name: "tools",
+    switch: []
+  };
+  for (let i = 0; i < npc_id.skills.length; i++) {
+    let profData = npc_id.skills[i],
+      isSkill = ArrayFunctions.FindInList(data.allSkills, profData.name);
+    finalR.switch.push((isSkill == null ? 2 : 0));
+  }
+  return finalR;
 }
 
 function setInputs() {
@@ -158,6 +175,7 @@ var ComFormFunctions = {
 
       let functionArgs = arrIdx + " ,\"" + arrName + "\", " + index + ", " + isBlock + ", " + isDim,
         imageHTML = "<svg class='statblock-image' onclick='ComFormFunctions.RemoveDisplayListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use></svg>";
+      if (isDim && element.name === "Interaction") imageHTML = "<svg class='statblock-image'></svg>";
       if (isBlock)
         imageHTML += " <svg class='statblock-image' onclick='ComFormFunctions.EditDisplayListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#edit-icon'></use></svg>";
       imageHTML += " <svg class='statblock-image' onclick='ComFormFunctions.SwapDisplayListItem(" + functionArgs + ", -1)'><use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use></svg>" +
@@ -191,26 +209,41 @@ var ComFormFunctions = {
     updateCompBlock(0);
   },
 
-  MakeNPCList: function(arrName, capitalize) {
+  MakeNPCList: function(arrName, capitalize, altDisplayArr = null) {
     let arr = npc[arrName],
       displayArr = [],
       content = "",
-      arrElement = "#" + arrName + "c-input-list";
+      arrElement = "#" + arrName + "c-input-list",
+      displayArr2 = [];
     for (let index = 0; index < arr.length; index++) {
       let element = arr[index],
         elementName = capitalize ? StringFunctions.StringCapitalize(element.name) : element.name,
-        note = element.hasOwnProperty("note") ? element.note : "";
+        note = element.hasOwnProperty("note") ? element.note : "",
+        switchVal = (altDisplayArr ? altDisplayArr.switch[index] : 0);
 
-      content = "<b>" + StringFunctions.FormatString(elementName + note, false) + (element.hasOwnProperty("desc") ?
-        ":</b> " + StringFunctions.FormatString(element.desc, false) : "</b>");
+
+      content = "<b>" + StringFunctions.FormatString(elementName + note, false) + (
+        switchVal > 1 ?
+        ":</b> " + StringFunctions.FormatString(element.stat, false) : "</b>");
 
       let functionArgs = arrName + "\", " + index,
         imageHTML = "<svg class='statblock-image' onclick='ComFormFunctions.RemoveNPCListItem(\"" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use></svg>";
-      displayArr.push("<li> " + imageHTML + " " + content + "</li>");
+      if (
+        switchVal > 0) {
+        displayArr2.push("<li> " + imageHTML + " " + content + "</li>");
+      } else {
+        displayArr.push("<li> " + imageHTML + " " + content + "</li>");
+      }
     }
-    $(arrElement).html(displayArr.join(""));
 
-    $(arrElement).parent()[arr.length == 0 ? "hide" : "show"]();
+    if (altDisplayArr) {
+      arrElement2 = "#" + altDisplayArr.name + "c-input-list";
+      $(arrElement2).html(displayArr2.join(""));
+      $(arrElement2).parent()[displayArr2.length == 0 ? "hide" : "show"]();
+    }
+
+    $(arrElement).html(displayArr.join(""));
+    $(arrElement).parent()[displayArr.length == 0 ? "hide" : "show"]();
   },
 
   RemoveNPCListItem: function(arrName, index) {
@@ -222,6 +255,12 @@ var ComFormFunctions = {
 
 function addSkillC(note) {
   GetVariablesFunctions.AddSkill($("#skills-inputc").val(), note, npc);
+
+  updateCompBlock(0);
+}
+
+function addToolC(note) {
+  GetVariablesFunctions.AddSkill($("#tools-inputc").val(), note, npc, $("#toolsAS-inputc").val());
 
   updateCompBlock(0);
 }
@@ -284,7 +323,8 @@ function updateCompBlock(moveSepPoint) {
   for (let i = 0; i < npc.dimensions.length; i++) {
     let dimTxt = BlockFunctions.DrawDimension(npc, i);
     (i < npc.separationPoint ? leftDimsArr : rightDimsArr).push(dimTxt);
-    dropdownBuffer.push("<option value='" + npc.dimensions[i].name + "'>" + npc.dimensions[i].name + "</option>");
+    if (npc.dimensions[i].name !== "Interaction")
+      dropdownBuffer.push("<option value='" + npc.dimensions[i].name + "'>" + npc.dimensions[i].name + "</option>");
   }
   let dropV1 = $("#dim-options").val();
   $("#dim-options").html(dropdownBuffer.join(""));
@@ -322,12 +362,12 @@ function updateCompBlock(moveSepPoint) {
   let absSavesProfsArr = [];
 
   if (npc.skills.length !== 0) {
-    absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Proficiencies',ComStrFunctions.GetSkills(npc)));
+    absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Proficiencies', ComStrFunctions.GetSkills(npc)));
   }
   if (StringFunctions.GetSenses(npc, true) !== "") {
-    absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Senses',StringFunctions.GetSenses(npc, true)));
+    absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Senses', StringFunctions.GetSenses(npc, true)));
   }
-  absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Passive Perception',ComStrFunctions.GetPassive(npc, "Perception", "wis"),true));
+  absSavesProfsArr.push(BlockFunctions.MakePieceHTML('Passive Perception', ComStrFunctions.GetPassive(npc, "Perception", "wis"), true));
 
   $("#dimension-sensesProfs").html(absSavesProfsArr.join(""));
 
@@ -335,7 +375,7 @@ function updateCompBlock(moveSepPoint) {
 
   updateFSList(dropV1);
   ComFormFunctions.MakeDisplayList(null, "dims", false, true);
-  ComFormFunctions.MakeNPCList("skills", true);
+  ComFormFunctions.MakeNPCList("skills", true, splitSkillTools(npc));
   ComFormFunctions.ShowHideParch();
 }
 
@@ -460,7 +500,11 @@ var LoadFilePrompt4 = () => {
 
 function ClearCompanion() {
   npc = {
-    dimensions: [],
+    dimensions: [{
+      name: "Interaction",
+      stats: [],
+      features: []
+    }],
     separationPoint: 1,
     doubleColumns: false,
     name: "Companion",

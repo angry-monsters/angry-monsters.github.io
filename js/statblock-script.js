@@ -1933,13 +1933,13 @@ var GetVariablesFunctions = {
       mon.sthrows.push(sthrowData);
   },
 
-  AddSkill: function(skillName, note, mon_id) {
+  AddSkill: function(skillName, note, mon_id, overrideStat = null) {
     let skillData = ArrayFunctions.FindInList(data.allSkills, skillName);
-    if (skillData == null) return;
+    if (skillData == null && overrideStat == null) return;
 
     let skill = {
-      "name": skillData.name,
-      "stat": skillData.stat
+      "name": (overrideStat ? skillName : skillData.name),
+      "stat": (overrideStat ? overrideStat : skillData.stat)
     };
     if (note)
       skill["note"] = note;
@@ -2537,9 +2537,9 @@ function changeColors(colorVar, hue) {
 }
 
 function checkColorScheme() {
-  let priHue = localStorage.getItem("--pri-hue") ? localStorage.getItem("--pri-hue") : getComputedStyle(document.documentElement,null).getPropertyValue("--pri-hue"),
-  mainHue = localStorage.getItem("--stat-main-hue") ? localStorage.getItem("--stat-main-hue") : getComputedStyle(document.documentElement,null).getPropertyValue("--stat-main-hue"),
-  bgHue = localStorage.getItem("--stat-bg-hue") ? localStorage.getItem("--stat-bg-hue") : getComputedStyle(document.documentElement,null).getPropertyValue("--stat-bg-hue");
+  let priHue = localStorage.getItem("--pri-hue") ? localStorage.getItem("--pri-hue") : getComputedStyle(document.documentElement, null).getPropertyValue("--pri-hue"),
+    mainHue = localStorage.getItem("--stat-main-hue") ? localStorage.getItem("--stat-main-hue") : getComputedStyle(document.documentElement, null).getPropertyValue("--stat-main-hue"),
+    bgHue = localStorage.getItem("--stat-bg-hue") ? localStorage.getItem("--stat-bg-hue") : getComputedStyle(document.documentElement, null).getPropertyValue("--stat-bg-hue");
 
   changeColors("--pri-hue", priHue);
   changeColors("--stat-main-hue", mainHue);
@@ -2547,7 +2547,7 @@ function checkColorScheme() {
 }
 
 function setColorBars() {
-  $("#wholeHue").val(localStorage.getItem("--pri-hue")*1);
-  $("#mainHue").val(localStorage.getItem("--stat-main-hue")*1);
-  $("#bgHue").val(localStorage.getItem("--stat-bg-hue")*1);
+  $("#wholeHue").val(localStorage.getItem("--pri-hue") * 1);
+  $("#mainHue").val(localStorage.getItem("--stat-main-hue") * 1);
+  $("#bgHue").val(localStorage.getItem("--stat-bg-hue") * 1);
 }
