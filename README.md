@@ -31,3 +31,4 @@ random generator
 5emm features?
 select2 and mulitselect dropdowns
 two-note NPC w/ companions
+how does angry calc rolling for hp
