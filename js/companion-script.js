@@ -34,7 +34,9 @@ var npc = {
   ac: 10,
   armor: "",
   speed: 30,
-  hitDie: 6
+  hitDie: 6,
+  moraleTrig: "Critical",
+  moraleFail: "Retreats"
 };
 
 var cdata;
@@ -77,6 +79,9 @@ function getNPC() {
   npc.armor = $("#acdesc-inputc").val();
   npc.speed = $("#speed-inputc").val() * 1;
   npc.hitDie = $("#chitdie-inputc").val() * 1;
+
+  npc.moraleTrig = $("#moraletrig-inputc").val();
+  npc.moraleFail = $("#moralefail-inputc").val();
 
   updateCompBlock(0);
 }
@@ -215,6 +220,9 @@ function setInputs() {
   $("#acdesc-inputc").val(npc.armor);
   $("#speed-inputc").val(npc.speed);
   $("#chitdie-inputc").val(npc.hitDie);
+
+  $("#moraletrig-inputc").val(npc.moraleTrig);
+  $("#moralefail-inputc").val(npc.moraleFail);
 
   updateCompBlock(0);
 }
@@ -493,6 +501,8 @@ function updateCompBlock(moveSepPoint) {
   $("#healthc-diecode").html(hpDie);
   $("#recover-c").html(Math.floor(0.75 * hpMax));
 
+  $("#morale-c").html(npc.moraleTrig + " (" + npc.moraleFail + ")");
+
   if (npc.savingThrow !== "*") {
     let oldPts = npc[npc.savingThrow + "Points"];
     $("#" + npc.savingThrow + "ptsc").html(StringFunctions.BonusFormat(oldPts) + "|" + StringFunctions.BonusFormat((oldPts + data.tiers[npc.tier].prof)));
@@ -696,7 +706,9 @@ function ClearCompanion() {
     ac: 10,
     armor: "",
     speed: 30,
-    hitDie: 6
+    hitDie: 6,
+    moraleTrig: "Critical",
+    moraleFail: "Retreats"
   };
   setInputs();
 }

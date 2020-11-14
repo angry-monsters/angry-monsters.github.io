@@ -371,6 +371,26 @@
               <option value="10">Front-line Combatant (d10)</option>
             </select>
           </label>
+          <br><br>
+
+          <label for="moraletrig-inputc">Morale Trigger: <br>
+            <select id="moraletrig-inputc" onchange="getNPC()">
+              <option value="Injured">Injured (Non-combatants)</option>
+              <option value="Staggered">Staggered (Back-line)</option>
+              <option value="Critical">Critical (Mid-line and Front-line)</option>
+              <option value="Fearless">Fearless</option>
+            </select>
+          </label>
+
+          <label for="moralefail-inputc">Fail Type: <br>
+            <select id="moralefail-inputc" onchange="getNPC()">
+              <option value="Panics">Panics (Non-combatants)</option>
+              <option value="Retreats">Retreats (Combatants)</option>
+              <option value="Routs">Routs</option>
+              <option value="Berserk">Goes Berserk</option>
+              <option value="Enraged">Gets Enraged</option>
+            </select>
+          </label>
 
         </div>
 
@@ -644,7 +664,7 @@
             </div> <!-- property line -->
             <div class="c-line last">
               <h4>Morale</h4>
-              <p id=""></p>
+              <p id="morale-c"></p>
             </div>
             <div class="com-heading" id="dimension-left"></div>
           </div> <!-- section left -->
