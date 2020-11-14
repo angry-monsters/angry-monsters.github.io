@@ -99,7 +99,7 @@
       <p>Download the <a target="_blank" href="./compendium/bestiary.compendium?v=5">Community Compendium</a> and contribute <a target="_blank"
           href="https://github.com/angry-monsters/angry-monsters.github.io/issues/new?assignees=&labels=bestiary&template=compendium-addition.md&title=General+Title+of+Monsters%2FTheme%2FAdditions">your own creations!</a></p>
       <p>Last addition on 5 September 2020 - Green Fang Kobolds from phildhub.</p>
-      <input id="file-upload2" type="file" onChange="TryLoadFile2();" hidden />
+      <input id="file-upload2" type="file" accept=".monster, .encounter, .compendium" onChange="TryLoadFile2();" hidden />
       <input id="mon-sort-order" type="text" hidden />
     </div>
     <div class="monster-manual" style="grid-column:span 3;overflow:inherit">
@@ -190,7 +190,7 @@
           <button onclick="TryEncounterAdd()">Add to Encounter</button>
           <br><br>
           <button onclick="LoadFilePrompt3()">Load Monster(s) from File </button>
-          <input id="file-upload3" type="file" onChange="TryLoadFile3();" hidden />
+          <input id="file-upload3" type="file" accept=".monster, .encounter, .compendium" onChange="TryLoadFile3();" hidden />
         </div>
         <button class="menu-btn" onclick="">Block Format</button>
         <div class="menudrop">
@@ -340,7 +340,7 @@
           <br>
           <button onclick="TryManual()">Add to Bestiary</button>
           <button onclick="TryEncounter()">Add to Encounter</button>
-          <input id="file-upload" type="file" onChange="TryLoadFile();" hidden />
+          <input id="file-upload" type="file" accept=".monster, .encounter, .compendium" onChange="TryLoadFile();" hidden />
           <br><br>
           <div id="monster-select-form">Monster Presets: <select id="monster-select">
               <option value="">-Select-</option>
