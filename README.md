@@ -23,7 +23,7 @@ To contribute to the bestiary, go to the issues page, create a new compendium ad
 
 
 tools to proficiencies (attribute association) auto-guess but with dropdown
-updates from tetracube: lair and regional actions, speaks but does not understand language
+updates from tetracube: lair and regional actions
 tooltips on hover
 [mon] tag work for npcs
 shortened name
