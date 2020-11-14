@@ -40,10 +40,13 @@ var npc = {
   hover: false,
   swimSpeed: 0,
   customSpeed: false,
-  speedDesc: "",
+  speedDesc: "30 ft.",
   hitDie: 6,
   moraleTrig: "Critical",
-  moraleFail: "Retreats"
+  moraleFail: "Retreats",
+  damagetypes: [],
+  specialdamage: [],
+  conditions: [],
 };
 
 var cdata;
@@ -168,6 +171,18 @@ var ComStrFunctions = {
     let perLev = Math.ceil((baseDie + 1) / 2) + conBonus;
 
     return conBonus + baseDie + ((effLev - 1) * perLev);
+  },
+
+  GetArray: function(npcArr) {
+    let arrDisplayArr = [];
+
+    for (let index = 0; index < npcArr.length; index++) {
+      let arrData = npcArr[index];
+
+      arrDisplayArr.push(arrData.name);
+    }
+
+    return arrDisplayArr.join(", ");
   },
 }
 
@@ -407,6 +422,23 @@ function addLangC(note) {
   updateCompBlock(0);
 }
 
+function addDamageC(note) {
+  let dmg = $("#damagetypes-inputc").val();
+  if (dmg === "*")
+    dmg = $("#cother-damage-input").val().trim();
+  if (!dmg.length) return;
+
+  updateCompBlock(0);
+}
+
+function addConditionC() {
+  ArrayFunctions.ArrayInsert(npc.conditions, {
+    "name": $("#conditions-inputc").val()
+  }, true);
+
+  updateCompBlock(0);
+}
+
 function addStat(npc_id) {
   if ($("#dim-options").val()) {
     let statName = $("#stats-name-input").val(),
@@ -536,6 +568,13 @@ function updateCompBlock(moveSepPoint) {
 
   $("#morale-c").html(npc.moraleTrig + " (" + npc.moraleFail + ")");
 
+  let combatStatsArr = [];
+  if (npc.conditions.length !== 0) {
+    combatStatsArr.push(BlockFunctions.MakePieceHTML('Immune', ComStrFunctions.GetArray(npc.conditions)));
+  }
+
+  $("#dimension-combatStats").html(combatStatsArr.join(""));
+
   if (npc.savingThrow !== "*") {
     let oldPts = npc[npc.savingThrow + "Points"];
     $("#" + npc.savingThrow + "ptsc").html(StringFunctions.BonusFormat(oldPts) + "|" + StringFunctions.BonusFormat((oldPts + data.tiers[npc.tier].prof)));
@@ -560,6 +599,7 @@ function updateCompBlock(moveSepPoint) {
   ComFormFunctions.MakeDisplayList(interactIdx, "features", true, false, "personality");
   ComFormFunctions.MakeNPCList("skills", true, splitSkillTools(npc));
   ComFormFunctions.MakeNPCList("languages", true);
+  ComFormFunctions.MakeNPCList("conditions", true);
   ComFormFunctions.ShowHideParch();
 }
 
@@ -745,10 +785,13 @@ function ClearCompanion() {
     hover: false,
     swimSpeed: 0,
     customSpeed: false,
-    speedDesc: "",
+    speedDesc: "30 ft.",
     hitDie: 6,
     moraleTrig: "Critical",
-    moraleFail: "Retreats"
+    moraleFail: "Retreats",
+    damagetypes: [],
+    specialdamage: [],
+    conditions: [],
   };
   setInputs();
 }

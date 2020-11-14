@@ -348,9 +348,9 @@
         </div>
 
         <button class="menu-btn" onclick="">Combat Statistics</button>
-        <div class="menudrop" style="padding-top: 0">
+        <div class="menudrop" style="padding-top: 0;">
           <button class="menu-btn" onclick="">Speed</button>
-          <div class="menudrop submenu-end">
+          <div class="menudrop">
 
             <div class="togWrap">
               <div class="tab-wrap" id="">
@@ -365,8 +365,8 @@
               <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
               <div>
                 <span>Speed: <br></span>
-                    <input type="number" id="speed-inputc" min="0" max="120" step="5" value="30" onchange="getNPC()" style="margin: .0625rem 0;">
-                    <input id="custom-speed-inputc" type="text" style="display: none; width: 18rem" onchange="getNPC()">
+                <input type="number" id="speed-inputc" min="0" max="120" step="5" value="30" onchange="getNPC()" style="margin: .0625rem 0;">
+                <input id="custom-speed-inputc" type="text" style="display: none; width: 18rem" onchange="getNPC()">
               </div>
             </div>
             <br>
@@ -398,6 +398,79 @@
                 </tr>
               </table>
             </div>
+          </div>
+
+          <button class="menu-btn" onclick="">Resistances & Vulnerabilities</button>
+          <div class="menudrop submenu-end">
+
+            <label for="damagetypes-inputc">Damage Types:<br>
+              <select id="damagetypes-inputc" onchange="ComFormFunctions.ShowHideOther('cother-damage-input','damagetypes-inputc')">
+                <option value="acid">Acid</option>
+                <option value="bludgeoning">Bludgeoning</option>
+                <option value="cold">Cold</option>
+                <option value="fire">Fire</option>
+                <option value="force">Force</option>
+                <option value="lightning">Lightning</option>
+                <option value="necrotic">Necrotic</option>
+                <option value="piercing">Piercing</option>
+                <option value="poison">Poison</option>
+                <option value="psychic">Psychic</option>
+                <option value="radiant">Radiant</option>
+                <option value="slashing">Slashing</option>
+                <option value="thunder">Thunder</option>
+                <option value="bludgeoning, piercing, and slashing from nonmagical attacks">Nonmagical Attacks</option>
+                <option value="bludgeoning, piercing, and slashing from nonmagical attacks that aren't silvered">Non-Silvered Attacks</option>
+                <option value="bludgeoning, piercing, and slashing from nonmagical attacks that aren't adamantine">Non-Adamantine Attacks</option>
+                <option value="*">Other</option>
+              </select>
+            </label>
+            <input style="margin-top:.15rem; display: none;" id="cother-damage-input" type="text" value="">
+            <div style="margin-top:.15rem;">
+              <button type="button" onclick="addDamageC('v')">Vulnerable</button>
+              <button type="button" onclick="addDamageC('r')">Resistant</button>
+              <button type="button" onclick="addDamageC('i')">Immune</button>
+              <button type="button" onclick="addDamageC('a')">Absorb</button>
+            </div>
+            <br>
+
+            <label for="conditions-inputc">Condition Immunities:<br>
+              <select id="conditions-inputc">
+                <option value="blinded">Blinded</option>
+                <option value="charmed">Charmed</option>
+                <option value="deafened">Deafened</option>
+                <option value="exhaustion">Exhaustion</option>
+                <option value="frightened">Frightened</option>
+                <option value="grappled">Grappled</option>
+                <option value="incapacitated">Incapacitated</option>
+                <option value="invisible">Invisible</option>
+                <option value="paralyzed">Paralyzed</option>
+                <option value="petrified">Petrified</option>
+                <option value="poisoned">Poisoned</option>
+                <option value="prone">Prone</option>
+                <option value="restrained">Restrained</option>
+                <option value="stunned">Stunned</option>
+                <option value="unconscious">Unconscious</option>
+              </select>
+            </label>
+            <button type="button" onclick="addConditionC()">Immune</button>
+            <br><br>
+
+            <table>
+              <tr>
+                <td colspan="3">
+                  Damage Types:
+                  <div id="damagec-input-section">
+                    <ul id="damagec-input-list" class="statblock-list"></ul>
+                  </div>
+                </td>
+                <td colspan="2">
+                  Conditions:
+                  <div id="conditionsc-input-section">
+                    <ul id="conditionsc-input-list" class="statblock-list"></ul>
+                  </div>
+                </td>
+              </tr>
+            </table>
           </div>
           <br><br>
 
@@ -699,10 +772,11 @@
               <h4>Recovery</h4>
               <p id="recover-c"></p>
             </div> <!-- property line -->
-            <div class="c-line last">
+            <div class="c-line">
               <h4>Morale</h4>
               <p id="morale-c"></p>
             </div>
+            <div class="" id="dimension-combatStats"></div>
             <div class="com-heading" id="dimension-left"></div>
           </div> <!-- section left -->
           <div class="section-right">
