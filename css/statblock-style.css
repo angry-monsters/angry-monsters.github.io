@@ -288,6 +288,9 @@
 #print-block h3,
 #print-block h4,
 #print-block ul,
+#print-block strong,
+#print-block em,
+#print-block strong em,
 #print-block p {
     color: var(--stat-null);
 }
