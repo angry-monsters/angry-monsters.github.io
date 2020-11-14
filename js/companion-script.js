@@ -178,11 +178,21 @@ var ComStrFunctions = {
 
     for (let index = 0; index < npcArr.length; index++) {
       let arrData = npcArr[index];
-
       arrDisplayArr.push(arrData.name);
     }
 
-    return arrDisplayArr.join(", ");
+    return arrDisplayArr;
+  },
+
+  GetCondArray: function(npcArr, arrNote) {
+    let npcDisplayArr = [];
+
+    for (let index = 0; index < npcArr.length; index++) {
+      let arrData = npcArr[index];
+      if (arrData.note === arrNote) npcDisplayArr.push(arrData);
+    }
+
+    return this.GetArray(npcDisplayArr);
   },
 }
 
@@ -306,8 +316,8 @@ var ComFormFunctions = {
       arrElement = "#" + outElem + "-input-list";
     for (let index = 0; index < arr.length; index++) {
       let element = arr[index],
-        content = "<b>" + StringFunctions.FormatString(element.name, false) + (element.hasOwnProperty("desc") ?
-          ":</b> " + StringFunctions.FormatString(element.desc, isBlock) : "</b>");
+        content = (isBlock ? "<b>" : "") + StringFunctions.FormatString(element.name, false) + (element.hasOwnProperty("desc") ?
+          ":" + (isBlock ? "</b>" : "") + " " + StringFunctions.FormatString(element.desc, isBlock) : (isBlock ? "</b>" : ""));
 
       let functionArgs = arrIdx + " ,\"" + arrName + "\", " + index + ", " + isDim,
         imageHTML = "<svg class='statblock-image' onclick='ComFormFunctions.RemoveDisplayListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use></svg>";
@@ -346,7 +356,7 @@ var ComFormFunctions = {
   },
 
   MakeNPCList: function(arrName, capitalize, altDisplayArr = null) {
-    let arr = npc[arrName],
+    let arr = (arrName === "damage" ? npc.damagetypes.concat(npc.specialdamage) : npc[arrName]),
       displayArr = [],
       content = "",
       arrElement = "#" + arrName + "c-input-list",
@@ -358,9 +368,9 @@ var ComFormFunctions = {
         switchVal = (altDisplayArr ? altDisplayArr.switch[index] : 0);
 
 
-      content = "<b>" + StringFunctions.FormatString(elementName + note, false) + (
+      content = "" + StringFunctions.FormatString(elementName + note, false) + (
         switchVal > 1 ?
-        ":</b> " + StringFunctions.FormatString(element.stat, false) : "</b>");
+        ": " + StringFunctions.FormatString(element.stat, false) : "");
 
       let functionArgs = arrName + "\", " + index,
         imageHTML = "<svg class='statblock-image' onclick='ComFormFunctions.RemoveNPCListItem(\"" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use></svg>";
@@ -383,7 +393,17 @@ var ComFormFunctions = {
   },
 
   RemoveNPCListItem: function(arrName, index) {
-    let arr = npc[arrName];
+    let arr;
+    if (arrName == "damage") {
+      if (npc.damagetypes.length - index > 0)
+        arr = npc.damagetypes;
+      else {
+        index -= npc.damagetypes.length;
+        arr = npc.specialdamage;
+      }
+    } else
+      arr = npc[arrName];
+
     arr.splice(index, 1);
     updateCompBlock(0);
   },
@@ -423,10 +443,17 @@ function addLangC(note) {
 }
 
 function addDamageC(note) {
-  let dmg = $("#damagetypes-inputc").val();
-  if (dmg === "*")
-    dmg = $("#cother-damage-input").val().trim();
-  if (!dmg.length) return;
+  let damageName = $("#damagetypes-inputc").val();
+  if (damageName === "*")
+    damageName = $("#cother-damage-input").val().trim();
+  if (!damageName.length) return;
+
+  let special = !data.allNormalDamageTypes.includes(damageName.toLowerCase());
+
+  ArrayFunctions.ArrayInsert(npc[special ? "specialdamage" : "damagetypes"], {
+    "name": damageName,
+    "note": note
+  }, true);
 
   updateCompBlock(0);
 }
@@ -569,9 +596,23 @@ function updateCompBlock(moveSepPoint) {
   $("#morale-c").html(npc.moraleTrig + " (" + npc.moraleFail + ")");
 
   let combatStatsArr = [];
-  if (npc.conditions.length !== 0) {
-    combatStatsArr.push(BlockFunctions.MakePieceHTML('Immune', ComStrFunctions.GetArray(npc.conditions)));
+
+  let addCombatArr = (arr, arr2, code, arr3 = []) => {
+    let codeAdj = " (" + code + ")";
+    let comArr = ComStrFunctions.GetCondArray(arr, codeAdj),
+      comArr2 = ComStrFunctions.GetCondArray(arr2, codeAdj),
+      comArr3 = ComStrFunctions.GetArray(arr3);
+    if ((comArr.length + comArr2.length + comArr3.length) > 0) {
+      let addStr = StringFunctions.ConcatUnlessEmpty(comArr.join(", "), comArr2.join("; "), "; ").toLowerCase();
+      let addStrFinal = StringFunctions.ConcatUnlessEmpty(addStr, comArr3.join(", "), "; ").toLowerCase();
+      combatStatsArr.push(BlockFunctions.MakePieceHTML(code, addStrFinal));
+    }
   }
+
+  addCombatArr(npc.damagetypes, npc.specialdamage, "Vulnerable")
+  addCombatArr(npc.damagetypes, npc.specialdamage, "Absorbs")
+  addCombatArr(npc.damagetypes, npc.specialdamage, "Resists")
+  addCombatArr(npc.damagetypes, npc.specialdamage, "Immune", npc.conditions)
 
   $("#dimension-combatStats").html(combatStatsArr.join(""));
 
@@ -600,6 +641,7 @@ function updateCompBlock(moveSepPoint) {
   ComFormFunctions.MakeNPCList("skills", true, splitSkillTools(npc));
   ComFormFunctions.MakeNPCList("languages", true);
   ComFormFunctions.MakeNPCList("conditions", true);
+  ComFormFunctions.MakeNPCList("damage", true);
   ComFormFunctions.ShowHideParch();
 }
 
@@ -608,6 +650,11 @@ function updateFSList(dropV1) {
     let catIdx = getFindIdx(npc.dimensions, "name", dropV1);
     ComFormFunctions.MakeDisplayList(catIdx, "stats", true);
     ComFormFunctions.MakeDisplayList(catIdx, "features", true);
+  } else {
+    $("#features-input-list").parent()["hide"]();
+    $("#stats-input-list").parent()["hide"]();
+    $("#features-input-list").html("");
+    $("#stats-input-list").html("");
   }
 }
 
