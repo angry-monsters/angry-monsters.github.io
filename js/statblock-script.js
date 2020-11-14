@@ -2273,14 +2273,14 @@ var StringFunctions = {
     return "negligible" + threat_num;
   },
 
-  GetSpeed: function() {
-    if (mon.customSpeed)
-      return mon.speedDesc;
-    let speedsDisplayArr = [mon.speed + " ft."];
-    if (mon.burrowSpeed > 0) speedsDisplayArr.push("burrow " + mon.burrowSpeed + " ft.");
-    if (mon.climbSpeed > 0) speedsDisplayArr.push("climb " + mon.climbSpeed + " ft.");
-    if (mon.flySpeed > 0) speedsDisplayArr.push("fly " + mon.flySpeed + " ft." + (mon.hover ? " (hover)" : ""));
-    if (mon.swimSpeed > 0) speedsDisplayArr.push("swim " + mon.swimSpeed + " ft.");
+  GetSpeed: function(mon_id = mon) {
+    if (mon_id.customSpeed)
+      return mon_id.speedDesc;
+    let speedsDisplayArr = [mon_id.speed + " ft."];
+    if (mon_id.burrowSpeed > 0) speedsDisplayArr.push("burrow " + mon_id.burrowSpeed + " ft.");
+    if (mon_id.climbSpeed > 0) speedsDisplayArr.push("climb " + mon_id.climbSpeed + " ft.");
+    if (mon_id.flySpeed > 0) speedsDisplayArr.push("fly " + mon_id.flySpeed + " ft." + (mon_id.hover ? " (hover)" : ""));
+    if (mon_id.swimSpeed > 0) speedsDisplayArr.push("swim " + mon_id.swimSpeed + " ft.");
     return speedsDisplayArr.join(", ")
   },
 

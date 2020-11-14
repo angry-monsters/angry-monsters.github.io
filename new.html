@@ -181,7 +181,7 @@
               <input type="checkbox" onchange="ComFormFunctions.ShowHideParch()" id="parch-toggle" checked />
               <div class="toggler round"></div>
             </label>
-            <span>&nbsp;&nbsp;Parchment Texture</span>
+            <span>&nbsp;&nbsp;Parchment Texture?</span>
           </div>
           <br>
 
@@ -190,7 +190,7 @@
               <input type="checkbox" onchange="changeWidth()" id="col-toggle" />
               <div class="toggler round"></div>
             </label>
-            <span>&nbsp;&nbsp;Two Columns&nbsp;&nbsp;</span>
+            <span>&nbsp;&nbsp;Two Columns?&nbsp;&nbsp;</span>
             <div style="display: inline-block; height: 1.5rem" id="c-separator-button" class="">
               <button id="cleft-separator-button" type="button" onclick="updateCompBlock(1)">&lt;&lt; shift left</button>
               <button id="cright-separator-button" type="button" onclick="updateCompBlock(-1)">shift right &gt;&gt;</button>
@@ -347,19 +347,66 @@
 
         </div>
 
-        <button class="menu-btn" onclick="">Base Combat Statistics</button>
-        <div class="menudrop">
+        <button class="menu-btn" onclick="">Combat Statistics</button>
+        <div class="menudrop" style="padding-top: 0">
+          <button class="menu-btn" onclick="">Speed</button>
+          <div class="menudrop submenu-end">
+
+            <div class="togWrap">
+              <div class="tab-wrap" id="">
+                <span>Custom?</span>
+                <label class="togInput" for="speed-other-inputc">
+                  <input type="checkbox"
+                    onchange="getNPC();ComFormFunctions.ShowHideTrueFalse('speed-table-c',!$('#speed-other-inputc').prop('checked'));ComFormFunctions.ShowHideTrueFalse('speed-inputc',!$('#speed-other-inputc').prop('checked'));ComFormFunctions.ShowHideTrueFalse('custom-speed-inputc',$('#speed-other-inputc').prop('checked'))"
+                    id="speed-other-inputc" />
+                  <div class="toggler round"></div>
+                </label>
+              </div>
+              <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <div>
+                <span>Speed: <br></span>
+                    <input type="number" id="speed-inputc" min="0" max="120" step="5" value="30" onchange="getNPC()" style="margin: .0625rem 0;">
+                    <input id="custom-speed-inputc" type="text" style="display: none; width: 18rem" onchange="getNPC()">
+              </div>
+            </div>
+            <br>
+
+            <div id="speed-table-c">
+              <table>
+                <tr>
+                  <td style="padding-top:0;padding-bottom:0;vertical-align: middle;">
+                    <div class="togWrap">
+                      <label for="fly-inputc">Fly: <br><input type="number" id="fly-inputc" min="0" max="995" step="5" value="0" onchange="getNPC();ComFormFunctions.ShowHideTrueFalse('hover-toggle', this.value > 0)"> ft.</label>
+                      <span>&nbsp;&nbsp;&nbsp;</span>
+                      <div class="tab-wrap" id="hover-toggle">
+                        <span>Hover?</span>
+                        <label class="togInput" for="hover-inputc">
+                          <input type="checkbox" onchange="getNPC()" id="hover-inputc" />
+                          <div class="toggler round"></div>
+                        </label>
+                      </div>
+                    </div>
+                  </td>
+                  <td style="text-align: center;vertical-align: middle;"><label for="swim-inputc">Swim: <br><input type="number" id="swim-inputc" onchange="getNPC()" min="0" max="995" step="5" value="0"> ft.</label></td>
+                </tr>
+              </table>
+              <br>
+              <table>
+                <tr>
+                  <td style="vertical-align: middle;"><label for="burrow-inputc">Burrow: <br><input type="number" id="burrow-inputc" onchange="getNPC()" min="0" max="995" step="5" value="0"> ft.</label></td>
+                  <td style="text-align: center;vertical-align: middle;"><label for="climb-inputc">Climb: <br><input type="number" id="climb-inputc" onchange="getNPC()" min="0" max="995" step="5" value="0"> ft.</label></td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <br><br>
+
           <label for="ac-inputc">AC: <br>
             <input type="number" id="ac-inputc" min="1" max="30" step="1" value="10" onchange="getNPC()">
           </label>
 
           <label for="acdesc-inputc">Armor: <br>
             <input id="acdesc-inputc" type="text" onchange="getNPC()">
-          </label>
-          <br><br>
-
-          <label for="speed-inputc">Speed: <br>
-            <input type="number" id="speed-inputc" min="0" max="120" step="5" value="30" onchange="getNPC()">
           </label>
           <br><br>
 
@@ -628,10 +675,11 @@
             <div class="com-heading">
               <h3 id="">Combat Statistics</h3>
             </div>
-            <div class="cstats">
+            <div class="cstats" style="margin-bottom: .625rem;">
               <div class="">
                 <h4>AC</h4>
                 <p id="ac-numc"></p>
+                <p id="ac-descc"></p>
               </div>
               <div class="">
                 <h4>INIT</h4>
@@ -644,17 +692,6 @@
               <div class="">
                 <h4>HP</h4>
                 <p id="healthc"></p>
-              </div>
-            </div>
-            <div class="cstats">
-              <div style="vertical-align: top; margin-bottom: .625rem;">
-                <p id="ac-descc"></p>
-              </div>
-              <div class="">
-              </div>
-              <div class="">
-              </div>
-              <div style="vertical-align: top;">
                 <p id="healthc-diecode"></p>
               </div>
             </div>

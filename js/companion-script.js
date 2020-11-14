@@ -34,6 +34,13 @@ var npc = {
   ac: 10,
   armor: "",
   speed: 30,
+  burrowSpeed: 0,
+  climbSpeed: 0,
+  flySpeed: 0,
+  hover: false,
+  swimSpeed: 0,
+  customSpeed: false,
+  speedDesc: "",
   hitDie: 6,
   moraleTrig: "Critical",
   moraleFail: "Retreats"
@@ -77,8 +84,18 @@ function getNPC() {
 
   npc.ac = $("#ac-inputc").val() * 1;
   npc.armor = $("#acdesc-inputc").val();
-  npc.speed = $("#speed-inputc").val() * 1;
   npc.hitDie = $("#chitdie-inputc").val() * 1;
+
+  npc.customSpeed = $("#speed-other-inputc").prop("checked");
+  npc.speedDesc = $("#custom-speed-inputc").val();
+  npc.speed = $("#speed-inputc").val() * 1;
+
+  npc.swimSpeed = $("#swim-inputc").val() * 1;
+  npc.burrowSpeed = $("#burrow-inputc").val() * 1;
+  npc.climbSpeed = $("#climb-inputc").val() * 1;
+
+  npc.flySpeed = $("#fly-inputc").val() * 1;
+  npc.hover = $("#hover-inputc").prop("checked");
 
   npc.moraleTrig = $("#moraletrig-inputc").val();
   npc.moraleFail = $("#moralefail-inputc").val();
@@ -176,17 +193,19 @@ function setInputs() {
   $("#ctier-input").val(npc.tier);
   $("#ctag-input").val(npc.tag);
 
-  if (data.types.includes(npc.type))
+  if (data.types.includes(npc.type)) {
     $("#ctype-input").val(npc.type);
-  else {
+    $("#cother-type-input").val("");
+  } else {
     $("#ctype-input").val("*");
     $("#cother-type-input").val(npc.type);
   }
   ComFormFunctions.ShowHideOther('cother-type-input', 'ctype-input');
 
-  if (cdata.classifications.includes(npc.classification))
+  if (cdata.classifications.includes(npc.classification)) {
     $("#cclass-input").val(npc.classification);
-  else {
+    $("#cother-class-input").val("");
+  } else {
     $("#cclass-input").val("*");
     $("#cother-class-input").val(npc.classification);
   }
@@ -218,8 +237,22 @@ function setInputs() {
 
   $("#ac-inputc").val(npc.ac);
   $("#acdesc-inputc").val(npc.armor);
-  $("#speed-inputc").val(npc.speed);
   $("#chitdie-inputc").val(npc.hitDie);
+
+  $("#speed-other-inputc").prop("checked", npc.customSpeed);
+  $("#custom-speed-inputc").val(npc.speedDesc);
+  $("#speed-inputc").val(npc.speed);
+  ComFormFunctions.ShowHideTrueFalse('speed-table-c', !npc.customSpeed);
+  ComFormFunctions.ShowHideTrueFalse('speed-inputc', !npc.customSpeed);
+  ComFormFunctions.ShowHideTrueFalse('custom-speed-inputc', npc.customSpeed)
+
+  $("#swim-inputc").val(npc.swimSpeed);
+  $("#burrow-inputc").val(npc.burrowSpeed);
+  $("#climb-inputc").val(npc.climbSpeed);
+
+  $("#fly-inputc").val(npc.flySpeed);
+  $("#hover-inputc").prop("checked", npc.hover);
+  ComFormFunctions.ShowHideTrueFalse('hover-toggle', npc.flySpeed > 0)
 
   $("#moraletrig-inputc").val(npc.moraleTrig);
   $("#moralefail-inputc").val(npc.moraleFail);
@@ -490,8 +523,8 @@ function updateCompBlock(moveSepPoint) {
   setPtsC("#initc", npc.dexPoints);
 
   $("#ac-numc").html(npc.ac);
-  $("#ac-descc").html(npc.armor);
-  $("#speedc").html(npc.speed + " ft.");
+  $("#ac-descc").html((npc.armor ? "(" + npc.armor + ")" : ""));
+  $("#speedc").html(StringFunctions.GetSpeed(npc));
 
   let hpMax = ComStrFunctions.GetHealth(npc);
   let hpString = hpMax + "|" + Math.floor(hpMax / 2) + "|" + Math.floor(Math.floor(hpMax / 2) / 2);
@@ -706,6 +739,13 @@ function ClearCompanion() {
     ac: 10,
     armor: "",
     speed: 30,
+    burrowSpeed: 0,
+    climbSpeed: 0,
+    flySpeed: 0,
+    hover: false,
+    swimSpeed: 0,
+    customSpeed: false,
+    speedDesc: "",
     hitDie: 6,
     moraleTrig: "Critical",
     moraleFail: "Retreats"
