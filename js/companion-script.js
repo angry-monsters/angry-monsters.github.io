@@ -664,7 +664,7 @@ var BlockFunctions = {
     let dataSet = npc_id.dimensions[idx],
       displayArr = [dimIDn];
 
-    displayArr.push("<svg height='.3125rem' width='100%' class='tapered-rule'><polyline points='0,0 0,3 400,3 400,0'></polyline></svg>");
+    displayArr.push("<svg height='.3125rem' width='100%' class='tapered-rule'><polyline points='0,0 400,2.5 0,5'></polyline></svg>");
     displayArr.push("<h3>" + dataSet.name + "</h3>")
 
     for (let i = 0; i < dataSet.stats.length; i++) {

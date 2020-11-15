@@ -144,8 +144,8 @@
     width: 100%;
     height: .3125rem;
     border: none;
-    color: var(--stat-bord);
-    fill: var(--stat-bord);
+    color: var(--stat-main);
+    fill: var(--stat-main);
     margin: .625rem 0 .2rem;
 }
 
