@@ -930,11 +930,11 @@ var FormFunctions = {
 
   // Show/Hide form options to make it less overwhelming - only call these from SetForms or HTML elements
   ShowHideHtmlElement: function(element, show) {
-    show ? $(element).show() : $(element).hide();
+    show ? $("[id='" + element + "']").show() : $("[id='" + element + "']").hide();
   },
 
   ShowHideTypeOther: function() {
-    this.ShowHideHtmlElement("#other-type-input", $("#type-input").val() == "*");
+    this.ShowHideHtmlElement("other-type-input", $("#type-input").val() == "*");
   },
 
   ShowHideMorale: function() {
@@ -983,27 +983,27 @@ var FormFunctions = {
   },
 
   ShowHideDamageOther: function() {
-    this.ShowHideHtmlElement("#other-damage-input", $("#damagetypes-input").val() == "*");
+    this.ShowHideHtmlElement("other-damage-input", $("#damagetypes-input").val() == "*");
   },
 
   ShowHideLanguageOther: function() {
-    this.ShowHideHtmlElement("#other-language-input", $("#languages-input").val() == "*");
+    this.ShowHideHtmlElement("other-language-input", $("#languages-input").val() == "*");
   },
 
   ShowHideHoverBox: function() {
-    this.ShowHideHtmlElement("#hover-box-note", $("#fly-speed-input").val() > 0);
+    this.ShowHideHtmlElement("hover-box-note", $("#fly-speed-input").val() > 0);
   },
 
   ShowHideBlindBox: function() {
-    this.ShowHideHtmlElement("#blind-box-note", $("#blindsight-input").val() > 0);
+    this.ShowHideHtmlElement("blind-box-note", $("#blindsight-input").val() > 0);
   },
 
   ShowHideSeparatorInput: function() {
-    this.ShowHideHtmlElement("#separator-button", mon.doubleColumns);
+    this.ShowHideHtmlElement("separator-button", mon.doubleColumns);
   },
 
   ShowHideFormatHelper: function() {
-    this.ShowHideHtmlElement("#format-helper", $("#format-helper-checkbox:checked").val())
+    this.ShowHideHtmlElement("format-helper", $("#format-helper-checkbox:checked").val())
   },
 
   // Set the ability bonus given ability scores

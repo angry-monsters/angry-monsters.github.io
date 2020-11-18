@@ -287,16 +287,16 @@ function setInputs() {
 
 var ComFormFunctions = {
   ShowHideOther: function(other, select, checker = "*") {
-    FormFunctions.ShowHideHtmlElement(("#" + other), $("#" + select).val() === checker);
+    FormFunctions.ShowHideHtmlElement((other), $("#" + select).val() === checker);
   },
 
   ShowHideTrueFalse: function(inputID, checkCond) {
-    FormFunctions.ShowHideHtmlElement(("#" + inputID), checkCond);
+    FormFunctions.ShowHideHtmlElement((inputID), checkCond);
   },
 
   ShowHideSection: function(select) {
     for (let i = 0; i < npc.dimensions.length; i++) {
-      FormFunctions.ShowHideHtmlElement(("#dim-" + npc.dimensions[i].name), select !== npc.dimensions[i].name);
+      FormFunctions.ShowHideHtmlElement(("dim-" + npc.dimensions[i].name), select !== npc.dimensions[i].name);
     }
   },
 
@@ -306,7 +306,7 @@ var ComFormFunctions = {
   },
 
   ShowHideSeparatorInput: function() {
-    FormFunctions.ShowHideHtmlElement("#c-separator-button", npc.doubleColumns);
+    FormFunctions.ShowHideHtmlElement("c-separator-button", npc.doubleColumns);
   },
 
   MakeDisplayList: function(arrIdx, arrName, isBlock = false, isDim = false, outElem = arrName) {
@@ -560,6 +560,7 @@ function updateCompBlock(moveSepPoint) {
   };
 
   dropdownBuffer.splice(0, 0, "<option value='*'>No Hidden Dimensions</option>");
+  dropdownBuffer.splice(1, 0, "<option value='Interaction'>Interaction</option>");
   let dropV2 = $("#dim-hide").val();
   $("#dim-hide").html(dropdownBuffer.join(""));
   if (dropV2) $("#dim-hide").val(dropV2);
