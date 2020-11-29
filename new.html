@@ -20,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.5">
-  <link rel="stylesheet" type="text/css" href="css/statblock-page-style.css?version=3.5">
+  <link rel="stylesheet" type="text/css" href="css/statblock-page-style.css?version=3.6">
   <link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.5">
   <link rel="stylesheet" type="text/css" href="css/libre-baskerville.css">
   <link rel="stylesheet" type="text/css" href="css/noto-sans.css">
@@ -35,8 +35,8 @@
   <script>
     svg4everybody();
   </script>
-  <script src="js/statblock-script.js?version=6.5.1"></script>
-  <script src="js/companion-script.js?version=3.0.2"></script>
+  <script src="js/statblock-script.js?version=6.5.2"></script>
+  <script src="js/companion-script.js?version=3.0.3"></script>
 </head>
 
 <body class="gridcontainer" id="stat-block-body">
@@ -51,7 +51,7 @@
       <div class="tabright">
         <div class="tab-wrap" style="grid-column:1;">
           <h1 style="">5e Angry Creature Manager</h1>
-          <p style="margin-top:-.5rem">Latest Update: 18 November 2020 <a href="/faq.html"><strong>(see FAQ & change colors)</strong></a></p>
+          <p style="margin-top:-.5rem">Latest Update: 28 November 2020 <a href="/faq.html"><strong>(see FAQ & change colors)</strong></a></p>
         </div>
         <div class="tab-wrap" style="grid-column:2;">
           <div style="">
@@ -80,7 +80,7 @@
     <div id="mon-opts-div" style="grid-column-end:2;overflow:inherit;text-align:center">
       <br>
       <h2>Angry Companion Design</h2>
-      <p>Read the original article from <a target="_blank" href="https://theangrygm.com/how-to-stat-friends-part-2/">The Angry GM</a></p>
+      <p>Read the original article from <a target="_blank" href="https://theangrygm.com/how-to-stat-friends-part-1/">The Angry GM</a></p>
       <div class="menucontainer">
 
         <button class="menu-btn" onclick="">NPC I/O</button>
@@ -196,6 +196,34 @@
               <button id="cright-separator-button" type="button" onclick="updateCompBlock(-1)">shift right &gt;&gt;</button>
             </div>
           </div>
+          <br>
+
+          <div class="togWrap">
+            <label class="togInput" for="help-toggle">
+              <input type="checkbox" onchange="ComFormFunctions.ShowHideTrueFalse('cformat-helper', $('#help-toggle').prop('checked'))" id="help-toggle" />
+              <div class="toggler round"></div>
+            </label>
+            <span>&nbsp;&nbsp;Show Formatting Help:&nbsp;&nbsp;</span>
+          </div>
+          <br>
+
+          <div id="cformat-helper" style="text-align: left;">
+            <div>These shortcuts can be used in stat and feature names and descriptions.</div>
+            <br>
+            <div>Use _ to italicize and ** to bold, ^^ for a bold italic. </div>
+            <br>
+            <div><b>[MON]</b>: Shows the NPC's name.</div>
+            <div><b>[CHA]</b>: Shows the NPC's charisma modifier.</div>
+            <div><b>[3D6]</b>: Computes 3d6.</div>
+            <div><b>[STR ATK]</b>: Calculates the modifier to the NPC's attack roll for a strength-based attack.</div>
+            <div><b>[DEX 2D8]</b>: Calculates the damage roll for a dexterity-based attack with damage dice 2d8.</div>
+            <div><b>[WIS SAVE]</b>: Calculates the save DC vs the NPC's wisdom.</div>
+            <div><b>[3D6 + 1], [STR ATK - 2], [WIS SAVE + 3]</b>: Adds a modifier to the given values.</div>
+            <div><b>[DC]</b>: Shows the save DC based on the NPC's tier.</div>
+            <div><b>[ATK]</b>: Shows the attack bonus based on the NPC's tier.</div>
+            <br>
+          </div>
+
         </div>
 
         <button class="menu-btn" onclick="">Ability Modifiers and Saves</button>
@@ -789,6 +817,7 @@
   setNight();
   checkColorScheme();
   showMenu();
+  ComFormFunctions.ShowHideTrueFalse('cformat-helper', $('#help-toggle').prop('checked'));
 </script>
 
 </html>

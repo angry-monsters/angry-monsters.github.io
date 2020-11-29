@@ -635,7 +635,7 @@ function AddToTraitList(traitsHTML, traitsArr, addElements, isLegendary = false)
     traitsHTML.push(StringFunctions[isLegendary ? "MakeTraitHTMLLegendary" : "MakeTraitHTML"](traitsArr[index].name, ReplaceTraitTags(traitsArr[index].desc, mon)));
 }
 
-function ReplaceTraitTags(desc, mon_id) {
+function ReplaceTraitTags(desc, mon_id, npc = false) {
   const bracketExp = /\[(.*?)\]/g,
     damageExp = /\d*d\d+/,
     bonusExp = /^[+-] ?(\d+)$/;
@@ -645,16 +645,16 @@ function ReplaceTraitTags(desc, mon_id) {
     matches.push(match);
 
   matches.forEach(function(match) {
-    const GetPoints = (pts) => data.statNames.includes(pts) ? MathFunctions.PointsToBonus(mon_id[pts + "Points"]) : null;
+    const GetPoints = (pts) => data.statNames.includes(pts) ? (npc ? mon_id[pts + "Points"] : MathFunctions.PointsToBonus(mon_id[pts + "Points"])) : null;
     let readString = match[1].toLowerCase().replace(/ +/g, ' ').trim();
 
     if (readString.length > 0) {
       if (readString == "mon") {
         desc = desc.replace(match[0], mon_id.name.toLowerCase());
       } else if (readString == "dc") {
-        desc = desc.replace(match[0], "DC " + StringFunctions.GetSaveDC(mon_id));
+        desc = desc.replace(match[0], "DC " + (npc ? cdata.tiers[mon_id.tier].dc : StringFunctions.GetSaveDC(mon_id)));
       } else if (readString == "atk") {
-        desc = desc.replace(match[0], "+" + StringFunctions.GetAttackBonus(mon_id));
+        desc = desc.replace(match[0], "+" + (npc ? cdata.tiers[mon_id.tier].atk : StringFunctions.GetAttackBonus(mon_id)));
       } else {
         let readPosition = 0,
           type = null,

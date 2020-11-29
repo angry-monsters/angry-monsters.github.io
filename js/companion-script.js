@@ -694,7 +694,7 @@ var BlockFunctions = {
     let htmlClass = "c-line";
     htmlClass += lastLine ? " last" : "";
     htmlClass += firstLine ? " first" : "";
-    return "<div class=\"" + htmlClass + "\"><h4>" + StringFunctions.WordCapitalize(stats.name) + "</h4> <p>" + StringFunctions.FormatString(stats.desc, false) + "</p></div>"
+    return "<div class=\"" + htmlClass + "\"><h4>" + StringFunctions.WordCapitalize(ReplaceTraitTags(stats.name, npc, true)) + "</h4> <p>" + StringFunctions.FormatString(ReplaceTraitTags(stats.desc, npc, true), false) + "</p></div>"
   },
 
   MakeFeatHTML: function(features, firstLine, lastLine) {
@@ -702,7 +702,7 @@ var BlockFunctions = {
     let htmlClass = "c-line";
     htmlClass += lastLine ? " last" : "";
     htmlClass += firstLine ? " first" : "";
-    return "<div class=\"" + htmlClass + "\"><h4>" + StringFunctions.WordCapitalize(features.name) + "</h4><div class='c-indent'><div>" + StringFunctions.FormatString(features.desc, false, true) + "</div></div></div>"
+    return "<div class=\"" + htmlClass + "\"><h4>" + StringFunctions.WordCapitalize(ReplaceTraitTags(features.name, npc, true)) + "</h4><div class='c-indent'><div>" + StringFunctions.FormatString(ReplaceTraitTags(features.desc, npc, true), false, true) + "</div></div></div>"
   },
 }
 
@@ -883,7 +883,7 @@ var CompData = {
 }
 
 $(function() {
-  $.getJSON("js/JSON/companiondata.json?version=1.5", function(json2) {
+  $.getJSON("js/JSON/companiondata.json?version=1.6", function(json2) {
     cdata = json2;
     $.getJSON("js/JSON/statblockdata.json?version=5.5", function(json) {
       data = json;

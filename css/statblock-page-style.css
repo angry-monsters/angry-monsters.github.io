@@ -31,7 +31,8 @@
     display: inline-block;
 }
 
-#format-helper {
+#format-helper,
+#cformat-helper {
 	font-style: italic;
 }
 

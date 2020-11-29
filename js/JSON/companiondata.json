@@ -8,25 +8,53 @@
   ],
   "tiers": {
     "apprentice": {
-      "lev": 2
+      "lev": 2,
+      "dc": 12,
+      "atk": 4,
+      "prof": 2,
+      "foc": 2
     },
     "journeyman": {
-      "lev": 4
+      "lev": 4,
+      "dc": 13,
+      "atk": 5,
+      "prof": 2,
+      "foc": 2
     },
     "adventurer": {
-      "lev": 7
+      "lev": 7,
+      "dc": 14,
+      "atk": 6,
+      "prof": 3,
+      "foc": 3
     },
     "veteran": {
-      "lev": 10
+      "lev": 10,
+      "dc": 16,
+      "atk": 8,
+      "prof": 4,
+      "foc": 3
     },
     "champion": {
-      "lev": 13
+      "lev": 13,
+      "dc": 17,
+      "atk": 9,
+      "prof": 5,
+      "foc": 4
     },
     "epic": {
-      "lev": 16
+      "lev": 16,
+      "dc": 18,
+      "atk": 10,
+      "prof": 5,
+      "foc": 4
     },
     "legendary": {
-      "lev": 19
+      "lev": 19,
+      "dc": 19,
+      "atk": 11,
+      "prof": 6,
+      "foc": 5
     }
   }
 }
