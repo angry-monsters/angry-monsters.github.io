@@ -644,6 +644,7 @@ function updateCompBlock(moveSepPoint) {
   ComFormFunctions.MakeNPCList("conditions", true);
   ComFormFunctions.MakeNPCList("damage", true);
   ComFormFunctions.ShowHideParch();
+  ComFormFunctions.ShowHideSection(dropV2);
 }
 
 function updateFSList(dropV1) {
