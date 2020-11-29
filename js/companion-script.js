@@ -302,7 +302,7 @@ var ComFormFunctions = {
 
   ShowHideParch: function() {
     $("#c-block").toggleClass("c-plain", !$("#parch-toggle").prop("checked"));
-    $(".blue-border").toggleClass("c-plain", !$("#parch-toggle").prop("checked"));
+    $(".orange-border").toggleClass("c-plain", !$("#parch-toggle").prop("checked"));
   },
 
   ShowHideSeparatorInput: function() {
