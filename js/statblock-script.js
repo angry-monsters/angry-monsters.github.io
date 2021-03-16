@@ -248,6 +248,27 @@ function sortBestiary(sort_cat) {
   getMonsterInfo();
 }
 
+function PrintBestiary() {
+  let printWindow = window.open();
+  printWindow.document.write('<html><head><meta charset="utf-8"/><title>Print</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.6"><link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.5"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"><link rel="stylesheet" type="text/css" href="css/companion-style.css?version=2.5"></head><body><div class="printableDiv">');
+
+  for (let index = 0; index < mon2.length; index++) {
+    let mon_rep = JSON.parse(JSON.stringify(mon2[index]));
+    mon = mon_rep;
+    Populate();
+
+    let colSpan = 1;
+    if (mon.doubleColumns) colSpan = 2;
+
+    printWindow.document.write('<div id="print-block_' + index + '" style="grid-column:span ' + colSpan + '">');
+    printWindow.document.write($("#stat-block-wrapper").html());
+    printWindow.document.write('</div>');
+  }
+
+  printWindow.document.write('</div></body></html>');
+  printWindow.document.close();
+}
+
 // Update encounters
 function getEncounterInfo() {
   FormFunctions.MakeEncounterList();
@@ -366,7 +387,7 @@ var TryLoadFile3 = () => {
 // Print function
 function TryPrint(monster_page) {
   let printWindow = window.open();
-  printWindow.document.write('<html><head><meta charset="utf-8"/><title>Print</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.5"><link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.5"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"><link rel="stylesheet" type="text/css" href="css/companion-style.css?version=2.5"></head><body><div id="print-block" class="content">');
+  printWindow.document.write('<html><head><meta charset="utf-8"/><title>Print</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.6"><link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.5"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"><link rel="stylesheet" type="text/css" href="css/companion-style.css?version=2.5"></head><body><div id="print-block" class="content">');
   printWindow.document.write($("#" + monster_page + "-block-wrapper").html());
   printWindow.document.write('</div></body></html>');
   printWindow.document.close();
