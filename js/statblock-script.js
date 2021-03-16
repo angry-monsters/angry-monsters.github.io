@@ -1190,10 +1190,11 @@ var FormFunctions = {
       if (filterRegex.test(fullDisplayString)) {
         if ((lenCount >= llim) && (lenCount <= ulim)) {
           displayArr.push("<tr> " + imageHTML + fullDisplayString + "</tr>");
-          if (element.tier === $("#tier-level").val()) dropdownBuffer.push("<option value=", index, ">", content2, "</option>");
         }
         lenCount++;
       }
+
+      if (element.tier === $("#tier-level").val()) dropdownBuffer.push("<option value=", index, ">", content2, "</option>");
 
     }
     $(arrElement).html(displayArr.join(""));
