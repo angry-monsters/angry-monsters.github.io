@@ -106,6 +106,112 @@ function getNPC() {
   updateCompBlock(0);
 }
 
+var npcCurrentPage = 1;
+var npc2 = [];
+
+var RosterAdd = () => {
+  getNPC();
+  LoadNPC.retrieveFromWindow();
+  getNPCInfo();
+}
+
+var LoadNPC = {
+  retrieveFromWindow: function() {
+    let npc_inc = JSON.parse(JSON.stringify(npc));
+    let endAdd = true;
+    for (let index = 0; index < npc2.length; index++) {
+      let lowercaseElement = npc_inc.name.toLowerCase();
+      let lowercaseIndex = npc2[index].name.toLowerCase();
+      if (lowercaseIndex == lowercaseElement) {
+        npc2.splice(index, 1, npc_inc)
+        endAdd = false;
+      }
+    }
+    if (endAdd) npc2.push(npc_inc);
+    RostData.SaveToLocalStorage();
+  },
+}
+
+function getNPCInfo(val = 0) {
+  let max_row = $("#npc-per-pg").val() * 1;
+  let tot_row = ComFormFunctions.GenNPCLength();
+  let num_pg = Math.ceil(tot_row / max_row);
+
+  let exist_page = npcCurrentPage;
+  npcCurrentPage = Math.min(Math.max(1, (exist_page + val)), num_pg);
+
+  let pgnum_arr = [];
+  for (idx = 1; idx <= num_pg; idx++) {
+    if (idx === npcCurrentPage) {
+      pgnum_arr.push("<span>&nbsp;&nbsp;<strong>" + idx + "</strong>&nbsp;&nbsp;</span>");
+    } else {
+      pgnum_arr.push("<span onclick='getNPCInfo(" + (idx - npcCurrentPage) + ")'>&nbsp;&nbsp;" + idx + "&nbsp;&nbsp;</span>");
+    }
+  }
+
+  $("#page-num-list-npc").html(pgnum_arr.join(""));
+
+  let llim = (npcCurrentPage - 1) * max_row + 1;
+  let ulim = llim + max_row - 1;
+
+  ComFormFunctions.MakeRosterList(llim - 1, ulim - 1);
+}
+
+function sortRoster(sort_cat) {
+  let order_check = $("#npc-sort-order").val();
+
+  if ($("#npc-sort-order").val() === sort_cat) {
+    npc2 = npc2.sort(function(a, b) {
+      var x = a[sort_cat].toLowerCase();
+      var y = b[sort_cat].toLowerCase();
+      if (x < y) {
+        return 1;
+      }
+      if (x > y) {
+        return -1;
+      }
+      return 0;
+    });
+    $("#npc-sort-order").val("");
+  } else {
+    npc2 = npc2.sort(function(a, b) {
+      var x = a[sort_cat].toLowerCase();
+      var y = b[sort_cat].toLowerCase();
+      if (x < y) {
+        return -1;
+      }
+      if (x > y) {
+        return 1;
+      }
+      return 0;
+    });
+    $("#npc-sort-order").val(sort_cat);
+  }
+
+  getNPCInfo();
+}
+
+function PrintRoster() {
+  let printWindow = window.open();
+  printWindow.document.write('<html><head><meta charset="utf-8"/><title>Print</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.7"><link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.5"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"><link rel="stylesheet" type="text/css" href="css/companion-style.css?version=2.5"></head><body><div class="printableDiv">');
+
+  for (let index = 0; index < npc2.length; index++) {
+    let npc_rep = JSON.parse(JSON.stringify(npc2[index]));
+    npc = npc_rep;
+    setInputs();
+
+    let colSpan = 1;
+    if (npc.doubleColumns) colSpan = 2;
+
+    printWindow.document.write('<div id="print-block_' + index + '" style="grid-column:span ' + colSpan + '">');
+    printWindow.document.write($("#c-block-wrapper").html());
+    printWindow.document.write('</div>');
+  }
+
+  printWindow.document.write('</div></body></html>');
+  printWindow.document.close();
+}
+
 var ComStrFunctions = {
   WriteSubheader: function(npc_id) {
     return StringFunctions.StringCapitalize(npc_id.size) + " " + npc_id.type + (npc_id.tag != "" ? " (" + npc_id.tag + ")" : "") + ", " + npc_id.tier + " tier " + npc_id.classification;
@@ -286,6 +392,69 @@ function setInputs() {
 }
 
 var ComFormFunctions = {
+  GenNPCLength: function() {
+    let npc_tot = 0;
+    let filterRegex = FormFunctions.GenMonsterFilter('npc-filter');
+
+    for (let index = 0; index < npc2.length; index++) {
+      let element = npc2[index];
+
+      if (filterRegex.test(element.name + element.tier + element.classification + element.type + element.tag)) {
+        npc_tot++;
+      }
+    }
+
+    return npc_tot;
+  },
+
+  MakeRosterList: function(llim, ulim) {
+    let displayArr = [],
+      content = "",
+      arrElement = "#npc-input-list",
+      lenCount = 0;
+
+    let filterRegex = FormFunctions.GenMonsterFilter('npc-filter');
+
+    for (let index = 0; index < npc2.length; index++) {
+      let element = npc2[index],
+        elementName = StringFunctions.StringCapitalize(element.name),
+        content_name = "<td colspan='3' nowrap><b>" + StringFunctions.FormatString(elementName, false) + "</b></td>",
+        content_tier = "<td style='text-align: center'>" + element.tier + "</td>",
+        content_classification = "<td style='text-align: center'>" + element.classification + "</td>",
+        content_type = "<td style='text-align: center'>" + element.type + "</td>",
+        content_tags = "<td colspan='4'><i>" + element.tag + "</i></td>";
+      let functionArgs = index,
+        imageHTML = "<td style='text-align: center' nowrap><svg class='statblock-image' onclick='ComFormFunctions.RemoveRosterListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use></svg>";
+      imageHTML += " <svg class='statblock-image' onclick='ComFormFunctions.EditRosterListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#edit-icon'></use></svg>";
+
+      let fullDisplayString = content_name + content_tier + content_classification + content_type + content_tags;
+
+      if (filterRegex.test(fullDisplayString)) {
+        if ((lenCount >= llim) && (lenCount <= ulim)) {
+          displayArr.push("<tr> " + imageHTML + fullDisplayString + "</tr>");
+        }
+        lenCount++;
+      }
+
+    }
+    $(arrElement).html(displayArr.join(""));
+
+    $(arrElement).parent()[$("#npc-input-list")[0].rows.length === 0 ? "hide" : "show"]();
+    RostData.SaveToLocalStorage();
+  },
+
+  RemoveRosterListItem: function(index) {
+    npc2.splice(index, 1);
+    getNPCInfo();
+  },
+
+  EditRosterListItem: function(index) {
+    let npc_rep = JSON.parse(JSON.stringify(npc2[index]));
+    npc = npc_rep;
+    setInputs();
+    openTab('companions','tabNameC');
+  },
+
   ShowHideOther: function(other, select, checker = "*") {
     FormFunctions.ShowHideHtmlElement((other), $("#" + select).val() === checker);
   },
@@ -542,10 +711,12 @@ function updateCompBlock(moveSepPoint) {
   }
 
   let dropdownBuffer = [],
+    dimmNames = [],
     leftDimsArr = [],
     rightDimsArr = [];
 
   for (let i = 0; i < npc.dimensions.length; i++) {
+    dimmNames.push(npc.dimensions[i].name);
     let dimTxt = BlockFunctions.DrawDimension(npc, i);
     (i < npc.separationPoint ? leftDimsArr : rightDimsArr).push(dimTxt);
     if (npc.dimensions[i].name !== "Interaction")
@@ -553,7 +724,7 @@ function updateCompBlock(moveSepPoint) {
   }
   let dropV1 = $("#dim-options").val();
   $("#dim-options").html(dropdownBuffer.join(""));
-  if (dropV1) {
+  if (dropV1 && dimmNames.includes(dropV1)) {
     $("#dim-options").val(dropV1)
   } else {
     dropV1 = $("#dim-options").val();
@@ -852,6 +1023,48 @@ function CompImage() {
     });
 }
 
+var SaveRoster = () => {
+  RostData.SaveToFile();
+}
+
+var LoadRoster = () => {
+  RostData.RetrieveFromFile();
+  $("#roster-upload").val("");
+}
+
+var LoadRosterPrompt = () => {
+  $("#roster-upload").click();
+}
+
+var RostData = {
+  SaveToLocalStorage: () => localStorage.setItem("npc2", JSON.stringify(npc2)),
+
+  SaveToFile: () => saveAs(new Blob([JSON.stringify(npc2)], {
+    type: "text/plain;charset=utf-8"
+  }), "companions.roster"),
+
+  RetrieveFromLocalStorage: function() {
+    let savedData = localStorage.getItem("npc2");
+    if (savedData != undefined) npc2 = JSON.parse(savedData);
+    getNPCInfo();
+  },
+
+  RetrieveFromFile: function() {
+    let file = $("#roster-upload").prop("files")[0],
+      reader = new FileReader();
+
+    reader.onload = function(e) {
+      let npc_add = JSON.parse(reader.result);
+      if (npc_add.length > 0) npc2 = npc2.concat(npc_add);
+      else npc2.push(npc_add);
+      getNPCInfo();
+      localStorage.setItem("npc2", JSON.stringify(npc2));
+    };
+
+    reader.readAsText(file);
+  },
+}
+
 var CompData = {
   // Saving
   SaveToLocalStorage: () => localStorage.setItem("npc", JSON.stringify(npc)),
@@ -888,6 +1101,7 @@ $(function() {
     $.getJSON("js/JSON/statblockdata.json?version=5.5", function(json) {
       data = json;
       CompData.RetrieveFromLocalStorage();
+      RostData.RetrieveFromLocalStorage();
       setInputs();
     });
   });
