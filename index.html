@@ -91,11 +91,11 @@
       <label for="mon-per-pg">Number Displayed Per Page: <input id="mon-per-pg" value="5" type="number" min="5" step="5" onchange="getMonsterInfo()"></label>
       <br>
       <svg onclick="getMonsterInfo(-1)" class='paginate-image'>
-        <use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use>
+        <use xlink:href='dndimages/icons.svg?version=1.0#down-icon'></use>
       </svg>
       <div id="page-num-list" class="page-num-list"></div>
       <svg onclick="getMonsterInfo(1)" class='paginate-image'>
-        <use xlink:href='dndimages/icons.svg?version=1.0#down-icon'></use>
+        <use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use>
       </svg>
       <br><br>
       <p>Download the <a target="_blank" href="./compendium/bestiary.compendium?v=5">Community Monster Compendium</a> and contribute <a target="_blank"
@@ -145,6 +145,8 @@
       <div class="menucontainer">
         <button class="menu-btn" onclick="">Encounter I/O</button>
         <div class="menudrop">
+          <button onclick="LoadFilePrompt3(1)">Load Encounter</button>
+          <input id="file-upload31" type="file" accept=".monster, .encounter, .compendium" onChange="TryLoadFile3(1);" hidden />
           <button onclick="ClearEncounter()">New Encounter</button>
           <button onclick="TrySaveFile3()">Save Encounter</button>
           <br><br>
@@ -178,8 +180,8 @@
             <input type="number" min="1" value="1" id="party-size" onchange="getEncounterInfo()">
           </label>
           <br><br>
-          <label for="xp-in">Encounter XP (0 for auto): <br>
-            <input type="number" min="0" value="1" id="xp-in" onchange="getEncounterInfo()">
+          <label for="xp-in">Encounter XP (0 for auto-calc): <br>
+            <input type="number" min="0" value="0" id="xp-in" onchange="getEncounterInfo()">
           </label>
         </div>
         <button class="menu-btn" onclick="">Add/Load Monsters</button>
@@ -192,8 +194,8 @@
           </label>
           <button onclick="TryEncounterAdd()">Add to Encounter</button>
           <br><br>
-          <button onclick="LoadFilePrompt3()">Load Monster(s) from File </button>
-          <input id="file-upload3" type="file" accept=".monster, .encounter, .compendium" onChange="TryLoadFile3();" hidden />
+          <button onclick="LoadFilePrompt3(2)">Load Monster(s) from File </button>
+          <input id="file-upload32" type="file" accept=".monster, .encounter, .compendium" onChange="TryLoadFile3(2);" hidden />
         </div>
         <button class="menu-btn" onclick="">Block Format</button>
         <div class="menudrop">
@@ -235,18 +237,19 @@
     </div>
     <div style="grid-column-start:span 2;grid-column-end:-1;grid-row:1;text-align:left;overflow:inherit" class="enc-overlay">
       <div class="enc-container" style="grid-row:1">
-        <div style="grid-column:1;text-align:center">
-          <p style="padding-top:0.75rem">Slots Filled:</p>
+        <div style="grid-column:1;text-align:center;display:flex;align-items:center">
+          <p>Slots Filled:</p>
         </div>
         <div style="grid-column:2">
           <table style="width:31.25rem;margin-top:0.5rem">
             <tr>
               <td style="position: relative;text-align:left;vertical-align:top;height:3rem">
-                <div id="slot-target">
-                  <div class="tab-wrap" style="height:100%;font-size:0.8rem">Target Range</div>
-                </div>
+                <div id="slot-target"></div>
                 <div id="slot-bar"></div>
                 <div id="slot-fill"></div>
+                <div id="slot-writing">
+                  <div class="tab-wrap" id="slot-text" style="height:100%;font-size:0.8rem">Target Range</div>
+                </div>
               </td>
             </tr>
           </table>
@@ -1069,7 +1072,6 @@
   anyChange();
   setNight();
   checkColorScheme();
-  getEncounterInfo();
 </script>
 
 </html>
