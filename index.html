@@ -42,9 +42,9 @@
   <div class="tabs">
     <div class="tabflow">
       <div class="tableft">
-        <div style="grid-column:1;"><button class="tablinks" onclick="openTab('monster')" id="monstertab">Monster<br>Generator</button></div>
-        <div style="grid-column:2;"><button class="tablinks" onclick="openTab('bestiary')" id="bestiarytab">Bestiary</button></div>
-        <div style="grid-column:3;"><button class="tablinks" onclick="openTab('encounter')" id="encountertab">Encounter<br>Builder</button></div>
+        <div style="grid-column:1;"><button class="tablinks" onclick="openTab('monster','tabName')" id="monstertab">Monster<br>Generator</button></div>
+        <div style="grid-column:2;"><button class="tablinks" onclick="openTab('bestiary','tabName')" id="bestiarytab">Bestiary</button></div>
+        <div style="grid-column:3;"><button class="tablinks" onclick="openTab('encounter','tabName')" id="encountertab">Encounter<br>Builder</button></div>
         <div style="grid-column:4;"><button class="tablinks" onclick="location.href='/new.html'">Companions</button></div>
       </div>
       <div class="tabright">
@@ -93,12 +93,12 @@
       <svg onclick="getMonsterInfo(-1)" class='paginate-image'>
         <use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use>
       </svg>
-      <div id="page-num-list"></div>
+      <div id="page-num-list" class="page-num-list"></div>
       <svg onclick="getMonsterInfo(1)" class='paginate-image'>
         <use xlink:href='dndimages/icons.svg?version=1.0#down-icon'></use>
       </svg>
       <br><br>
-      <p>Download the <a target="_blank" href="./compendium/bestiary.compendium?v=5">Community Compendium</a> and contribute <a target="_blank"
+      <p>Download the <a target="_blank" href="./compendium/bestiary.compendium?v=5">Community Monster Compendium</a> and contribute <a target="_blank"
           href="https://github.com/angry-monsters/angry-monsters.github.io/issues/new?assignees=&labels=bestiary&template=compendium-addition.md&title=General+Title+of+Monsters%2FTheme%2FAdditions">your own creations!</a></p>
       <p>Last addition on 5 September 2020 - Green Fang Kobolds from phildhub.</p>
       <input id="file-upload2" type="file" accept=".monster, .encounter, .compendium" onChange="TryLoadFile2();" hidden />
@@ -1064,7 +1064,7 @@
 
 </body>
 <script>
-  setTab();
+  setTab('tabName');
   showMenu();
   anyChange();
   setNight();
