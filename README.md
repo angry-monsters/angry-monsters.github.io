@@ -13,7 +13,7 @@ To contribute to the bestiary, go to the issues page, create a new compendium ad
 - remove option for only 1 paragon pool
 
 ## Known Bugs
-- If CON Modifier is less than average HD, gives negative number of HD
+- If CON Modifier is less than average HD, gives negative number of HD. NPC HD calculation is off too.
 
 ## Future Responsiveness
 - column spanning issue
@@ -32,3 +32,5 @@ random generator
 select2 and mulitselect dropdowns
 two-note NPC w/ companions
 how does angry calc rolling for hp
+increase base block width for single column only
+database if updating monster option to update dependent encounters
