@@ -708,11 +708,11 @@ label {
     margin-top: .125rem;
 }
 
-#page-num-list {
+.page-num-list {
 	display: inline-block;
 	cursor: pointer;
 }
 
-#page-num-list strong {
+.page-num-list strong {
 	color: var(--color-text-emph);
 }
