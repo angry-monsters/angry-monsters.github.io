@@ -8,10 +8,11 @@ function switchTheme(e) {
   }
 }
 
-function setTab() {
-  let tabName = localStorage.getItem('tabName');
-  if (!tabName || tabName === 'companions') tabName = 'monster';
-  openTab(tabName);
+function setTab(pgName) {
+  let tabName = localStorage.getItem(pgName);
+  if (!tabName && pgName === 'tabName') tabName = 'monster';
+  if (!tabName && pgName === 'tabNameC') tabName = 'companions';
+  openTab(tabName,pgName);
 }
 
 function setNight() {
@@ -27,11 +28,11 @@ function setNight() {
   }
 }
 
-function saveTab(tabName) {
-  localStorage.setItem('tabName', tabName);
+function saveTab(tabName, pgName) {
+  localStorage.setItem(pgName, tabName);
 }
 
-function openTab(tabName) {
+function openTab(tabName,pgName) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
@@ -43,7 +44,7 @@ function openTab(tabName) {
   }
   document.getElementById(tabName).style.display = "grid";
   $("#" + tabName + "tab")[0].className += " active";
-  saveTab(tabName);
+  saveTab(tabName,pgName);
 }
 
 function anyChange() {
@@ -345,6 +346,7 @@ var TryEncounter = () => {
   UpdateBlockFromVariables(0);
   LoadEncounterAdd.retrieveFromWindow(mon);
   getEncounterInfo();
+  openTab('encounter','tabName');
 }
 
 var TryEncounterAdd = () => {
@@ -440,7 +442,7 @@ function UpdateBlockFromVariables(moveSeparationPoint) {
 var SavedData = {
   // Saving
 
-  SaveToLocalStorage: () => localStorage.setItem("SavedData", JSON.stringify(mon)),
+  SaveToLocalStorage: () => localStorage.setItem("mon", JSON.stringify(mon)),
 
   SaveToFile: () => saveAs(new Blob([JSON.stringify(mon)], {
     type: "text/plain;charset=utf-8"
@@ -449,7 +451,7 @@ var SavedData = {
   // Retrieving
 
   RetrieveFromLocalStorage: function() {
-    let savedData = localStorage.getItem("SavedData");
+    let savedData = localStorage.getItem("mon");
     if (savedData != undefined)
       mon = JSON.parse(savedData);
   },
@@ -1143,8 +1145,8 @@ var FormFunctions = {
     this.MakeDisplayList(arrName, false, true);
   },
 
-  GenMonsterFilter: function() {
-    let fullFilter = $("#monster-filter").val();
+  GenMonsterFilter: function(filter_id = 'monster-filter') {
+    let fullFilter = $("#" + filter_id).val();
     fullFilter = fullFilter.replace(/\s\,\s|\s\,|\,\s|\,/g, "|");
     fullFilter = fullFilter.replace(/\s\;\s|\s\;|\;\s|\;/g, "))(?=.*(");
     fullFilter = "(?=.*(" + fullFilter + "))";
@@ -1191,7 +1193,7 @@ var FormFunctions = {
       let functionArgs = index,
         imageHTML = "<td style='text-align: center' nowrap><svg class='statblock-image' onclick='FormFunctions.RemoveMonsterListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#x-icon'></use></svg>";
       imageHTML += " <svg class='statblock-image' onclick='FormFunctions.EditMonsterListItem(" + functionArgs + ")'><use xlink:href='dndimages/icons.svg?version=1.0#edit-icon'></use></svg>";
-      imageHTML += " <svg class='statblock-image' onclick='LoadEncounterAdd.retrieveFromWindow(mon2[" + functionArgs + "]);getEncounterInfo();'><use xlink:href='dndimages/icons.svg?version=1.0#plus-icon'></use></svg></td>";
+      imageHTML += " <svg class='statblock-image' onclick='LoadEncounterAdd.retrieveFromWindow(mon2[" + functionArgs + "]);getEncounterInfo();openTab(" + '"encounter","tabName"' + ");'><use xlink:href='dndimages/icons.svg?version=1.0#plus-icon'></use></svg></td>";
 
       let fullDisplayString = content_name + content_tier + content_org + content_size + content_type + content_tags;
 
@@ -1222,7 +1224,7 @@ var FormFunctions = {
     let mon_rep = JSON.parse(JSON.stringify(mon2[index]));
     mon = mon_rep;
     Populate();
-    openTab('monster');
+    openTab('monster','tabName');
   },
 
   MakeEncounterList: function() {
