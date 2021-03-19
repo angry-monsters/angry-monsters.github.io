@@ -34,3 +34,6 @@ two-note NPC w/ companions
 how does angry calc rolling for hp
 increase base block width for single column only
 database if updating monster option to update dependent encounters
+add assayer's tools
+skills with other abilities
+tune numbers

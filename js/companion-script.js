@@ -759,7 +759,7 @@ function updateCompBlock(moveSepPoint) {
 
   let hpMax = ComStrFunctions.GetHealth(npc);
   let hpString = hpMax + "|" + Math.floor(hpMax / 2) + "|" + Math.floor(Math.floor(hpMax / 2) / 2);
-  let hpDie = cdata.tiers[npc.tier].lev + "d" + npc.hitDie + StringFunctions.BonusFormat(cdata.tiers[npc.tier].lev * npc.conPoints);
+  let hpDie = (cdata.tiers[npc.tier].lev - 1) + "d" + npc.hitDie + StringFunctions.BonusFormat((cdata.tiers[npc.tier].lev * npc.conPoints) + npc.hitDie);
 
   $("#healthc").html(hpString);
   $("#healthc-diecode").html(hpDie);
