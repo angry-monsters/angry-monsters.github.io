@@ -248,12 +248,20 @@ function sortBestiary(sort_cat) {
   getMonsterInfo();
 }
 
-function PrintBestiary() {
+function PrintEncounterMons() {
+  let mon_tmp = [];
+  for (let i = 0; i < monico.length; i++) {
+    mon_tmp.push(mon3[monico[i]]);
+  }
+  PrintBestiary(mon_tmp);
+}
+
+function PrintBestiary(mon_id) {
   let printWindow = window.open();
   printWindow.document.write('<html><head><meta charset="utf-8"/><title>Print</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.6"><link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.5"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"><link rel="stylesheet" type="text/css" href="css/companion-style.css?version=2.5"></head><body><div class="printableDiv">');
 
-  for (let index = 0; index < mon2.length; index++) {
-    let mon_rep = JSON.parse(JSON.stringify(mon2[index]));
+  for (let index = 0; index < mon_id.length; index++) {
+    let mon_rep = JSON.parse(JSON.stringify(mon_id[index]));
     mon = mon_rep;
     Populate();
 
