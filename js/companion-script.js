@@ -193,7 +193,7 @@ function sortRoster(sort_cat) {
 
 function PrintRoster() {
   let printWindow = window.open();
-  printWindow.document.write('<html><head><meta charset="utf-8"/><title>Print</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.7"><link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.5"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"><link rel="stylesheet" type="text/css" href="css/companion-style.css?version=2.5"></head><body><div class="printableDiv">');
+  printWindow.document.write('<html><head><meta charset="utf-8"/><title>Print</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.7"><link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.6"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"><link rel="stylesheet" type="text/css" href="css/companion-style.css?version=2.6"></head><body><div class="printableDiv">');
 
   for (let index = 0; index < npc2.length; index++) {
     let npc_rep = JSON.parse(JSON.stringify(npc2[index]));
