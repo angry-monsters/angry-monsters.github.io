@@ -309,7 +309,7 @@ body {
 .enc-overlay {
 	display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 4rem 1fr;
+  grid-template-rows: 4.5rem 1fr;
 	padding: 0;
 
 }
@@ -417,15 +417,27 @@ body {
     height: 1rem;
     cursor: pointer;
     fill: var(--color-pri);
-		transform: rotate(-90deg);
+		transform: rotate(90deg);
 }
 
 #slot-target {
 	position: absolute;
 	display: inline-block;
 	background-color: var(--color-pri);
-	color: var(--surf-highest);
-	height: 3rem;
+	height: 3.5rem;
+	margin-right: 40%;
+	margin-left: 40%;
+	width: 20%;
+}
+
+#slot-writing {
+	position: absolute;
+	display: inline-block;
+	color: var(--color-text);
+	border-width: .075rem;
+	border-style: solid;
+	border-color: var(--color-pri);
+	height: 3.5rem;
 	margin-right: 40%;
 	margin-left: 40%;
 	width: 20%;
@@ -436,7 +448,7 @@ body {
 	display: inline-block;
 	background-color: var(--surf-higher);
 	margin-top: .5rem;
-	height: 2rem;
+	height: 2.5rem;
 	width: 0%;
 }
 
@@ -447,7 +459,7 @@ body {
 	border-style: solid;
 	border-color: var(--color-pri);
 	margin-top: .5rem;
-	height: 2rem;
+	height: 2.5rem;
 	width: 100%;
 }
 
