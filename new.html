@@ -43,10 +43,9 @@
   <div class="tabs">
     <div class="tabflow">
       <div class="tableft">
-        <div style="grid-column:1;"><button class="tablinks" onclick="saveTab('monster');location.href='/'">Monster<br>Generator</button></div>
-        <div style="grid-column:2;"><button class="tablinks" onclick="saveTab('bestiary');location.href='/'">Bestiary</button></div>
-        <div style="grid-column:3;"><button class="tablinks" onclick="saveTab('encounter');location.href='/'">Encounter<br>Builder</button></div>
-        <div style="grid-column:4;"><button class="tablinks" id="companionstab">Companions</button></div>
+        <div style="grid-column:1 / span 2;"><button class="tablinks" onclick="openTab('companions','tabNameC')" id="companionstab">NPC Generator</button></div>
+        <div style="grid-column:3;"><button class="tablinks" onclick="openTab('roster','tabNameC')" id="rostertab">Roster</button></div>
+        <div style="grid-column:4;"><button class="tablinks" onclick="location.href='/'">Monsters</button></div>
       </div>
       <div class="tabright">
         <div class="tab-wrap" style="grid-column:1;">
@@ -76,8 +75,67 @@
     </div>
   </div>
 
+  <div id="roster" class="container tabcontent tabcontainer2" style="text-align: center;">
+    <div style="grid-column:1;overflow:inherit">
+      <br>
+      <h2>Personal NPCs</h2>
+      <label style="width: 80%" for="npc-filter">Filter terms:<br>separate with semicolon for "AND" matches<br>separate with comma for "OR" matches<input style="width: 100%" id="npc-filter" type="text" value=""
+          onchange="getNPCInfo()"></label>
+      <br><br>
+      <button onclick="SaveRoster()">Save Roster</button>
+      <br><br>
+      <button onclick="PrintRoster()">Printable Roster</button>
+      <br><br>
+      <button onclick="LoadRosterPrompt()">Load NPC(s)</button>
+      <br><br>
+      <label for="npc-per-pg">Number Displayed Per Page: <input id="npc-per-pg" value="5" type="number" min="5" step="5" onchange="getNPCInfo()"></label>
+      <br>
+      <svg onclick="getNPCInfo(-1)" class='paginate-image'>
+        <use xlink:href='dndimages/icons.svg?version=1.0#down-icon'></use>
+      </svg>
+      <div id="page-num-list-npc" class="page-num-list"></div>
+      <svg onclick="getNPCInfo(1)" class='paginate-image'>
+        <use xlink:href='dndimages/icons.svg?version=1.0#up-icon'></use>
+      </svg>
+      <br><br>
+      <p>Download the <a target="_blank" href="./compendium/companions.roster?v=1">Community NPC Roster</a> and contribute <a target="_blank"
+          href="https://github.com/angry-monsters/angry-monsters.github.io/issues/new?assignees=&labels=bestiary&template=compendium-addition.md&title=General+Title+of+Monsters%2FTheme%2FAdditions">your own creations!</a></p>
+      <p>Last addition on 19 March 2021 - Angry GM NPCs</p>
+      <input id="roster-upload" type="file" accept=".roster, .companion" onChange="LoadRoster()" hidden />
+      <input id="npc-sort-order" type="text" hidden />
+    </div>
+    <div class="monster-manual" style="grid-column:span 3;overflow:inherit">
+      <br>
+      <table style="width:95%;margin-left:2.5%;display:none">
+        <thead>
+          <tr style="background-color: transparent;">
+            <th>Actions</th>
+            <th colspan='3' onClick="sortRoster('name')">Name <svg class='statblock-image'>
+                <use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use>
+              </svg></th>
+            <th onClick="sortRoster('tier')">Tier <svg class='statblock-image'>
+                <use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use>
+              </svg></th>
+            <th onClick="sortRoster('classification')">Class <svg class='statblock-image'>
+                <use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use>
+              </svg></th>
+            <th onClick="sortRoster('type')">Type <svg class='statblock-image'>
+                <use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use>
+              </svg></th>
+            <th colspan='3' onClick="sortRoster('tag')" class="absorbing-column">Tags <svg class='statblock-image'>
+                <use xlink:href='dndimages/icons.svg?version=1.0#sort-icon'></use>
+              </svg></th>
+          </tr>
+        </thead>
+        <tbody id="npc-input-list">
+        </tbody>
+      </table>
+      <br>
+    </div>
+  </div>
+
   <div id="companions" class="container tabcontent tabcontainer">
-    <div id="mon-opts-div" style="grid-column-end:2;overflow:inherit;text-align:center">
+    <div id="npc-opts-div" style="grid-column-end:2;overflow:inherit;text-align:center">
       <br>
       <h2>Angry Companion Design</h2>
       <p>Read the original article from <a target="_blank" href="https://theangrygm.com/how-to-stat-friends-part-1/">The Angry GM</a></p>
@@ -85,13 +143,15 @@
 
         <button class="menu-btn" onclick="">NPC I/O</button>
         <div class="menudrop">
-          <button onclick="LoadFilePrompt4()">Load Statblock</button>
+          <button onclick="LoadFilePrompt4()">Load Companion</button>
           <button onclick="ClearCompanion()">New Companion</button>
-          <input id="file-upload4" type="file" accept=".companion" onChange="TryLoadFile4();" hidden />
+          <input id="file-upload4" type="file" accept=".companion, .roster" onChange="TryLoadFile4();" hidden />
           <br><br>
           <button onclick="TrySaveFile4()">Save Statblock</button>
           <button onclick="CompImage()">Save Image</button>
           <button onclick="TryPrint('c')">Printable Block</button>
+          <br><br>
+          <button onclick="RosterAdd()">Add to Roster</button>
         </div>
 
         <button class="menu-btn" onclick="">Main Info</button>
@@ -813,7 +873,7 @@
 
 </body>
 <script>
-  openTab('companions');
+  setTab('tabNameC');
   setNight();
   checkColorScheme();
   showMenu();
