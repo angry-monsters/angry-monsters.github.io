@@ -293,8 +293,9 @@ var TrySaveFile2 = () => {
 }
 
 var TrySaveFile3 = () => {
-  mon3[mon3.length] = encDat;
-  EncounterData.SaveToFile();
+  let mon_tmp = JSON.parse(JSON.stringify(mon3));;
+  mon_tmp.push(encDat);
+  EncounterData.SaveToFile(mon_tmp);
 }
 
 var TryManual = () => {
@@ -374,8 +375,8 @@ var LoadFilePrompt2 = () => {
   $("#file-upload2").click();
 }
 
-var LoadFilePrompt3 = () => {
-  $("#file-upload3").click();
+var LoadFilePrompt3 = (encType) => {
+  $('#file-upload3' + encType).click();
 }
 
 // Load functions
@@ -389,17 +390,18 @@ var TryLoadFile2 = () => {
   $("#file-upload2").val("");
 }
 
-var TryLoadFile3 = () => {
-  EncounterData.RetrieveFromFile();
-  $("#file-upload3").val("");
+var TryLoadFile3 = (encType) => {
+  EncounterData.RetrieveFromFile(encType);
+  $('#file-upload3' + encType).val("");
 }
 
 // Print function
 function TryPrint(monster_page) {
   let printWindow = window.open();
-  printWindow.document.write('<html><head><meta charset="utf-8"/><title>Print</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.7"><link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.5"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"><link rel="stylesheet" type="text/css" href="css/companion-style.css?version=2.5"></head><body><div id="print-block" class="content">');
+  printWindow.document.write('<html><head><meta charset="utf-8"/><title>Print</title><link rel="stylesheet" type="text/css" href="css/statblock-style.css?version=4.7"><link rel="stylesheet" type="text/css" href="css/dnd-style.css?version=8.5"><link rel="stylesheet" type="text/css" href="css/libre-baskerville.css"><link rel="stylesheet" type="text/css" href="css/noto-sans.css"><link rel="stylesheet" type="text/css" href="css/companion-style.css?version=2.5"></head><body><div class="printableDiv">');
+  printWindow.document.write('<div id="print-block" style="grid-column:span 2">');
   printWindow.document.write($("#" + monster_page + "-block-wrapper").html());
-  printWindow.document.write('</div></body></html>');
+  printWindow.document.write('</div></div></body></html>');
   printWindow.document.close();
 }
 
@@ -505,8 +507,8 @@ var ListData = {
 }
 
 var EncounterData = {
-  // Saving
-  SaveToFile: () => saveAs(new Blob([JSON.stringify(mon3)], {
+
+  SaveToFile: (mon_enc) => saveAs(new Blob([JSON.stringify((mon_enc))], {
     type: "text/plain;charset=utf-8"
   }), $("#enc-name-input").val().toLowerCase() + ".encounter"),
 
@@ -525,17 +527,21 @@ var EncounterData = {
 
   },
 
-  RetrieveFromFile: function() {
-    let file = $("#file-upload3").prop("files")[0],
+  RetrieveFromFile: function(encType) {
+    let file = $('#file-upload3' + encType).prop("files")[0],
       reader = new FileReader();
 
     reader.onload = function(e) {
       let enc_add = JSON.parse(reader.result);
       if (enc_add.slice(-1)[0].battle) {
-        encDat = enc_add.pop();
-        localStorage.setItem("Enc3", JSON.stringify(encDat));
-        FormFunctions.SetEncVars();
-        mon3 = [];
+        if (encType === 1) {
+          encDat = enc_add.pop();
+          localStorage.setItem("Enc3", JSON.stringify(encDat));
+          FormFunctions.SetEncVars();
+          mon3 = [];
+        } else {
+          enc_add.pop();
+        }
       }
       if (enc_add.length > 0) mon3 = mon3.concat(enc_add);
       else mon3.push(enc_add);
@@ -1278,12 +1284,27 @@ var FormFunctions = {
     $("#mon3-input-list").parent()[mon3.length == 0 ? "hide" : "show"]();
     $("#mon3-input-list-icons").parent()[mon3.length == 0 ? "hide" : "show"]();
 
-    let zone_target = Math.min(80, encDat.type * (encDat.numPCs / 4));
+    let tWidth = 20;
+    let tText = 'Target Range';
+    if (encDat.type === '20') {
+      tWidth = 10;
+      tText = 'Target<br>Range';
+    }
+    let uLimT = 100 - tWidth;
+
+    let zone_target = Math.min(uLimT, encDat.type * (encDat.numPCs / 4));
     let positrange = Math.min(positsum / 10, 1) * 100;
     document.getElementById("slot-bar").style.width = positrange + "%";
     document.getElementById("slot-bar").style.marginRight = (100 - positrange) + "%";
-    document.getElementById("slot-target").style.marginRight = (80 - zone_target) + "%";
+
+    document.getElementById("slot-target").style.width = tWidth + "%";
+    document.getElementById("slot-target").style.marginRight = (uLimT - zone_target) + "%";
     document.getElementById("slot-target").style.marginLeft = zone_target + "%";
+
+    $("#slot-text").html(tText);
+    document.getElementById("slot-writing").style.width = tWidth + "%";
+    document.getElementById("slot-writing").style.marginRight = (uLimT - zone_target) + "%";
+    document.getElementById("slot-writing").style.marginLeft = zone_target + "%";
 
     let abb_nameline = "",
       abb_hitline = "",
@@ -1346,6 +1367,8 @@ var FormFunctions = {
     }
 
     $("#abbrev-input-list").html(abb_arr.join(""));
+
+    localStorage.setItem("Enc3", JSON.stringify(encDat));
 
   },
 
