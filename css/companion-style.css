@@ -214,3 +214,36 @@ input:checked + .toggler:before {
 .toggler.round:before {
   border-radius: 50%;
 }
+
+[id^="print-block"] .c-block h1,
+[id^="print-block"] .c-block h3,
+[id^="print-block"] .c-block h4,
+[id^="print-block"] .c-block h4,
+[id^="print-block"] .c-block ul,
+[id^="print-block"] .c-block strong,
+[id^="print-block"] .c-block em,
+[id^="print-block"] .c-block strong em,
+[id^="print-block"] .c-block p {
+    color: var(--stat-null);
+}
+
+[id^="print-block"] .c-block h3 {
+    border-bottom-color: var(--stat-null);
+}
+
+[id^="print-block"] .c-block .tapered-rule {
+    color: var(--stat-null);
+    fill: var(--stat-null);
+}
+
+[id^="print-block"] .stat-block,
+[id^="print-block"] .enctr-block,
+[id^="print-block"] .c-block {
+    background: none;
+    outline: 0.2rem solid var(--stat-null);
+}
+
+[id^="print-block"] .orange-border,
+[id^="print-block"] .blue-border {
+    display: none;
+}
