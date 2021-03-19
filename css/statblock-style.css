@@ -302,8 +302,13 @@
     padding: 0;
   }
 
+  [id^="print-block"] {
+      padding-top: 45px;
+      break-inside: avoid;
+  }
+
   html {
-    font-size: 15.5px;
+    font-size: 14px;
   }
 
   body {
